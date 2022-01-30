@@ -33,6 +33,18 @@ Monster class >> regularType [
 ]
 
 { #category : #accessing }
+Monster >> attack [
+
+	^ attack
+]
+
+{ #category : #accessing }
+Monster >> attack: anObject [
+
+	attack := anObject
+]
+
+{ #category : #accessing }
 Monster >> attackId [
 
 	^ attackId

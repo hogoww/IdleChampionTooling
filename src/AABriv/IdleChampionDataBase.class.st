@@ -9,13 +9,13 @@ Class {
 		'stories',
 		'campaigns'
 	],
-	#category : #'AABriv-model'
+	#category : #'AABriv-database'
 }
 
 { #category : #'accessing-id' }
 IdleChampionDataBase >> attackWithId: anID [
 
-	^ attacks detect: [ :a | a id = anID ] ifNone: [ Quest new ]
+	^ attacks detect: [ :a | a id = anID ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ IdleChampionDataBase >> attacks [
 { #category : #'accessing-id' }
 IdleChampionDataBase >> backgroundWithId: anID [
 
-	^ backgrounds detect: [ :a | a id = anID ] ifNone: [ Quest new ]
+	^ backgrounds detect: [ :a | a id = anID ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ IdleChampionDataBase >> backgrounds [
 
 { #category : #'accessing-id' }
 IdleChampionDataBase >> campaignWithID: anID [
-	^ campaigns detect: [ :a | a id = anID ] ifNone: [ Quest new ]
+	^ campaigns detect: [ :a | a id = anID ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
@@ -179,7 +179,7 @@ IdleChampionDataBase >> initialize [
 { #category : #'accessing-id' }
 IdleChampionDataBase >> monsterWithId: anID [
 
-	^ monsters detect: [ :a | a id = anID ] ifNone: [ Quest new ]
+	^ monsters detect: [ :a | a id = anID ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
@@ -191,7 +191,7 @@ IdleChampionDataBase >> monsters [
 { #category : #'accessing-id' }
 IdleChampionDataBase >> questWithId: anID [
 
-	^ 	quests detect: [ :a | a id = anID ] ifNone: [ Quest new ]
+	^ 	quests detect: [ :a | a id = anID ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
@@ -218,5 +218,5 @@ IdleChampionDataBase >> stories [
 
 { #category : #'accessing-id' }
 IdleChampionDataBase >> storyWithId: anID [
-	^ stories detect: [ :a | a id = anID ] ifNone: [ Quest new ]
+	^ stories detect: [ :a | a id = anID ] ifNone: [ nil ]
 ]
