@@ -1,5 +1,5 @@
 Class {
-	#name : #Enemy,
+	#name : #Monster,
 	#superclass : #Object,
 	#instVars : [
 		'damageModifier',
@@ -11,142 +11,148 @@ Class {
 		'tags',
 		'attackId',
 		'healthModifier',
-		'scale'
+		'scale',
+		'attack'
 	],
 	#category : #'AABriv-model'
 }
 
 { #category : #'as yet unclassified' }
-Enemy class >> armoredType [
+Monster class >> armoredType [
 	^ #armored
 ]
 
 { #category : #'as yet unclassified' }
-Enemy class >> hitBasedType [
+Monster class >> hitBasedType [
 	^ #hitBased
 ]
 
 { #category : #'as yet unclassified' }
-Enemy class >> regularType [
+Monster class >> regularType [
 	^ #regular
 ]
 
 { #category : #accessing }
-Enemy >> attackId [
+Monster >> attackId [
 
 	^ attackId
 ]
 
 { #category : #accessing }
-Enemy >> attackId: anObject [
+Monster >> attackId: anObject [
 
 	attackId := anObject
 ]
 
 { #category : #accessing }
-Enemy >> damageModifier [
+Monster >> damageModifier [
 
 	^ damageModifier
 ]
 
 { #category : #accessing }
-Enemy >> damageModifier: anObject [
+Monster >> damageModifier: anObject [
 
 	damageModifier := anObject
 ]
 
 { #category : #accessing }
-Enemy >> graphicId [
+Monster >> graphicId [
 
 	^ graphicId
 ]
 
 { #category : #accessing }
-Enemy >> graphicId: anObject [
+Monster >> graphicId: anObject [
 
 	graphicId := anObject
 ]
 
 { #category : #accessing }
-Enemy >> healthModifier [
+Monster >> healthModifier [
 
 	^ healthModifier
 ]
 
 { #category : #accessing }
-Enemy >> healthModifier: anObject [
+Monster >> healthModifier: anObject [
 
 	healthModifier := anObject
 ]
 
 { #category : #accessing }
-Enemy >> id [
+Monster >> id [
 
 	^ id
 ]
 
 { #category : #accessing }
-Enemy >> id: anObject [
+Monster >> id: anObject [
 
 	id := anObject
 ]
 
 { #category : #accessing }
-Enemy >> name [
+Monster >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-Enemy >> name: anObject [
+Monster >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : #accessing }
-Enemy >> properties [
+Monster >> properties [
 
 	^ properties
 ]
 
 { #category : #accessing }
-Enemy >> properties: anObject [
+Monster >> properties: anObject [
 
 	properties := anObject
 ]
 
 { #category : #accessing }
-Enemy >> scale [
+Monster >> resolveLinksWith: aDatabase [
+	attack := aDatabase attackWithId: attackId.
+]
+
+{ #category : #accessing }
+Monster >> scale [
 
 	^ scale
 ]
 
 { #category : #accessing }
-Enemy >> scale: anObject [
+Monster >> scale: anObject [
 
 	scale := anObject
 ]
 
 { #category : #accessing }
-Enemy >> tags [
+Monster >> tags [
 
 	^ tags
 ]
 
 { #category : #accessing }
-Enemy >> tags: anObject [
+Monster >> tags: anObject [
 
 	tags := anObject
 ]
 
 { #category : #accessing }
-Enemy >> type [
+Monster >> type [
 
 	^ type
 ]
 
 { #category : #accessing }
-Enemy >> type: anObject [
+Monster >> type: anObject [
 
 	type := anObject
 ]

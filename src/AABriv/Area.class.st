@@ -1,50 +1,26 @@
 Class {
 	#name : #Area,
-	#superclass : #Object,
+	#superclass : #AbstractArea,
 	#instVars : [
-		'quest',
-		'enemies',
-		'type'
+		'monsters'
 	],
 	#category : #'AABriv-model'
 }
 
-{ #category : #adding }
-Area >> addEnemy: anEnemy [
-	enemies add: anEnemy
+{ #category : #accessing }
+Area >> monsters [
+
+	^ monsters
 ]
 
-{ #category : #testing }
-Area >> hasArmorBased [
-	^ enemies anySatisfy: [ :enemy | enemy isArmored ]
+{ #category : #accessing }
+Area >> monsters: anObject [
+
+	monsters := anObject
 ]
 
-{ #category : #testing }
-Area >> hasHitBased [
-	^ enemies anySatisfy: [ :enemy | enemy isHitBased ]
-]
-
-{ #category : #initialization }
-Area >> hasOnlyType: aType [
-	^ enemies allSatisfy: [ :enemy | enemy isOfType: aType ]
-]
-
-{ #category : #initialization }
-Area >> hasType: aType [
-	^ enemies anySatisfy: [ :enemy | enemy isOfType: aType]
-]
-
-{ #category : #initialization }
-Area >> initialize [
-	enemies := OrderedCollection new.
-]
-
-{ #category : #testing }
-Area >> isOutdoor [
-	^ type isOutdoor
-]
-
-{ #category : #testing }
-Area >> type: aType [
-	type := aType
+{ #category : #accessing }
+Area >> resolveLinksWith: aDatabase [
+	super resolveLinksWith: aDatabase.
+	monsters := monsterIds collect: [ :aMonsterId | aDatabase monsterWithId: aMonsterId ].
 ]

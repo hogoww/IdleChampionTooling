@@ -9,7 +9,7 @@ Class {
 
 { #category : #helpers }
 AdventureTest >> fillWithRandomAreas: anAdventure [
-	1 to: 50 do: [ :i | anAdventure areaAt: i put: Area new ]
+	1 to: 50 do: [ :i | anAdventure areaAt: i put: AbstractArea new ]
 ]
 
 { #category : #running }

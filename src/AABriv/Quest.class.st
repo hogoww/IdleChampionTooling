@@ -86,6 +86,11 @@ Quest >> properties: anObject [
 ]
 
 { #category : #accessing }
+Quest >> resolveLinksWith: aDatabase [
+	"nothing to do for Quests AFAIK"
+]
+
+{ #category : #accessing }
 Quest >> type [
 
 	^ type

@@ -109,3 +109,8 @@ Background >> properties: anObject [
 
 	properties := anObject
 ]
+
+{ #category : #accessing }
+Background >> resolveLinksWith: aDatabase [
+	"Should probably resolve Distractions, however they are not available currently"
+]

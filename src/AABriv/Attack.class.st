@@ -139,6 +139,11 @@ Attack >> numTargets: anObject [
 ]
 
 { #category : #accessing }
+Attack >> resolveLinksWith: aDatabase [
+	"nothing to do for weapons AFAIK"
+]
+
+{ #category : #accessing }
 Attack >> tags [
 
 	^ tags

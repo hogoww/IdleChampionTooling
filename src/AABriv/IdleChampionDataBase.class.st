@@ -15,7 +15,7 @@ Class {
 { #category : #'accessing-id' }
 IdleChampionDataBase >> attackWithId: anID [
 
-	^ attacks detect: [ :a | a id = anID ]
+	^ attacks detect: [ :a | a id = anID ] ifNone: [ Quest new ]
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ IdleChampionDataBase >> attacks [
 { #category : #'accessing-id' }
 IdleChampionDataBase >> backgroundWithId: anID [
 
-	^ backgrounds detect: [ :a | a id = anID ]
+	^ backgrounds detect: [ :a | a id = anID ] ifNone: [ Quest new ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ IdleChampionDataBase >> backgrounds [
 
 { #category : #'accessing-id' }
 IdleChampionDataBase >> campaignWithID: anID [
-	^ campaigns detect: [ :a | a id = anID ]
+	^ campaigns detect: [ :a | a id = anID ] ifNone: [ Quest new ]
 ]
 
 { #category : #accessing }
@@ -56,7 +56,6 @@ IdleChampionDataBase >> fillAreasInformations [
 	self fillQuestsFrom: (areasInfos at: #quests).
 	self fillBackgroundsFrom: (areasInfos at: #bgs).
 	self fillStoriesFrom: (areasInfos at: #story).
-	self resolveLinks.
 ]
 
 { #category : #initialization }
@@ -113,9 +112,23 @@ IdleChampionDataBase >> fillCampaigns [
 ]
 
 { #category : #initialization }
+IdleChampionDataBase >> fillCampaignsFrom: adventureCampaignJSON [
+	^ campaigns := adventureCampaignJSON collect:[ :aCampaignDirectory | | campaign |
+		campaign := Campaign new
+			id: (aCampaignDirectory at: #id);
+			description: (aCampaignDirectory at: #name);
+			name: (aCampaignDirectory at: #short_name);
+			type: (aCampaignDirectory at: #type);
+			yourself.
+		campaign fillAdventures.
+		campaign
+		].
+]
+
+{ #category : #initialization }
 IdleChampionDataBase >> fillMonstersFrom: monstersJSON [
 	monsters := monstersJSON values collect: [ :aMonsterJSON |
-		Enemy new
+		Monster new
 			damageModifier: (aMonsterJSON at: #damage_modifier);
 			graphicId: (aMonsterJSON at: #graphic_id);
 			name:(aMonsterJSON at: #name);
@@ -160,12 +173,13 @@ IdleChampionDataBase >> fillStoriesFrom: storiesJSONs [
 IdleChampionDataBase >> initialize [
 	self fillAreasInformations.
 	self fillCampaigns.
+	self resolveLinks
 ]
 
 { #category : #'accessing-id' }
 IdleChampionDataBase >> monsterWithId: anID [
 
-	^ monsters detect: [ :a | a id = anID ]
+	^ monsters detect: [ :a | a id = anID ] ifNone: [ Quest new ]
 ]
 
 { #category : #accessing }
@@ -177,7 +191,7 @@ IdleChampionDataBase >> monsters [
 { #category : #'accessing-id' }
 IdleChampionDataBase >> questWithId: anID [
 
-	^ 	quests detect: [ :a | a id = anID ]
+	^ 	quests detect: [ :a | a id = anID ] ifNone: [ Quest new ]
 ]
 
 { #category : #accessing }
@@ -188,7 +202,12 @@ IdleChampionDataBase >> quests [
 
 { #category : #initialization }
 IdleChampionDataBase >> resolveLinks [
-	self flag: #todo.
+	attacks do: [ :a | a resolveLinksWith: self ].
+	monsters do: [ :m | m resolveLinksWith: self ].
+	quests  do: [ :q | q resolveLinksWith: self ].
+	backgrounds  do: [ :b | b resolveLinksWith: self ].
+	stories  do: [ :s | s resolveLinksWith: self ].
+	campaigns do: [ :c | c resolveLinksWith: self ].
 ]
 
 { #category : #accessing }
@@ -199,5 +218,5 @@ IdleChampionDataBase >> stories [
 
 { #category : #'accessing-id' }
 IdleChampionDataBase >> storyWithId: anID [
-	^ stories detect: [ :a | a id = anID ]
+	^ stories detect: [ :a | a id = anID ] ifNone: [ Quest new ]
 ]

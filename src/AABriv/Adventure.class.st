@@ -70,6 +70,31 @@ Adventure >> description: anObject [
 	description := anObject
 ]
 
+{ #category : #initializing }
+Adventure >> fillAreasFrom: allAreasJSON [
+	"((adventureJSON at: #area_sets) at: (anAdventureJSON at: #area_set_id) printString) at: #areas"
+	| areasJSON |			
+	areasJSON := allAreasJSON at: areaSetId printString.
+	areas := (areasJSON at: #areas) collect: [ :anAreaJSON | | area |
+		area := anAreaJSON at: #monsters 
+			ifPresent: [ :aValue |
+				Area new 
+					monsterIds: aValue;
+					yourself ]
+			ifAbsent: [ 
+				BossArea new
+					wavesIds: (anAreaJSON at: #waves);
+					bossHealth: (anAreaJSON at: #boss_health ifAbsent:[nil]);
+					yourself].
+		area
+			questId: (anAreaJSON at: #quest_id);
+			id: (anAreaJSON at: #id);
+			backgroundId: (anAreaJSON at: #background_id);
+			areaId: (anAreaJSON at: #area_id);			
+			yourself
+		]
+]
+
 { #category : #accessing }
 Adventure >> id [
 
@@ -97,4 +122,9 @@ Adventure >> name [
 Adventure >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : #initialization }
+Adventure >> resolveLinksWith: aDatabase [
+	areas do: [ :anArea | anArea resolveLinksWith: aDatabase ].
 ]

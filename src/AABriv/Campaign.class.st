@@ -27,16 +27,17 @@ Campaign >> description: anObject [
 { #category : #filling }
 Campaign >> fillAdventures [
 	| adventureJSON |
-	adventureJSON := ((KlehoQueries getAdventuresFor: id) at: #data) at: #adventures.
-	adventures := adventureJSON collect: [ :anAdventureJSON | | adventure |
-		adventure := Adventure new
+	adventureJSON := ((KlehoQueries getAdventuresFor: id) at: #data).
+	
+	adventures := (adventureJSON at: #adventures) collect: [ :anAdventureJSON |
+		Adventure new
 			campaign: self;
 			name: (anAdventureJSON at: #name);
-			id:  (anAdventureJSON at: #id);
-			description:  (anAdventureJSON at: #description);
-			yourself.
-"		adventure fillAreas."
-		adventure
+			id: (anAdventureJSON at: #id);
+			description: (anAdventureJSON at: #description);
+			areaSetId: (anAdventureJSON at: #area_set_id);
+			fillAreasFrom: (adventureJSON at: #area_sets);
+			yourself
 		]
 ]
 
@@ -62,6 +63,11 @@ Campaign >> name [
 Campaign >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : #accessing }
+Campaign >> resolveLinksWith: aDatabase [
+	adventures do: [ :anAdventure | anAdventure resolveLinksWith: aDatabase  ].
 ]
 
 { #category : #accessing }

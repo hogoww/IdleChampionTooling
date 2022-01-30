@@ -15,6 +15,11 @@ KlehoQueries class >> areaInformationPart [
 ]
 
 { #category : #url }
+KlehoQueries class >> areaInformationUrl [
+	^ self basePath , 'list-area-sets'
+]
+
+{ #category : #url }
 KlehoQueries class >> basePath [
 	^ 'https://idle.kleho.ru/v02/adventures/'
 ]
@@ -29,12 +34,12 @@ KlehoQueries class >> campaignsURL [
 KlehoQueries class >> getAdventuresFor: aCampaignID [
 	| response |
 	response := self newJWTAuthorizedClient
-				url: (self adventuresURL) asUrl;
-				addPart: (ZnMimePart fieldName: 'campaign_id' value: aCampaignID printString);
-				addPart: self maxLimit;
-				post;
-				response.
-	
+			url: (self adventuresURL) asUrl;
+			addPart: (ZnMimePart fieldName: 'campaign_id' value: aCampaignID printString);
+			addPart: self maxLimit;
+			addPart: (ZnMimePart fieldName: 'scope' value: 'variants,areas,monsters,quests,stories,bgs') ;
+			post;
+			response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
@@ -66,7 +71,7 @@ KlehoQueries class >> getAreasFor: anAdventureID [
 KlehoQueries class >> getAreasInformations [
 	| response |
 	response := self newJWTAuthorizedClient
-				url: self adventuresURL asUrl;
+				url: self areaInformationUrl asUrl;
 				addPart: self minLimit;
 				addPart: self areaInformationPart;
 				post;
