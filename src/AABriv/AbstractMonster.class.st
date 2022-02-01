@@ -1,6 +1,6 @@
 Class {
 	#name : #AbstractMonster,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'damageModifier',
 		'graphicId',

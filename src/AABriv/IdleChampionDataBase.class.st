@@ -157,7 +157,7 @@ IdleChampionDataBase >> fillQuests [
 
 { #category : #query }
 IdleChampionDataBase >> findAdventureNamed: aName [
-	^ campaigns detect: [ :c | c findAdventureNamed: aName ]
+	^ campaigns detect: [ :c |( c findAdventureNamed: aName) isNotNil ]
 ]
 
 { #category : #initialization }

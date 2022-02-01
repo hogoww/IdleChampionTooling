@@ -1,6 +1,6 @@
 Class {
 	#name : #AbstractArea,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'monsterIds',
 		'questId',
@@ -99,13 +99,19 @@ AbstractArea >> isOutdoor [
 
 { #category : #testing }
 AbstractArea >> isQuickTransition [
-	^ background ifNil: false ifNotNil: [ self halt ]
+	^ background isQuickTransition
 ]
 
 { #category : #accessing }
 AbstractArea >> monsterIds: anObject [
 
 	monsterIds := anObject
+]
+
+{ #category : #printing }
+AbstractArea >> printOn: aStream [
+	aStream << 'Area #'.
+	areaId storeOn: aStream
 ]
 
 { #category : #accessing }
@@ -118,16 +124,6 @@ AbstractArea >> questId [
 AbstractArea >> questId: anObject [
 
 	questId := anObject
-]
-
-{ #category : #initialization }
-AbstractArea >> resolveLinks [
-	self.
-	self halt.
-	monsters := monsterIds collect: [ :aMonsterId |
-		aMonsterId 
-		
-		].
 ]
 
 { #category : #initialization }

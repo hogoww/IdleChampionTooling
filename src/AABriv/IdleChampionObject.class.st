@@ -1,5 +1,5 @@
 Class {
-	#name : #IdleChampionJsonObject,
+	#name : #IdleChampionObject,
 	#superclass : #Object,
 	#instVars : [
 		'json'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #accessing }
-IdleChampionJsonObject >> json [
+IdleChampionObject >> json [
 	^ json
 ]
 
 { #category : #accessing }
-IdleChampionJsonObject >> json: anObject [
+IdleChampionObject >> json: anObject [
 
 	json := anObject
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #Campaign,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'id',
 		'description',
@@ -68,6 +68,13 @@ Campaign >> name [
 Campaign >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : #printing }
+Campaign >> printOn: aStream [
+	aStream << 'Campaign:  '.
+	shortName ifNil: [ aStream << name ]
+		ifNotNil: [ aStream << shortName ] 
 ]
 
 { #category : #accessing }

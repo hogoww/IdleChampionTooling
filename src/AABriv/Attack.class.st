@@ -1,6 +1,6 @@
 Class {
 	#name : #Attack,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'graphicId',
 		'description',

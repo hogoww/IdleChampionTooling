@@ -1,6 +1,6 @@
 Class {
 	#name : #Adventure,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'campaign',
 		'areas',
@@ -11,6 +11,11 @@ Class {
 	],
 	#category : #'AABriv-model'
 }
+
+{ #category : #enumerating }
+Adventure >> allQuickTransitions [
+	^ areas select: #isQuickTransition
+]
 
 { #category : #initialization }
 Adventure >> areaAt: anAreaIndex [
@@ -70,7 +75,7 @@ Adventure >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 Adventure >> fillAreasFrom: allAreasJSON [
 	"((adventureJSON at: #area_sets) at: (anAdventureJSON at: #area_set_id) printString) at: #areas"
 	| areasJSON |			
@@ -122,6 +127,11 @@ Adventure >> name [
 Adventure >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : #printing }
+Adventure >> printOn: aStream [
+	aStream << 'Adventure: ' << name 
 ]
 
 { #category : #initialization }

@@ -1,6 +1,6 @@
 Class {
 	#name : #Quest,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'description',
 		'type',

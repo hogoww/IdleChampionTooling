@@ -1,6 +1,6 @@
 Class {
 	#name : #Background,
-	#superclass : #IdleChampionJsonObject,
+	#superclass : #IdleChampionObject,
 	#instVars : [
 		'midGraphicId',
 		'distractions',
@@ -72,6 +72,12 @@ Background >> id [
 Background >> id: anObject [
 
 	id := anObject
+]
+
+{ #category : #testing }
+Background >> isQuickTransition [
+	properties ifNil: [ ^ false ].
+	^ properties at: #is_fixed ifAbsent: false
 ]
 
 { #category : #accessing }
