@@ -1,6 +1,6 @@
 Class {
 	#name : #Adventure,
-	#superclass : #Object,
+	#superclass : #IdleChampionJsonObject,
 	#instVars : [
 		'campaign',
 		'areas',

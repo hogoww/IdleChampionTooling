@@ -1,6 +1,6 @@
 Class {
 	#name : #Background,
-	#superclass : #Object,
+	#superclass : #IdleChampionJsonObject,
 	#instVars : [
 		'midGraphicId',
 		'distractions',

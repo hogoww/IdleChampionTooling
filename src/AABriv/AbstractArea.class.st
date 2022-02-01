@@ -1,6 +1,6 @@
 Class {
 	#name : #AbstractArea,
-	#superclass : #Object,
+	#superclass : #IdleChampionJsonObject,
 	#instVars : [
 		'monsterIds',
 		'questId',

@@ -1,6 +1,6 @@
 Class {
 	#name : #Campaign,
-	#superclass : #Object,
+	#superclass : #IdleChampionJsonObject,
 	#instVars : [
 		'id',
 		'description',
