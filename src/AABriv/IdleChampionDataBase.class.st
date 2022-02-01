@@ -9,11 +9,23 @@ Class {
 		'stories',
 		'campaigns'
 	],
+	#classInstVars : [
+		'CachedDatabase'
+	],
 	#category : #'AABriv-database'
 }
 
+{ #category : #'as yet unclassified' }
+IdleChampionDataBase class >> cachedDatabase [
+	^ CachedDatabase ifNil: [ CachedDatabase := self new ]
+]
+
 { #category : #'accessing-id' }
 IdleChampionDataBase >> attackWithId: anID [
+	"Only for some kinds of entities
+	So far, particular bosses and spawners?"
+	anID = 0 ifTrue: [ ^ Attack new ].
+	anID ifNil: [ ^ Attack new ].
 	^ attacks at: anID
 	
 ]
@@ -120,7 +132,7 @@ IdleChampionDataBase >> fillMonsters [
 	monsters := monstersJSON flatCollect: [ :aDictionary |
 		self fillAttacksFrom: aDictionary.
 		((aDictionary at: #data) at: #monsters) collect: [ :aMonsterJSON | 
-			AbstractMonster new
+			Monster new
 				json: aMonsterJSON;
 				damageModifier: (aMonsterJSON at: #damage_modifier);
 				graphicId: (aMonsterJSON at: #graphic_id);

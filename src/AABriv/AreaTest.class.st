@@ -14,25 +14,25 @@ AreaTest >> setUp [
 
 { #category : #test }
 AreaTest >> testContainsArmoredEnemyDoesNotHaveArmored [
-	area addEnemy: AbstractMonster new.
+	area addEnemy: Monster new.
 	self deny: area hasArmorBased 
 ]
 
 { #category : #test }
 AreaTest >> testContainsArmoredEnemyDoesNotHaveHitBased [
-	area addEnemy: AbstractMonster new.
+	area addEnemy: Monster new.
 	self deny: area hasHitBased
 ]
 
 { #category : #test }
 AreaTest >> testContainsArmoredEnemyHasArmored [
-	area addEnemy: AbstractMonster new beArmored.
+	area addEnemy: Monster new beArmored.
 	self assert: area hasArmorBased 
 ]
 
 { #category : #test }
 AreaTest >> testContainsArmoredEnemyHasHitBased [
-	area addEnemy: AbstractMonster new beHitBased.
+	area addEnemy: Monster new beHitBased.
 	self assert: area hasHitBased 
 ]
 
