@@ -60,23 +60,11 @@ KlehoQueries class >> getAreasFor: anAdventureID [
 ]
 
 { #category : #query }
-KlehoQueries class >> getAreasInformations [
-	| response |
-	response := self newJWTAuthorizedClient
-		url: self areaInformationUrl asUrl;
-		addPart: self minLimit;
-		addPart: self areaInformationPart;
-		post;
-		response.
-	^ STONJSON fromString: (ReadStream on: response entity string).
-]
-
-{ #category : #query }
 KlehoQueries class >> getBackgrounds [
 	| response |
 	response := self newJWTAuthorizedClient
 		url: self backgroundUrl asUrl;
-		addPart: self minLimit;
+		addPart: self maxLimit;
 		post;
 		response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
@@ -87,7 +75,7 @@ KlehoQueries class >> getCampaignsJSON [
 	| response |
 	response := self newJWTAuthorizedClient
 		url: self campaignsURL asUrl;
-		addPart: self maxLimit
+		addPart: self maxLimit;
 		post;
 		response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
@@ -96,16 +84,14 @@ KlehoQueries class >> getCampaignsJSON [
 { #category : #query }
 KlehoQueries class >> getMonsters [
 	| response pageNumber |
-	pageNumber := 1.
+	pageNumber := 0.
 	response := OrderedCollection new.
 	[ | currentResponse |
 		currentResponse := currentResponse := self getMonstersPage: pageNumber.
 		response add: currentResponse.
-		pageNumber = ((currentResponse at: #data) at: #_pages).
+		pageNumber = (((currentResponse at: #data) at: #_pages) - 1).
 		] whileFalse: [  pageNumber := pageNumber + 1 ].
-
-	self halt.
-	^ STONJSON fromString: (ReadStream on: response entity string).
+	^ response
 ]
 
 { #category : #'query-support' }
@@ -123,27 +109,26 @@ KlehoQueries class >> getMonstersPage: aPage [
 { #category : #query }
 KlehoQueries class >> getQuests [
 	| response pageNumber |
-	pageNumber := 2.
+	pageNumber := 0.
 	response := OrderedCollection new.
 	[ | currentResponse |
-		currentResponse := currentResponse := self getMonstersPage: pageNumber.
+		currentResponse := currentResponse := self getQuestsPage: pageNumber.
 		response add: currentResponse.
-		pageNumber = (((currentResponse at: #data) at: #_pages) + 1).
+		pageNumber = (((currentResponse at: #data) at: #_pages) - 1).
 		] whileFalse: [  pageNumber := pageNumber + 1 ].
-
-	self halt.
-	^ STONJSON fromString: (ReadStream on: response entity string).
+	^ response
 ]
 
 { #category : #'query-support' }
 KlehoQueries class >> getQuestsPage: aPage [
 	| response |
-	^ response := self newJWTAuthorizedClient
+	response := self newJWTAuthorizedClient
 		url: self questsURL asUrl;
 		addPart: self maxLimit;
 		addPart: (self page: aPage);
 		post;
 		response.
+	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
 { #category : #'query-support' }
@@ -190,7 +175,7 @@ KlehoQueries class >> newJWTAuthorizedClient [
 
 { #category : #'query-support' }
 KlehoQueries class >> page: aPageNumber [
-	^ (ZnMimePart fieldName: 'page' value: aPageNumber printString)
+	^ (ZnMimePart fieldName: 'p' value: aPageNumber printString)
 ]
 
 { #category : #url }

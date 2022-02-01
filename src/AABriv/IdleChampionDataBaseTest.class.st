@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'db'
 	],
-	#category : #'AABriv-model'
+	#category : #'AABriv-tests'
 }
 
 { #category : #running }
@@ -14,31 +14,32 @@ IdleChampionDataBaseTest >> setUp [
 ]
 
 { #category : #tests }
-IdleChampionDataBaseTest >> testFillAdventures [
-	db fillCampaigns.
-	self assert: db campaigns size equals: 27.
-]
-
-{ #category : #tests }
 IdleChampionDataBaseTest >> testFillAttacks [
-	db fillAttacksFrom: (((KlehoQueries getAreasInformations) at: #data) at: #attacks).
-	self assert: db attacks size equals: 12
+	"currently queried via monsters"
+	db fillMonsters.
+	self assert: db attacks size equals: 111
 ]
 
 { #category : #tests }
 IdleChampionDataBaseTest >> testFillBackgrounds [
-	db fillBackgroundsFrom: (((KlehoQueries getAreasInformations) at: #data) at: #bgs).
-	self assert: db backgrounds size equals: 91
+	db fillBackgrounds.
+	self assert: db backgrounds size equals: ((KlehoQueries getBackgrounds at: #data) at: #_count)
+]
+
+{ #category : #tests }
+IdleChampionDataBaseTest >> testFillCampaign [
+	db fillCampaigns.
+	self assert: db campaigns size equals: ((KlehoQueries getCampaignsJSON at: #data) at: #_count).
 ]
 
 { #category : #tests }
 IdleChampionDataBaseTest >> testFillMonsters [
-	db fillMonstersFrom: (((KlehoQueries getAreasInformations) at: #data) at: #monsters).
-	self assert: db monsters size equals: 263
+	db fillMonsters.
+	self assert: db monsters size equals: ((KlehoQueries getMonsters anyOne at: #data) at: #_count)
 ]
 
 { #category : #tests }
 IdleChampionDataBaseTest >> testFillQuests [
-	db fillQuestsFrom: (((KlehoQueries getAreasInformations) at: #data) at: #quests).
-	self assert: db quests size equals: 485
+	db fillQuests.
+	self assert: db quests size equals: ((KlehoQueries getQuests anyOne at: #data) at: #_count)
 ]

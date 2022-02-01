@@ -49,19 +49,17 @@ IdleChampionDataBase >> campaigns [
 
 { #category : #initialization }
 IdleChampionDataBase >> fillAreasInformations [
-	| areasInfos |
-	areasInfos := (KlehoQueries getAreasInformations) at: #data.
-	self fillAttacksFrom: (areasInfos at: #attacks).
-	self fillMonstersFrom: (areasInfos at: #monsters).
-	self fillQuestsFrom: (areasInfos at: #quests).
-	self fillBackgroundsFrom: (areasInfos at: #bgs).
-	self fillStoriesFrom: (areasInfos at: #story).
+	self fillMonsters.
+	self fillQuests.
+	self fillBackgrounds.
 ]
 
 { #category : #initialization }
 IdleChampionDataBase >> fillAttacksFrom: attackJSONS [
-	attacks := attackJSONS collect: [ :anAttackJSON |
-		Attack new
+	attacks ifNil: [ attacks := Dictionary new ].
+	
+	((attackJSONS at: #data) at: #attacks) do: [ :anAttackJSON | | attack |
+		attack := Attack new
 			graphicId: (anAttackJSON at: #graphic_id);
 			description: (anAttackJSON at: #description);
 			name: (anAttackJSON at: #name);
@@ -74,8 +72,26 @@ IdleChampionDataBase >> fillAttacksFrom: attackJSONS [
 			damageModifier: (anAttackJSON at: #damage_modifier);
 			cooldown: (anAttackJSON at: #cooldown); 
 			damageTypes: (anAttackJSON at: #damage_types);
-			yourself
-			]
+			yourself.
+		attacks at: (anAttackJSON at: #id) put: attack.
+		]
+]
+
+{ #category : #initialization }
+IdleChampionDataBase >> fillBackgrounds [
+	| backgroundsJSON |
+	backgroundsJSON := KlehoQueries getBackgrounds.
+	backgrounds := ((backgroundsJSON at: #data) at: #bgs) collect: [ :aBackgroundJSON | 
+		Background new
+			midGraphicId: (aBackgroundJSON at: #mid_graphic_id);
+			distractions: (aBackgroundJSON at: #distractions);
+			farGraphicID: (aBackgroundJSON at: #far_graphic_id);
+			foreGraphicId: (aBackgroundJSON at: #fore_graphic_id);
+			nearGraphicId: (aBackgroundJSON at: #near_graphic_id);
+			id: (aBackgroundJSON at: #id);
+			distractionsCnt: (aBackgroundJSON at: #distractions_cnt);
+			properties: (aBackgroundJSON at: #properties);
+			yourself ]
 ]
 
 { #category : #initialization }
@@ -126,6 +142,29 @@ IdleChampionDataBase >> fillCampaignsFrom: adventureCampaignJSON [
 ]
 
 { #category : #initialization }
+IdleChampionDataBase >> fillMonsters [
+	| monstersJSON |
+	monstersJSON := KlehoQueries getMonsters.
+	monsters := monstersJSON flatCollect: [ :aDictionary |
+		self fillAttacksFrom: aDictionary.
+		((aDictionary at: #data) at: #monsters) collect: [ :aMonsterJSON | 
+			Monster new
+				damageModifier: (aMonsterJSON at: #damage_modifier);
+				graphicId: (aMonsterJSON at: #graphic_id);
+				name:(aMonsterJSON at: #name);
+				id: (aMonsterJSON at: #id);
+				properties: (aMonsterJSON at: #properties);
+				type: (aMonsterJSON at: #type);
+				tags: (aMonsterJSON at: #tags);
+				attackId: (aMonsterJSON at: #attack_id);
+				healthModifier: (aMonsterJSON at: #health_modifier);
+				scale: (aMonsterJSON at: #scale);
+				yourself
+			]
+		]
+]
+
+{ #category : #initialization }
 IdleChampionDataBase >> fillMonstersFrom: monstersJSON [
 	monsters := monstersJSON values collect: [ :aMonsterJSON |
 		Monster new
@@ -141,6 +180,23 @@ IdleChampionDataBase >> fillMonstersFrom: monstersJSON [
 			scale: (aMonsterJSON at: #scale);
 			yourself
 			]
+]
+
+{ #category : #initialization }
+IdleChampionDataBase >> fillQuests [
+	| questsJSONs |
+	questsJSONs := KlehoQueries getQuests.
+	quests := questsJSONs flatCollect: [ :aDictionary |
+		((aDictionary at: #data) at: #quests) collect: [ :aQuestJSON | 
+			Quest new
+				description: (aQuestJSON at: #description);
+				type: (aQuestJSON at: #type);
+				properties: (aQuestJSON at: #properties);
+				goalGraphicId: (aQuestJSON at: #goal_graphic_id);
+				goalAmount: (aQuestJSON at: #goal_amount);
+				goalDescription: (aQuestJSON at: #goal_description);
+				id: (aQuestJSON at: #id);
+				yourself ]]
 ]
 
 { #category : #initialization }
