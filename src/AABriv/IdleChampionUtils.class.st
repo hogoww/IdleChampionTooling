@@ -1,7 +1,7 @@
 Class {
 	#name : #IdleChampionUtils,
 	#superclass : #Object,
-	#category : #'AABriv-model'
+	#category : #'AABriv-tools'
 }
 
 { #category : #code }

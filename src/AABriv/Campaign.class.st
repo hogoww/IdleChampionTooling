@@ -29,7 +29,7 @@ Campaign >> fillAdventures [
 	| adventureJSON |
 	adventureJSON := ((KlehoQueries getAdventuresFor: id) at: #data).
 	
-	adventures := (adventureJSON at: #adventures) collect: [ :anAdventureJSON |
+	adventures := ((adventureJSON at: #adventures) collect: [ :anAdventureJSON |
 		Adventure new
 			campaign: self;
 			name: (anAdventureJSON at: #name);
@@ -38,7 +38,12 @@ Campaign >> fillAdventures [
 			areaSetId: (anAdventureJSON at: #area_set_id);
 			fillAreasFrom: (adventureJSON at: #area_sets);
 			yourself
-		]
+		]) values
+]
+
+{ #category : #query }
+Campaign >> findAdventureNamed: aString [
+	^ adventures detect: [ :anAdventure | anAdventure name = aString ] ifNone: nil
 ]
 
 { #category : #accessing }

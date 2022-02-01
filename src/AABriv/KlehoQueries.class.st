@@ -20,6 +20,11 @@ KlehoQueries class >> areaInformationUrl [
 ]
 
 { #category : #url }
+KlehoQueries class >> backgroundUrl [
+	^ self basePath, 'list-backgrounds'
+]
+
+{ #category : #url }
 KlehoQueries class >> basePath [
 	^ 'https://idle.kleho.ru/v02/adventures/'
 ]
@@ -44,26 +49,13 @@ KlehoQueries class >> getAdventuresFor: aCampaignID [
 ]
 
 { #category : #query }
-KlehoQueries class >> getAdventuresFor: aCampaignID page: aPageNumber [
-	| response |
-	response := self newJWTAuthorizedClient
-				url: (self adventuresURL) asUrl;
-				addPart: (ZnMimePart fieldName: 'campaign_id' value: aCampaignID printString);
-				addPart: self maxLimit;
-				addPart: (self page: aPageNumber);
-				post;
-				response.
-	^ STONJSON fromString: (ReadStream on: response entity string).
-]
-
-{ #category : #query }
 KlehoQueries class >> getAreasFor: anAdventureID [
 	| response |
 	response := self newJWTAuthorizedClient
-				url: (self adventuresURL) asUrl;
-				addPart: self maxLimit;
-				post;
-				response.
+		url: (self adventuresURL) asUrl;
+		addPart: self maxLimit;
+		post;
+		response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
@@ -71,11 +63,23 @@ KlehoQueries class >> getAreasFor: anAdventureID [
 KlehoQueries class >> getAreasInformations [
 	| response |
 	response := self newJWTAuthorizedClient
-				url: self areaInformationUrl asUrl;
-				addPart: self minLimit;
-				addPart: self areaInformationPart;
-				post;
-				response.
+		url: self areaInformationUrl asUrl;
+		addPart: self minLimit;
+		addPart: self areaInformationPart;
+		post;
+		response.
+	^ STONJSON fromString: (ReadStream on: response entity string).
+]
+
+{ #category : #query }
+KlehoQueries class >> getBackgrounds [
+	| response |
+	response := self newJWTAuthorizedClient
+		url: self backgroundUrl asUrl;
+		addPart: self minLimit;
+		addPart: self areaInformationPart;
+		post;
+		response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
@@ -83,10 +87,37 @@ KlehoQueries class >> getAreasInformations [
 KlehoQueries class >> getCampaignsJSON [
 	| response |
 	response := self newJWTAuthorizedClient
-				url: (self campaignsURL) asUrl;
-				addPart: (ZnMimePart fieldName: 'limit' value: '100');
-				post;
-				response.
+		url: self campaignsURL asUrl;
+		addPart: self maxLimit
+		post;
+		response.
+	^ STONJSON fromString: (ReadStream on: response entity string).
+]
+
+{ #category : #query }
+KlehoQueries class >> getMonsters [
+	| response pageNumber |
+	pageNumber := 1.
+	response := OrderedCollection new.
+	[ | currentResponse |
+		currentResponse := currentResponse := self getMonstersPage: pageNumber.
+		response add: currentResponse.
+		pageNumber = ((currentResponse at: #data) at: #_pages).
+		] whileFalse: [  pageNumber := pageNumber + 1 ].
+
+	self halt.
+	^ STONJSON fromString: (ReadStream on: response entity string).
+]
+
+{ #category : #'as yet unclassified' }
+KlehoQueries class >> getMonstersPage: aPage [
+	| response |
+	response := self newJWTAuthorizedClient
+		url: self monstersURL asUrl;
+		addPart: self maxLimit;
+		addPart: (self page: aPage);
+		post;
+		response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
@@ -100,6 +131,11 @@ KlehoQueries class >> minLimit [
 	"sometime we don't care about the base query"
 	"Does 0 works?"
 	^ ZnMimePart fieldName: 'limit' value: '1'
+]
+
+{ #category : #url }
+KlehoQueries class >> monstersURL [
+	^ self basePath , 'list-monsters'
 ]
 
 { #category : #'query-support' }

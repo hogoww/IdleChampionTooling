@@ -169,6 +169,11 @@ IdleChampionDataBase >> fillStoriesFrom: storiesJSONs [
 			]
 ]
 
+{ #category : #query }
+IdleChampionDataBase >> findAdventureNamed: aName [
+	^ campaigns detect: [ :c | c findAdventureNamed: aName ]
+]
+
 { #category : #initialization }
 IdleChampionDataBase >> initialize [
 	self fillAreasInformations.

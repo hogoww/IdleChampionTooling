@@ -97,6 +97,11 @@ AbstractArea >> isOutdoor [
 	^ type isOutdoor
 ]
 
+{ #category : #testing }
+AbstractArea >> isQuickTransition [
+	^ background ifNil: false ifNotNil: [ self halt ]
+]
+
 { #category : #accessing }
 AbstractArea >> monsterIds: anObject [
 
