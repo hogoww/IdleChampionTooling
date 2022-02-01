@@ -77,7 +77,6 @@ KlehoQueries class >> getBackgrounds [
 	response := self newJWTAuthorizedClient
 		url: self backgroundUrl asUrl;
 		addPart: self minLimit;
-		addPart: self areaInformationPart;
 		post;
 		response.
 	^ STONJSON fromString: (ReadStream on: response entity string).
@@ -109,7 +108,7 @@ KlehoQueries class >> getMonsters [
 	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'query-support' }
 KlehoQueries class >> getMonstersPage: aPage [
 	| response |
 	response := self newJWTAuthorizedClient
@@ -121,9 +120,35 @@ KlehoQueries class >> getMonstersPage: aPage [
 	^ STONJSON fromString: (ReadStream on: response entity string).
 ]
 
+{ #category : #query }
+KlehoQueries class >> getQuests [
+	| response pageNumber |
+	pageNumber := 2.
+	response := OrderedCollection new.
+	[ | currentResponse |
+		currentResponse := currentResponse := self getMonstersPage: pageNumber.
+		response add: currentResponse.
+		pageNumber = (((currentResponse at: #data) at: #_pages) + 1).
+		] whileFalse: [  pageNumber := pageNumber + 1 ].
+
+	self halt.
+	^ STONJSON fromString: (ReadStream on: response entity string).
+]
+
+{ #category : #'query-support' }
+KlehoQueries class >> getQuestsPage: aPage [
+	| response |
+	^ response := self newJWTAuthorizedClient
+		url: self questsURL asUrl;
+		addPart: self maxLimit;
+		addPart: (self page: aPage);
+		post;
+		response.
+]
+
 { #category : #'query-support' }
 KlehoQueries class >> maxLimit [
-	^ ZnMimePart fieldName: 'limit' value: '100'
+	^ ZnMimePart fieldName: 'limit' value: '1000'
 ]
 
 { #category : #'query-support' }
@@ -166,4 +191,9 @@ KlehoQueries class >> newJWTAuthorizedClient [
 { #category : #'query-support' }
 KlehoQueries class >> page: aPageNumber [
 	^ (ZnMimePart fieldName: 'page' value: aPageNumber printString)
+]
+
+{ #category : #url }
+KlehoQueries class >> questsURL [
+	^ self basePath , 'list-quests'
 ]
