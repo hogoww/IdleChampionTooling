@@ -105,13 +105,18 @@ AbstractArea >> initialize [
 ]
 
 { #category : #testing }
+AbstractArea >> isFixedArea [
+	^ background isFixedArea
+]
+
+{ #category : #testing }
 AbstractArea >> isOutdoor [
 	^ type isOutdoor
 ]
 
 { #category : #testing }
-AbstractArea >> isQuickTransition [
-	^ background isQuickTransition
+AbstractArea >> isQuickTransitionTo: anotherArea [
+	^ self isFixedArea and: [ anotherArea isFixedArea and: [ background = anotherArea background ]]
 ]
 
 { #category : #accessing }

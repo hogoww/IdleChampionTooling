@@ -13,6 +13,18 @@ Class {
 }
 
 { #category : #accessing }
+Campaign >> adventures [
+
+	^ adventures
+]
+
+{ #category : #accessing }
+Campaign >> adventures: anObject [
+
+	adventures := anObject
+]
+
+{ #category : #accessing }
 Campaign >> description [
 
 	^ description
