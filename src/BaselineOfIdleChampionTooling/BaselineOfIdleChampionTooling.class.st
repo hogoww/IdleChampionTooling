@@ -15,6 +15,16 @@ BaselineOfIdleChampionTooling >> baseline: spec [
 ]
 
 { #category : #baselines }
+BaselineOfIdleChampionTooling >> initialPlayground [
+	^ '"create the object containing the DataBase and put it in the variable db"
+	| db |
+	db := IdleChampionDataBase cachedDatabase. "execute with cmd + d"
+	db. "cmd + i to look what''s inside the object"
+	"example of a query"
+	db allQuickTransitionsAdventuresFor: 4. "cmd + i to see what adventure have quick transitions and how many !"'
+]
+
+{ #category : #baselines }
 BaselineOfIdleChampionTooling >> projectClass [
 	^ MetacelloCypressBaselineProject
 ]
