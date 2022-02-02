@@ -30,6 +30,11 @@ RunPlanned >> adventure: anObject [
 ]
 
 { #category : #query }
+RunPlanned >> areas [
+	^ areas
+]
+
+{ #category : #query }
 RunPlanned >> cacheAreasEncounteredTo: anInteger [
 	areas := self collectAreasTo: anInteger.
 ]
@@ -37,7 +42,7 @@ RunPlanned >> cacheAreasEncounteredTo: anInteger [
 { #category : #query }
 RunPlanned >> collectAreasTo: aMaxArea [
 	^ ((0 to: aMaxArea - 1 by: jumps + 1) 
-		collect: [ :i | i -> (adventure areaAt: (i rem: 50) + 1) ])
+		collect: [ :i | i + 1  -> (adventure areaAt: (i rem: 50) + 1) ])
 		asOrderedCollection
 ]
 

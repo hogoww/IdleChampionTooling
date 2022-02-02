@@ -20,6 +20,11 @@ IdleChampionDataBase class >> cachedDatabase [
 	^ CachedDatabase ifNil: [ CachedDatabase := self new ]
 ]
 
+{ #category : #'as yet unclassified' }
+IdleChampionDataBase class >> reset [
+	CachedDatabase := nil
+]
+
 { #category : #'accessing-id' }
 IdleChampionDataBase >> attackWithId: anID [
 	"Only for some kinds of entities
@@ -169,7 +174,11 @@ IdleChampionDataBase >> fillQuests [
 
 { #category : #query }
 IdleChampionDataBase >> findAdventureNamed: aName [
-	^ campaigns detect: [ :c |( c findAdventureNamed: aName) isNotNil ]
+	| adv |
+	campaigns do: [ :c | 
+		adv := c findAdventureNamed: aName.
+		adv ifNotNil: [ ^ adv ] ].
+	^ nil
 ]
 
 { #category : #initialization }

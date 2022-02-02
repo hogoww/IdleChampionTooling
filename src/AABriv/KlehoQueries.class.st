@@ -38,6 +38,7 @@ KlehoQueries class >> campaignsURL [
 { #category : #query }
 KlehoQueries class >> getAdventuresFor: aCampaignID [
 	| response |
+	(Duration seconds: 1) wait.
 	response := self newJWTAuthorizedClient
 			url: (self adventuresURL) asUrl;
 			addPart: (ZnMimePart fieldName: 'campaign_id' value: aCampaignID printString);
