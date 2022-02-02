@@ -23,6 +23,7 @@ BossArea >> bossHealth: anObject [
 
 { #category : #accessing }
 BossArea >> resolveLinksWith: aDatabase [
+
 	super resolveLinksWith: aDatabase.
 	waves := wavesIds collect: [ :aCollectionOfIds |
 		aCollectionOfIds collect: [ :aMonsterId | 
