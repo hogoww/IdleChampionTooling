@@ -25,6 +25,19 @@ IdleChampionDataBase class >> reset [
 	CachedDatabase := nil
 ]
 
+{ #category : #query }
+IdleChampionDataBase >> allAdventures [
+	^ campaigns flatCollect: [ :c | c adventures ]
+]
+
+{ #category : #query }
+IdleChampionDataBase >> allQuickTransitions [
+	| quickTransitionsAdventures |
+	quickTransitionsAdventures := self allAdventures collect: [ :a| a -> (a quickTransitionsFor: 4) ].
+	quickTransitionsAdventures := quickTransitionsAdventures reject: [ :a| a value isEmpty ].
+	^ quickTransitionsAdventures sort:[ :a1 :a2 | a1 value size > a2 value size ].
+]
+
 { #category : #'accessing-id' }
 IdleChampionDataBase >> attackWithId: anID [
 	"Only for some kinds of entities

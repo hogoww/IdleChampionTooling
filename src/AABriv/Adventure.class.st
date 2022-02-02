@@ -12,11 +12,6 @@ Class {
 	#category : #'AABriv-model'
 }
 
-{ #category : #enumerating }
-Adventure >> allQuickTransitions [
-	^ areas select: #isQuickTransition
-]
-
 { #category : #initialization }
 Adventure >> areaAt: anAreaIndex [
 	^ areas at: anAreaIndex
@@ -132,6 +127,22 @@ Adventure >> name: anObject [
 { #category : #printing }
 Adventure >> printOn: aStream [
 	aStream << 'Adventure: ' << name 
+]
+
+{ #category : #enumerating }
+Adventure >> quickTransitionsFor: aNumberOfJumps [
+	| rp quickTransitions |
+	rp := RunPlanned planFor: self jumpingBy: 4.
+	rp cacheAreasEncounteredTo: self areas size.
+
+	quickTransitions := OrderedCollection new.
+	1 to: rp areas size - 1 do: [ :index |
+		| area1 area2 |
+		area1 := rp areas at: index.
+		area2 := rp areas at: index + 1.
+		(area1 value isQuickTransitionTo: area2 value) ifTrue: [ quickTransitions add: area1 ]].
+	^ quickTransitions 
+
 ]
 
 { #category : #initialization }
