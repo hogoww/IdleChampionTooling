@@ -75,7 +75,7 @@ Background >> id: anObject [
 ]
 
 { #category : #testing }
-Background >> isQuickTransition [
+Background >> isFixedArea [
 	properties ifNil: [ ^ false ].
 	properties ifEmpty: [ ^ false ].
 	^ properties at: #is_fixed ifAbsent: false
