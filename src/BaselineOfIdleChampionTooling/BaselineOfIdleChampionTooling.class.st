@@ -25,7 +25,7 @@ BaselineOfIdleChampionTooling >> setUpDependencies: spec [
   spec
     baseline: 'Stargate'
       with: [ spec
-        repository: 'github://ba-st/Stargate:v{XX}/source';
+        repository: 'github://ba-st/Stargate:v6.1.0/source';
         loads: #('Deployment') ];
     import: 'Stargate'.
 ]
