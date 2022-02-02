@@ -32,6 +32,18 @@ AbstractArea >> areaId: anObject [
 ]
 
 { #category : #accessing }
+AbstractArea >> background [
+
+	^ background
+]
+
+{ #category : #accessing }
+AbstractArea >> background: anObject [
+
+	background := anObject
+]
+
+{ #category : #accessing }
 AbstractArea >> backgroundId [
 
 	^ backgroundId
@@ -103,6 +115,12 @@ AbstractArea >> isQuickTransition [
 ]
 
 { #category : #accessing }
+AbstractArea >> monsterIds [
+
+	^ monsterIds
+]
+
+{ #category : #accessing }
 AbstractArea >> monsterIds: anObject [
 
 	monsterIds := anObject
@@ -112,6 +130,18 @@ AbstractArea >> monsterIds: anObject [
 AbstractArea >> printOn: aStream [
 	aStream << 'Area #'.
 	areaId storeOn: aStream
+]
+
+{ #category : #accessing }
+AbstractArea >> quest [
+
+	^ quest
+]
+
+{ #category : #accessing }
+AbstractArea >> quest: anObject [
+
+	quest := anObject
 ]
 
 { #category : #accessing }
