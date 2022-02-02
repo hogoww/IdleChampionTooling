@@ -114,6 +114,11 @@ AbstractArea >> isQuickTransition [
 	^ background isQuickTransition
 ]
 
+{ #category : #testing }
+AbstractArea >> isQuickTransitionTo: anotherArea [
+	^ self isQuickTransition and: [ anotherArea isQuickTransition and: [ background = anotherArea background ]]
+]
+
 { #category : #accessing }
 AbstractArea >> monsterIds [
 
