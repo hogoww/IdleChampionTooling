@@ -132,9 +132,9 @@ Adventure >> printOn: aStream [
 { #category : #enumerating }
 Adventure >> quickTransitionsFor: aNumberOfJumps [
 	| rp quickTransitions |
-	rp := RunPlanned planFor: self jumpingBy: 4.
+	rp := RunPlanned planFor: self jumpingBy: aNumberOfJumps.
 	rp cacheAreasEncounteredTo: self areas size.
-
+	
 	quickTransitions := OrderedCollection new.
 	1 to: rp areas size - 1 do: [ :index |
 		| area1 area2 |
