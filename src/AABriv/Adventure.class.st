@@ -131,18 +131,12 @@ Adventure >> printOn: aStream [
 
 { #category : #enumerating }
 Adventure >> quickTransitionsFor: aNumberOfJumps [
-	| rp quickTransitions |
+	| rp transitions percentageQuick |
 	rp := RunPlanned planFor: self jumpingBy: aNumberOfJumps.
-	rp cacheAreasEncounteredTo: self areas size.
-	
-	quickTransitions := OrderedCollection new.
-	1 to: rp areas size - 1 do: [ :index |
-		| area1 area2 |
-		area1 := rp areas at: index.
-		area2 := rp areas at: index + 1.
-		(area1 value isQuickTransitionTo: area2 value) ifTrue: [ quickTransitions add: area1 ]].
-	^ quickTransitions 
-
+	transitions := rp transitionsWhere: [:area1 :area2 | 
+		area1 isQuickTransitionTo: area2 ].
+	percentageQuick := (transitions size / rp uniqueTransitions) asFloat.
+	^percentageQuick -> transitions
 ]
 
 { #category : #initialization }

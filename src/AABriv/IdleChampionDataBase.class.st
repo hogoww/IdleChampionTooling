@@ -41,8 +41,8 @@ IdleChampionDataBase >> allAdventuresQuickTransitionSizeFor: aNumberOfBrivJump [
 IdleChampionDataBase >> allQuickTransitionsAdventuresFor: aNumberOfBrivJump [
 	| quickTransitionsAdventures |
 	quickTransitionsAdventures := self allAdventures collect: [ :a| a -> (a quickTransitionsFor: aNumberOfBrivJump) ].
-	quickTransitionsAdventures := quickTransitionsAdventures reject: [ :a| a value isEmpty ].
-	^ quickTransitionsAdventures sort:[ :a1 :a2 | a1 value size > a2 value size ].
+	quickTransitionsAdventures := quickTransitionsAdventures reject: [ :a| a value key = 0 ].
+	^ quickTransitionsAdventures sort:[ :a1 :a2 | a1 value key > a2 value key ].
 ]
 
 { #category : #'accessing-id' }
