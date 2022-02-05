@@ -9,7 +9,7 @@ Other tools are available at the following links:
 - Fenomas: https://fenomas.com/idle/
 
 ## Current features
--A queriable database of idle champions adventure, areas [...]
+- A queriable database of idle champions adventure, areas [...]
 - Extractor of redeem codes for idle combo link
 - Run planner [work in progress]
   Meant to plan the areas on which you will land and their characteristics.
