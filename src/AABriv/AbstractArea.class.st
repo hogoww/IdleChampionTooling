@@ -94,7 +94,7 @@ AbstractArea >> hasOnlyType: aType [
 
 { #category : #initialization }
 AbstractArea >> hasType: aType [
-	^ enemies anySatisfy: [ :enemy | enemy isOfType: aType]
+	^ self shouldBeImplemented
 ]
 
 { #category : #accessing }
@@ -107,11 +107,6 @@ AbstractArea >> id [
 AbstractArea >> id: anObject [
 
 	id := anObject
-]
-
-{ #category : #initialization }
-AbstractArea >> initialize [
-	enemies := OrderedCollection new.
 ]
 
 { #category : #testing }
@@ -187,9 +182,4 @@ AbstractArea >> questId: anObject [
 AbstractArea >> resolveLinksWith: aDatabase [
 	quest := aDatabase questWithId: questId.
 	background := aDatabase backgroundWithId: backgroundId.
-]
-
-{ #category : #testing }
-AbstractArea >> type: aType [
-	type := aType
 ]
