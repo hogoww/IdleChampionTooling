@@ -98,7 +98,10 @@ AdventureTest >> testUniqueTransitions9Jump [
 AdventureTest >> testUniqueTransitionsWhenJumping: jumps [
 	"The number of unique transitions for a jump value is defined by the gcd, check we pass through the correct amount "
 	| run |
-	run := RunPlanner planFor: adventure jumpingBy: jumps.
+	run := RunPlanner new 
+		adventure: adventure; 
+		brivJumps: jumps;
+		yourself.
 	self assert: (run transitionsWhere: [ true ]) size equals: run uniqueTransitions.
 	
 ]

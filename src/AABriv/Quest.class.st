@@ -73,6 +73,12 @@ Quest >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #testing }
+Quest >> isSlow [
+	"Loose definition for now"
+	^ self goalAmount ~= 25
+]
+
 { #category : #accessing }
 Quest >> properties [
 

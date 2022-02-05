@@ -73,6 +73,11 @@ AbstractArea >> cinematicsId: anObject [
 ]
 
 { #category : #testing }
+AbstractArea >> containsRangeMonsters [
+	^ self allMonsters anySatisfy: [ :m | m isRanged ]
+]
+
+{ #category : #testing }
 AbstractArea >> hasArmorBased [
 	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasArmor ]
 ]
@@ -122,6 +127,15 @@ AbstractArea >> isOutdoor [
 { #category : #testing }
 AbstractArea >> isQuickTransitionTo: anotherArea [
 	^ self isFixedArea and: [ anotherArea isFixedArea and: [ background = anotherArea background ]]
+]
+
+{ #category : #testing }
+AbstractArea >> isSlowDown [
+	"A slow area is an area that has a higher time cost to clear"
+	self hasArmorBased ifTrue: [ ^ true ].
+	self hasHitBased ifTrue: [ ^ true ].
+	self quest isSlow ifTrue: [ ^ true  ].
+	^ false
 ]
 
 { #category : #accessing }

@@ -114,6 +114,11 @@ Monster >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #testing }
+Monster >> isRanged [
+	^ self tags includes: #range
+]
+
 { #category : #accessing }
 Monster >> name [
 
