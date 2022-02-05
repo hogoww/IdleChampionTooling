@@ -9,7 +9,8 @@ Class {
 
 { #category : #running }
 AreaTest >> setUp [
-	area := AbstractArea new.
+	super setUp.
+	area := Area new.
 ]
 
 { #category : #tests }
