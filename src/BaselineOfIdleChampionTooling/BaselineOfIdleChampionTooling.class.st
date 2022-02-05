@@ -21,7 +21,15 @@ BaselineOfIdleChampionTooling >> initialPlayground [
 	db := IdleChampionDataBase cachedDatabase. "execute with cmd + d"
 	db. "cmd + i to look what''s inside the object"
 	"example of a query"
-	db allQuickTransitionsAdventuresFor: 4. "cmd + i to see what adventure have quick transitions and how many !"'
+	db allAdventuresQuickTransitionSizeFor: 4. "cmd + i to see what adventure have quick transitions and how many !"
+
+"Example of planned run for tall tale 4 jumps, select all of the lines and use cmd + d"
+adventure := (db findAdventureNamed: ''Tall Tales'').
+rp := RunPlanner new
+	adventure: adventure;
+	brivJumps: 4;
+	objective: 696;
+	inspect.'
 ]
 
 { #category : #baselines }
