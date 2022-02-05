@@ -14,6 +14,11 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+AbstractArea class >> withId: anAreaID [
+	 ^self new areaId: anAreaID; yourself
+]
+
 { #category : #adding }
 AbstractArea >> addEnemy: anEnemy [
 	enemies add: anEnemy
