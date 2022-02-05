@@ -1,15 +1,17 @@
 Class {
-	#name : #RunPlanned,
+	#name : #RunPlanner,
 	#superclass : #Object,
 	#instVars : [
 		'adventure',
-		'jumps'
+		'jumps',
+		'objective',
+		'areas'
 	],
 	#category : #'AABriv-model'
 }
 
-{ #category : #'as yet unclassified' }
-RunPlanned class >> planFor: anAdventure jumpingBy: anAmount [
+{ #category : #instanciating }
+RunPlanner class >> planFor: anAdventure jumpingBy: anAmount [
 	^ self new
 		adventure: anAdventure ;
 		jumps: anAmount ;
@@ -17,36 +19,55 @@ RunPlanned class >> planFor: anAdventure jumpingBy: anAmount [
 ]
 
 { #category : #accessing }
-RunPlanned >> adventure [
+RunPlanner >> adventure [
 
 	^ adventure
 ]
 
 { #category : #accessing }
-RunPlanned >> adventure: anObject [
+RunPlanner >> adventure: anObject [
 
 	adventure := anObject
 ]
 
+{ #category : #precalcul }
+RunPlanner >> calculateAreas [
+	
+	^ ((0 to: objective - 1 by: jumps + 1) 
+		collect: [ :i | i + 1  -> (adventure areaAt: (i rem: 50) + 1) ])
+		asOrderedCollection
+]
+
 { #category : #query }
-RunPlanned >> howManyTransitionsToArea: anInteger [ 
+RunPlanner >> howManyTransitionsToArea: anInteger [ 
 	^ (1 to: anInteger by: jumps + 1) size
 ]
 
 { #category : #accessing }
-RunPlanned >> jumps [
+RunPlanner >> jumps [
 
 	^ jumps
 ]
 
 { #category : #accessing }
-RunPlanned >> jumps: anObject [
+RunPlanner >> jumps: anObject [
 
 	jumps := anObject
 ]
 
+{ #category : #accessing }
+RunPlanner >> objective: anInteger [ 
+	objective := anInteger
+]
+
+{ #category : #inspecting }
+RunPlanner >> showMeAreas [
+	areas := self calculateAreas.
+	self halt.
+]
+
 { #category : #query }
-RunPlanned >> transitionsWhere: aBlock [
+RunPlanner >> transitionsWhere: aBlock [
 	| firstArea transitioningFrom transitioningTo transitions |
 	firstArea := adventure areas first.
 	transitioningFrom := firstArea.
@@ -62,11 +83,11 @@ RunPlanned >> transitionsWhere: aBlock [
 ]
 
 { #category : #accessing }
-RunPlanned >> uniqueTransitions [
+RunPlanner >> uniqueTransitions [
 	^adventure areas size / (adventure areas size gcd: jumps+1)
 ]
 
 { #category : #query }
-RunPlanned >> visitedAreasWhere: aBlock [
+RunPlanner >> visitedAreasWhere: aBlock [
 	^(self transitionsWhere: aBlock) select: #key
 ]

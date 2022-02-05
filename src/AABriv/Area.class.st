@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+Area >> allMonsters [
+	^ monsters
+]
+
+{ #category : #accessing }
 Area >> monsters [
 
 	^ monsters

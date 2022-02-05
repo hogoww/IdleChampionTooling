@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #accessing }
+BossArea >> allMonsters [ 
+	^ waves flatCollect: [ :aWave | aWave  ]
+]
+
+{ #category : #accessing }
 BossArea >> bossHealth [
 
 	^ bossHealth

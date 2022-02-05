@@ -81,6 +81,11 @@ Background >> isFixedArea [
 	^ properties at: #is_fixed ifAbsent: false
 ]
 
+{ #category : #testing }
+Background >> isOutdoor [
+	^ (self properties at: #area_tags) includes: #outdoors
+]
+
 { #category : #accessing }
 Background >> midGraphicId [
 

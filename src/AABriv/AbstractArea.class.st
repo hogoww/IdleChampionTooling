@@ -19,9 +19,9 @@ AbstractArea class >> withId: anAreaID [
 	 ^self new areaId: anAreaID; yourself
 ]
 
-{ #category : #adding }
-AbstractArea >> addEnemy: anEnemy [
-	enemies add: anEnemy
+{ #category : #accessing }
+AbstractArea >> allMonsters [
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -74,17 +74,17 @@ AbstractArea >> cinematicsId: anObject [
 
 { #category : #testing }
 AbstractArea >> hasArmorBased [
-	^ enemies anySatisfy: [ :enemy | enemy isArmored ]
+	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasArmor ]
 ]
 
 { #category : #testing }
 AbstractArea >> hasHitBased [
-	^ enemies anySatisfy: [ :enemy | enemy isHitBased ]
+	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasHitBasedLife ]
 ]
 
 { #category : #initialization }
 AbstractArea >> hasOnlyType: aType [
-	^ enemies allSatisfy: [ :enemy | enemy isOfType: aType ]
+	self subclassResponsibility
 ]
 
 { #category : #initialization }
@@ -116,7 +116,7 @@ AbstractArea >> isFixedArea [
 
 { #category : #testing }
 AbstractArea >> isOutdoor [
-	^ type isOutdoor
+	^ background isOutdoor
 ]
 
 { #category : #testing }
@@ -139,7 +139,10 @@ AbstractArea >> monsterIds: anObject [
 { #category : #printing }
 AbstractArea >> printOn: aStream [
 	aStream << 'Area #'.
-	areaId storeOn: aStream
+	areaId storeOn: aStream.
+	
+	self hasArmorBased ifTrue: [ aStream << ' ARMOR ' ].
+	self hasHitBased ifTrue: [ aStream << ' HITBASED ' ]. 
 ]
 
 { #category : #accessing }

@@ -12,38 +12,26 @@ AreaTest >> setUp [
 	area := AbstractArea new.
 ]
 
-{ #category : #test }
-AreaTest >> testContainsArmoredEnemyDoesNotHaveArmored [
-	area addEnemy: Monster new.
-	self deny: area hasArmorBased 
+{ #category : #tests }
+AreaTest >> testAreaWithArmorHasArmored [
+	area monsters: { Monster new tags: #(armor_based); yourself }.
+	self assert: area hasArmorBased
 ]
 
-{ #category : #test }
-AreaTest >> testContainsArmoredEnemyDoesNotHaveHitBased [
-	area addEnemy: Monster new.
+{ #category : #tests }
+AreaTest >> testAreaWithHitBasedHasHitBased [
+	area monsters: { Monster new tags: #(hits_based); yourself }.
+	self assert: area hasHitBased
+]
+
+{ #category : #tests }
+AreaTest >> testAreaWithoutArmorHasNoArmor [
+	area monsters: { Monster new tags: #(); yourself }.
+	self deny: area hasArmorBased
+]
+
+{ #category : #tests }
+AreaTest >> testAreaWithoutHitBasedHasNotHitBased [
+	area monsters: { Monster new tags: #(); yourself }.
 	self deny: area hasHitBased
-]
-
-{ #category : #test }
-AreaTest >> testContainsArmoredEnemyHasArmored [
-	area addEnemy: Monster new beArmored.
-	self assert: area hasArmorBased 
-]
-
-{ #category : #test }
-AreaTest >> testContainsArmoredEnemyHasHitBased [
-	area addEnemy: Monster new beHitBased.
-	self assert: area hasHitBased 
-]
-
-{ #category : #test }
-AreaTest >> testOutdoorIsOutdoor [
-	area type: Outdoor new.
-	self assert: area isOutdoor
-]
-
-{ #category : #test }
-AreaTest >> testUndergroundIsNotOutdoor [
-	area type: Underground new.
-	self deny: area isOutdoor
 ]

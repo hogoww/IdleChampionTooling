@@ -80,6 +80,16 @@ Monster >> graphicId: anObject [
 	graphicId := anObject
 ]
 
+{ #category : #testing }
+Monster >> hasArmor [
+	^ self tags includes: #armor_based
+]
+
+{ #category : #testing }
+Monster >> hasHitBasedLife [
+	 ^ self tags includes: #hits_based
+]
+
 { #category : #accessing }
 Monster >> healthModifier [
 

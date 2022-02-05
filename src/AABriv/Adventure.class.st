@@ -132,7 +132,7 @@ Adventure >> printOn: aStream [
 { #category : #enumerating }
 Adventure >> quickTransitionsFor: aNumberOfJumps [
 	| rp transitions percentageQuick |
-	rp := RunPlanned planFor: self jumpingBy: aNumberOfJumps.
+	rp := RunPlanner planFor: self jumpingBy: aNumberOfJumps.
 	transitions := rp transitionsWhere: [:area1 :area2 | 
 		area1 isQuickTransitionTo: area2 ].
 	percentageQuick := (transitions size / rp uniqueTransitions) asFloat.
