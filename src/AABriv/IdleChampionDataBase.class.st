@@ -34,7 +34,7 @@ IdleChampionDataBase >> allAdventures [
 IdleChampionDataBase >> allAdventuresQuickTransitionSizeFor: aNumberOfBrivJump [
 	| quickTransitionsAdventures |
 	quickTransitionsAdventures := self allQuickTransitionsAdventuresFor: aNumberOfBrivJump.
-	^ quickTransitionsAdventures collect:[:a | a key -> a value size ]
+	^ quickTransitionsAdventures collect:[:a | a key -> a value key ]
 ]
 
 { #category : #query }

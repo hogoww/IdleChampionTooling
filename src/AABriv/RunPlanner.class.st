@@ -139,7 +139,7 @@ RunPlanner >> recapFor: anAdventure [
 	
 	^ { 
 		'Adventure' -> anAdventure.
-		'Percentage of quick transitions' -> (adventure quickTransitionsFor: brivJumps) key.
+		'Percentage of quick transitions' -> ((adventure quickTransitionsFor: brivJumps) key printString , '%').
 		'Number of areas with ranged enemies' -> (rangedMonsters size printString ,  '/' , objective printString).
 		'Number of areas exhibiting some kind of slowdown' -> (slowDown size printString ,  '/' , objective printString).
 		'Number of areas containing hit based entity' -> (hitBasedAreas size printString ,  '/' , objective printString).
