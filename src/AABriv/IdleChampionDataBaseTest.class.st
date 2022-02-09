@@ -29,7 +29,7 @@ IdleChampionDataBaseTest >> testFillBackgrounds [
 { #category : #tests }
 IdleChampionDataBaseTest >> testFillCampaign [
 	db fillCampaigns.
-	self assert: db campaigns size equals: ((KlehoQueries getCampaignsJSON at: #data) at: #_count).
+	self assert: db campaigns size equals: ((KlehoQueries getCampaigns at: #data) at: #_count).
 ]
 
 { #category : #tests }

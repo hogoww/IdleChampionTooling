@@ -28,7 +28,7 @@ KlehoQueriesTest >> testGetBackgrounds [
 KlehoQueriesTest >> testGetCampaigns [
 	"Relies on internet and kleho's website"
 	| campainJson |
-	campainJson := KlehoQueries getCampaignsJSON.
+	campainJson := KlehoQueries getCampaigns.
 	self assert: (campainJson at: #error) equals: 0
 ]
 

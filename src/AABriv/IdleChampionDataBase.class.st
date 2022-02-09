@@ -129,7 +129,7 @@ IdleChampionDataBase >> fillBackgrounds [
 { #category : #initialization }
 IdleChampionDataBase >> fillCampaigns [
 	| campaignsJSON |
-	campaignsJSON := (KlehoQueries getCampaignsJSON at: #data) at: #campaigns.
+	campaignsJSON := (KlehoQueries getCampaigns at: #data) at: #campaigns.
 	^campaigns := campaignsJSON collect:[ :aCampaignJSON | | campaign |
 		campaign := Campaign new
 			json: aCampaignJSON;
