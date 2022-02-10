@@ -14,6 +14,12 @@ CodeNameEntertainmentQueries class >> baseUrl [
 	^ 'http://ps7.idlechampions.com/~idledragons/post.php?call='
 ]
 
+{ #category : #initialization }
+CodeNameEntertainmentQueries class >> forICPUser: anICPUser [ 
+	^ self forUser: anICPUser user
+		andHash: anICPUser userHash
+]
+
 { #category : #url }
 CodeNameEntertainmentQueries class >> forUser: aUser andHash: aHash [
 	^ self basicNew
@@ -78,9 +84,37 @@ CodeNameEntertainmentQueries >> newQuery [
 ]
 
 { #category : #query }
+CodeNameEntertainmentQueries >> redeemAllCodesFrom: aString [
+	| extractedCode |
+	extractedCode := IdleChampionUtils extractCodesFrom: aString.
+	^ extractedCode lines collect: [ :aCode |
+		self redeemCode: aCode
+		] into: Bag new
+]
+
+{ #category : #query }
 CodeNameEntertainmentQueries >> redeemCode: aCode [
+	| result |
+	result := self redeemCodeServerCall: aCode.
+	^ self redeemCodeResultString: result
+]
+
+{ #category : #query }
+CodeNameEntertainmentQueries >> redeemCodeResultString: result [
+	(result at: #okay) ifTrue: [
+		^ (result at: #loot_details) 
+			collect: [ :aResult |
+				String streamContents: [ :s | 
+					s << ((aResult at: #after) - (aResult at: #before)) printString.
+					s space.
+					s << (aResult at: #loot_item)
+				]]].
+	^ (result at: #failure_reason)
+]
+
+{ #category : #query }
+CodeNameEntertainmentQueries >> redeemCodeServerCall: aCode [
 	| response |
-"	 ""mobile_client_version=999"""
 	response := self newQuery
 		url: self redeemUrl asUrl;
 		addPart: 	(ZnMimePart fieldName: 'language_id' value: '1');
