@@ -6,6 +6,9 @@ Class {
 		'aCodeNameEntertainmentQueries',
 		'chests'
 	],
+	#pools : [
+		'IdleChampionChestIDs'
+	],
 	#category : #'AABriv-webQuery'
 }
 
@@ -13,8 +16,8 @@ Class {
 IdleChampionUser >> initializeFrom: anUserJson [
 	json := anUserJson.
 	instanceID := (anUserJson at: #details) at: #instance_id.
-	"(chests at: #silver) put: ((anUserJson at: #details) at: #instance_id)."
-	"self halt."
+	chests := (anUserJson at: #details) at: #chests.
+
 	self flag: #todo. "so many more stuff to scrap"
 ]
 
