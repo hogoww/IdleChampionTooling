@@ -3,15 +3,18 @@ Class {
 	#superclass : #IdleChampionObject,
 	#instVars : [
 		'instanceID',
-		'aCodeNameEntertainmentQueries'
+		'aCodeNameEntertainmentQueries',
+		'chests'
 	],
-	#category : #'AABriv-model'
+	#category : #'AABriv-webQuery'
 }
 
 { #category : #initialization }
 IdleChampionUser >> initializeFrom: anUserJson [
 	json := anUserJson.
 	instanceID := (anUserJson at: #details) at: #instance_id.
+	"(chests at: #silver) put: ((anUserJson at: #details) at: #instance_id)."
+	"self halt."
 	self flag: #todo. "so many more stuff to scrap"
 ]
 

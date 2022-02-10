@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'RegisteredUser'
 	],
-	#category : #AABriv
+	#category : #'AABriv-webQuery'
 }
 
 { #category : #initializing }
@@ -38,6 +38,11 @@ ICPUser class >> resetRegisteredUsers [
 { #category : #registerUsers }
 ICPUser class >> userNamed: aName [
 	^ RegisteredUser detect: [ :anICPUser | anICPUser name = aName ]
+]
+
+{ #category : #accessing }
+ICPUser >> asCNEQ [
+	^ CodeNameEntertainmentQueries forICPUser: self
 ]
 
 { #category : #accessing }

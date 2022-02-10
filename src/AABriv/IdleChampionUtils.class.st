@@ -15,3 +15,9 @@ IdleChampionUtils class >> extractCodesFrom: aString [
 				  line last: line size - (line indexOf: $:) ].
 	^ String streamContents: [:s | res do: [ :i | s << i ] separatedBy: [ s cr ] ].
 ]
+
+{ #category : #code }
+IdleChampionUtils class >> reclaimChestsForAllUsers: codes [
+	^ ICPUser registeredUsers collect: [ :anUser | 
+		anUser -> (anUser asCNEQ redeemAllCodesFrom: codes) ]
+]
