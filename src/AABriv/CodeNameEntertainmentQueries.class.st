@@ -114,14 +114,11 @@ CodeNameEntertainmentQueries >> redeemCodeResultString: result [
 
 { #category : #query }
 CodeNameEntertainmentQueries >> redeemCodeServerCall: aCode [
-	| response |
-	response := self newQuery
-		url: self redeemUrl asUrl;
-		addPart: 	(ZnMimePart fieldName: 'language_id' value: '1');
-		addPart: 	(ZnMimePart fieldName: 'timestamp' value: '0');
-		addPart: 	(ZnMimePart fieldName: 'request_id' value: '0');
-		addPart: 	(ZnMimePart fieldName: 'network_id' value: '11');
-		addPart: 	(ZnMimePart fieldName: 'mobile_client_version' value: '999');
+	| response query |
+	query := self newQuery
+		url: self redeemUrl asUrl.
+	query addDummyDataPart.
+	response := query
 		addPart: 	self userPart;
 		addPart: self userHashPart;
 		addPart: self instanceIdPart;
