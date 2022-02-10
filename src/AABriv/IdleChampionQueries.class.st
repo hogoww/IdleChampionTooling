@@ -4,17 +4,17 @@ Class {
 	#category : #'AABriv-webQuery'
 }
 
-{ #category : #url }
+{ #category : #accessing }
 IdleChampionQueries class >> baseUrl [
-	^ self subclassResponsibility
+	^ self subclassResponsibility 
 ]
 
 { #category : #query }
 IdleChampionQueries class >> jsonFrom: aResponse [
-	^ STONJSON fromString: (ReadStream on: aResponse entity string).
+	^ STONJSON fromString: (ReadStream on: aResponse entity string)
 ]
 
-{ #category : #'query-support' }
+{ #category : #'rest-support' }
 IdleChampionQueries class >> newClient [
 	"taken shamelessly from HTTPBasedRESTfulAPITest"
 
@@ -24,7 +24,7 @@ IdleChampionQueries class >> newClient [
 		yourself
 ]
 
-{ #category : #'query-support' }
+{ #category : #'rest-support' }
 IdleChampionQueries class >> newJWTAuthorizedClient [
 	"taken shamelessly from HTTPBasedRESTfulAPITest"
 	| client jws |
@@ -39,13 +39,8 @@ IdleChampionQueries class >> newJWTAuthorizedClient [
 	^ client
 ]
 
-{ #category : #'query-support' }
+{ #category : #'rest-support' }
 IdleChampionQueries class >> newQuery [
 	"improve readability"
 	^ self newJWTAuthorizedClient
-]
-
-{ #category : #'query-support' }
-IdleChampionQueries class >> page: aPageNumber [
-	^ (ZnMimePart fieldName: 'p' value: aPageNumber printString)
 ]

@@ -17,7 +17,7 @@ IdleChampionDataBaseTest >> setUp [
 IdleChampionDataBaseTest >> testFillAttacks [
 	"currently queried via monsters"
 	db fillMonsters.
-	self assert: db attacks size equals: 111
+	self assert: db attacks size equals: 112
 ]
 
 { #category : #tests }

@@ -53,7 +53,7 @@ KlehoQueries class >> getAdventuresFor: aCampaignID [
 KlehoQueries class >> getAreasFor: anAdventureID [
 	| response |
 	response := self newQuery
-		url: (self adventuresURL) asUrl;
+		url: self adventuresURL asUrl;
 		addPart: self maxLimit;
 		post;
 		response.
@@ -147,6 +147,11 @@ KlehoQueries class >> minLimit [
 { #category : #url }
 KlehoQueries class >> monstersURL [
 	^ self baseUrl , 'list-monsters'
+]
+
+{ #category : #'query-support' }
+KlehoQueries class >> page: aPageNumber [
+	^ (ZnMimePart fieldName: 'p' value: aPageNumber printString)
 ]
 
 { #category : #url }

@@ -19,8 +19,8 @@ KlehoQueriesTest >> testGetAdventures [
 KlehoQueriesTest >> testGetBackgrounds [
 	"Relies on internet and kleho's website"
 	| backgroundJsons |
-	backgroundJsons := KlehoQueries getQuests.
-	self assert: backgroundJsons size equals: 2.
+	backgroundJsons := KlehoQueries getBackgrounds.
+	self assert: backgroundJsons size equals: 6.
 	backgroundJsons do: [ :aQuery | self assert: (aQuery at: #error) equals: 0 ]
 ]
 
