@@ -3,7 +3,8 @@ Class {
 	#superclass : #IdleChampionQueries,
 	#instVars : [
 		'userHash',
-		'user'
+		'user',
+		'userObject'
 	],
 	#category : #'AABriv-webQuery'
 }
@@ -15,10 +16,23 @@ CodeNameEntertainmentQueries class >> baseUrl [
 
 { #category : #url }
 CodeNameEntertainmentQueries class >> forUser: aUser andHash: aHash [
-	^ self new
+	^ self basicNew
 		user: aUser;
 		userHash: aHash;
+		initialize;
 		yourself
+]
+
+{ #category : #url }
+CodeNameEntertainmentQueries class >> handleErrorIfAnyFrom: aJson [
+	(aJson at: #success) 
+		ifFalse: [ self error: 
+			(String streamContents: [ :s | 
+				 s << (aJson at: #error_code) printString;
+					<< ' ';
+					<< (aJson at: #failure_reason)
+		 	])
+		]
 ]
 
 { #category : #'query-support' }
@@ -40,6 +54,18 @@ CodeNameEntertainmentQueries >> getUserDetailsJson [
 	^ self jsonFrom: response
 ]
 
+{ #category : #initialization }
+CodeNameEntertainmentQueries >> initialize [
+	userObject := IdleChampionUser new
+		initializeFrom: self getUserDetailsJson;
+		yourself.
+]
+
+{ #category : #'query-parts' }
+CodeNameEntertainmentQueries >> instanceIdPart [
+	^ ZnMimePart fieldName: 'instance_id' value: userObject instanceID
+]
+
 { #category : #'rest-support' }
 CodeNameEntertainmentQueries >> jsonFrom: response [
 	^ self class jsonFrom: response
@@ -49,6 +75,31 @@ CodeNameEntertainmentQueries >> jsonFrom: response [
 { #category : #'rest-support' }
 CodeNameEntertainmentQueries >> newQuery [
 	^ self class newQuery
+]
+
+{ #category : #query }
+CodeNameEntertainmentQueries >> redeemCode: aCode [
+	| response |
+"	 ""mobile_client_version=999"""
+	response := self newQuery
+		url: self redeemUrl asUrl;
+		addPart: 	(ZnMimePart fieldName: 'language_id' value: '1');
+		addPart: 	(ZnMimePart fieldName: 'timestamp' value: '0');
+		addPart: 	(ZnMimePart fieldName: 'request_id' value: '0');
+		addPart: 	(ZnMimePart fieldName: 'network_id' value: '11');
+		addPart: 	(ZnMimePart fieldName: 'mobile_client_version' value: '999');
+		addPart: 	self userPart;
+		addPart: self userHashPart;
+		addPart: self instanceIdPart;
+		addPart: 	(ZnMimePart fieldName: 'code' value: aCode);
+		post;
+		response.
+	^ self jsonFrom: response
+]
+
+{ #category : #url }
+CodeNameEntertainmentQueries >> redeemUrl [
+	^ self baseUrl , 'redeemcoupon'
 ]
 
 { #category : #accessing }

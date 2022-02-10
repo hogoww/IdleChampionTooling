@@ -10,8 +10,20 @@ IdleChampionQueries class >> baseUrl [
 ]
 
 { #category : #query }
+IdleChampionQueries class >> checkQueryResult: aJson [
+	self handleErrorIfAnyFrom: aJson.
+	^ aJson
+]
+
+{ #category : #query }
+IdleChampionQueries class >> handleErrorIfAnyFrom: aJson [
+	"nothing to check by default"
+	^ self
+]
+
+{ #category : #query }
 IdleChampionQueries class >> jsonFrom: aResponse [
-	^ STONJSON fromString: (ReadStream on: aResponse entity string)
+	^ self checkQueryResult: (STONJSON fromString: (ReadStream on: aResponse entity string))
 ]
 
 { #category : #'rest-support' }
