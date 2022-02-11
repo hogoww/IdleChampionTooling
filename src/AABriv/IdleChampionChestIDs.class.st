@@ -2,15 +2,21 @@ Class {
 	#name : #IdleChampionChestIDs,
 	#superclass : #SharedPool,
 	#classVars : [
-		'GoldChestID',
-		'SilverChestID'
+		'ElectrumID',
+		'GoldElvenChestID',
+		'GoldGoldPieceID',
+		'GoldID',
+		'SilverID'
 	],
 	#category : #'AABriv-constants'
 }
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 IdleChampionChestIDs class >> initialize [
-	SilverChestID := 1.
-	GoldChestID := 2.
+	SilverID := 1.
+	GoldID := 2.
+	ElectrumID := 125.
 
+	GoldElvenChestID := 392."392 & 393 might be inverted"
+	GoldGoldPieceID := 393.
 ]

@@ -5,7 +5,8 @@ Class {
 		'instanceID',
 		'chests',
 		'userId',
-		'userHash'
+		'userHash',
+		'inventory'
 	],
 	#pools : [
 		'IdleChampionChestIDs'
@@ -25,13 +26,26 @@ IdleChampionUser >> chests: anObject [
 	chests := anObject
 ]
 
+{ #category : #accessing }
+IdleChampionUser >> gameInstanceId [
+	self shouldBeImplemented.
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> howManyChestsOf: aChestId [ 
+	^ chests at: aChestId printString
+]
+
 { #category : #initialization }
 IdleChampionUser >> initializeFrom: anUserJson [
+	| details |
 	json := anUserJson.
-	instanceID := (anUserJson at: #details) at: #instance_id.
-	chests := (anUserJson at: #details) at: #chests.
-
-	self flag: #todo. "so many more stuff to scrap"
+	details := anUserJson at: #details.
+	instanceID := details at: #instance_id.
+	chests := details at: #chests.
+	inventory := (details at: #buffs)
+		collect: [ :d | (IdleChampionConsumableIDs nameForID: (d at: #buff_id)) -> (d at: #inventory_amount) ]
+		into: Dictionary new.
 ]
 
 { #category : #accessing }

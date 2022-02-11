@@ -6,6 +6,9 @@ Class {
 		'user',
 		'userObject'
 	],
+	#pools : [
+		'IdleChampionChestIDs'
+	],
 	#category : #'AABriv-webQuery'
 }
 
@@ -46,6 +49,11 @@ CodeNameEntertainmentQueries >> baseUrl [
 	^ self class baseUrl
 ]
 
+{ #category : #'query-parts' }
+CodeNameEntertainmentQueries >> chestPart: aChestType [
+	^ ZnMimePart fieldName: 'chest_type_id' value: aChestType printString
+]
+
 { #category : #query }
 CodeNameEntertainmentQueries >> getUserDetailsJson [
 	| response |
@@ -83,6 +91,49 @@ CodeNameEntertainmentQueries >> jsonFrom: response [
 { #category : #'rest-support' }
 CodeNameEntertainmentQueries >> newQuery [
 	^ self class newQuery
+]
+
+{ #category : #'api-chests' }
+CodeNameEntertainmentQueries >> openAllChests: aChestID [
+	| availableChests |
+	availableChests := userObject howManyChestsOf: aChestID.
+	(0 to: availableChests % 50) collect: [ :i|
+		| queryRes |
+		queryRes := self openChest: aChestID times: 50
+		] into: OrderedCollection new
+]
+
+{ #category : #api }
+CodeNameEntertainmentQueries >> openAllSilverChests [
+	^ self openAllChests: SilverID.
+]
+
+{ #category : #query }
+CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
+"	""&gold_per_second=0
+	&checksum=4c5f019b6fc6eefa4d47d21cfaf1bc68
+	&user_id="" UserID 
+	""&hash="" UserHash 
+	""&instance_id="" InstanceID 
+	""&chest_type_id="" chestid 
+	""&game_instance_id="" ActiveInstance 
+	""&count=""
+			"
+
+	| response query |
+	query := self newQuery
+		url: self openGenericChestsURL asUrl;
+		addPart: (ZnMimePart fieldName: 'gold_per_second' value: '0');
+		addPart: (ZnMimePart fieldName: 'checksum' value: '4c5f019b6fc6eefa4d47d21cfaf1bc68').
+		
+	query addUserPartsFrom: userObject.
+	response := query
+		addPart: (self chestPart: aChestType);
+		addPart: (ZnMimePart fieldName: '	"game_instance_id' value: '1');
+		addPart: (ZnMimePart fieldName: 'count' value: aNumberOfChests printString);
+		post; 
+		response.
+	^ self jsonFrom: response
 ]
 
 { #category : #query }
