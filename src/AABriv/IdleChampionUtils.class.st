@@ -17,7 +17,7 @@ IdleChampionUtils class >> extractCodesFrom: aString [
 ]
 
 { #category : #code }
-IdleChampionUtils class >> reclaimChestsForAllUsers: codes [
+IdleChampionUtils class >> redeemChestsForAllUsers: codes [
 	^ ICPUser registeredUsers collect: [ :anUser | 
 		anUser -> (anUser asCNEQ redeemAllCodesFrom: codes) ]
 ]

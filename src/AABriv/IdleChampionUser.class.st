@@ -3,14 +3,27 @@ Class {
 	#superclass : #IdleChampionObject,
 	#instVars : [
 		'instanceID',
-		'aCodeNameEntertainmentQueries',
-		'chests'
+		'chests',
+		'userId',
+		'userHash'
 	],
 	#pools : [
 		'IdleChampionChestIDs'
 	],
 	#category : #'AABriv-webQuery'
 }
+
+{ #category : #accessing }
+IdleChampionUser >> chests [
+
+	^ chests
+]
+
+{ #category : #accessing }
+IdleChampionUser >> chests: anObject [
+
+	chests := anObject
+]
 
 { #category : #initialization }
 IdleChampionUser >> initializeFrom: anUserJson [
@@ -30,4 +43,28 @@ IdleChampionUser >> instanceID [
 IdleChampionUser >> instanceID: anObject [
 
 	instanceID := anObject
+]
+
+{ #category : #accessing }
+IdleChampionUser >> userHash [
+
+	^ userHash
+]
+
+{ #category : #accessing }
+IdleChampionUser >> userHash: anObject [
+
+	userHash := anObject
+]
+
+{ #category : #accessing }
+IdleChampionUser >> userId [
+
+	^ userId
+]
+
+{ #category : #accessing }
+IdleChampionUser >> userId: anObject [
+
+	userId := anObject
 ]

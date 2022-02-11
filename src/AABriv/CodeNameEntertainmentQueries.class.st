@@ -64,6 +64,8 @@ CodeNameEntertainmentQueries >> getUserDetailsJson [
 CodeNameEntertainmentQueries >> initialize [
 	userObject := IdleChampionUser new
 		initializeFrom: self getUserDetailsJson;
+		userId: user;
+		userHash: userHash;
 		yourself.
 ]
 
@@ -84,6 +86,39 @@ CodeNameEntertainmentQueries >> newQuery [
 ]
 
 { #category : #query }
+CodeNameEntertainmentQueries >> openChests [
+"	chestparams := ""&gold_per_second=0
+	&checksum=4c5f019b6fc6eefa4d47d21cfaf1bc68
+	&user_id="" UserID 
+	""&hash="" UserHash 
+	""&instance_id="" InstanceID 
+	""&chest_type_id="" chestid 
+	""&game_instance_id="" ActiveInstance 
+	""&count=""
+			
+			rawresults := ServerCall(""opengenericchest"", chestparams count)"
+
+	| response query aCode |
+	query := self newQuery
+		url: self redeemUrl asUrl.
+	query addDummyDataParts.
+	query addUserParts.
+	response := query
+		addPart: 	(ZnMimePart fieldName: 'code' value: aCode);
+		post;
+		response.
+	^ self jsonFrom: response
+]
+
+{ #category : #url }
+CodeNameEntertainmentQueries >> openGenericChestsURL [
+	^ String streamContents: [ :s | 
+		s << self baseUrl;
+			<< 'opengenericchest'
+		]
+]
+
+{ #category : #api }
 CodeNameEntertainmentQueries >> redeemAllCodesFrom: aString [
 	| extractedCode |
 	extractedCode := IdleChampionUtils extractCodesFrom: aString.
@@ -92,14 +127,14 @@ CodeNameEntertainmentQueries >> redeemAllCodesFrom: aString [
 		] into: Bag new
 ]
 
-{ #category : #query }
+{ #category : #api }
 CodeNameEntertainmentQueries >> redeemCode: aCode [
 	| result |
 	result := self redeemCodeServerCall: aCode.
 	^ self redeemCodeResultString: result
 ]
 
-{ #category : #query }
+{ #category : #'query-result' }
 CodeNameEntertainmentQueries >> redeemCodeResultString: result [
 	(result at: #okay) ifTrue: [
 		^ (result at: #loot_details) 
@@ -117,11 +152,9 @@ CodeNameEntertainmentQueries >> redeemCodeServerCall: aCode [
 	| response query |
 	query := self newQuery
 		url: self redeemUrl asUrl.
-	query addDummyDataPart.
+	query addDummyDataParts.
+	query addUserPartsFrom: userObject.
 	response := query
-		addPart: 	self userPart;
-		addPart: self userHashPart;
-		addPart: self instanceIdPart;
 		addPart: 	(ZnMimePart fieldName: 'code' value: aCode);
 		post;
 		response.
