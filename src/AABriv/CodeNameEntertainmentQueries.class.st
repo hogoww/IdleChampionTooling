@@ -19,7 +19,7 @@ CodeNameEntertainmentQueries class >> baseUrl [
 
 { #category : #initialization }
 CodeNameEntertainmentQueries class >> forICPUser: anICPUser [ 
-	^ self forUser: anICPUser user
+	^ self forUser: anICPUser userId
 		andHash: anICPUser userHash
 ]
 
@@ -93,33 +93,8 @@ CodeNameEntertainmentQueries >> newQuery [
 	^ self class newQuery
 ]
 
-{ #category : #'api-chests' }
-CodeNameEntertainmentQueries >> openAllChests: aChestID [
-	| availableChests |
-	availableChests := userObject howManyChestsOf: aChestID.
-	(0 to: availableChests % 50) collect: [ :i|
-		| queryRes |
-		queryRes := self openChest: aChestID times: 50
-		] into: OrderedCollection new
-]
-
-{ #category : #api }
-CodeNameEntertainmentQueries >> openAllSilverChests [
-	^ self openAllChests: SilverID.
-]
-
 { #category : #query }
 CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
-"	""&gold_per_second=0
-	&checksum=4c5f019b6fc6eefa4d47d21cfaf1bc68
-	&user_id="" UserID 
-	""&hash="" UserHash 
-	""&instance_id="" InstanceID 
-	""&chest_type_id="" chestid 
-	""&game_instance_id="" ActiveInstance 
-	""&count=""
-			"
-
 	| response query |
 	query := self newQuery
 		url: self openGenericChestsURL asUrl;
@@ -136,66 +111,12 @@ CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
 	^ self jsonFrom: response
 ]
 
-{ #category : #query }
-CodeNameEntertainmentQueries >> openChests [
-"	chestparams := ""&gold_per_second=0
-	&checksum=4c5f019b6fc6eefa4d47d21cfaf1bc68
-	&user_id="" UserID 
-	""&hash="" UserHash 
-	""&instance_id="" InstanceID 
-	""&chest_type_id="" chestid 
-	""&game_instance_id="" ActiveInstance 
-	""&count=""
-			
-			rawresults := ServerCall(""opengenericchest"", chestparams count)"
-
-	| response query aCode |
-	query := self newQuery
-		url: self redeemUrl asUrl.
-	query addDummyDataParts.
-	query addUserParts.
-	response := query
-		addPart: 	(ZnMimePart fieldName: 'code' value: aCode);
-		post;
-		response.
-	^ self jsonFrom: response
-]
-
 { #category : #url }
 CodeNameEntertainmentQueries >> openGenericChestsURL [
 	^ String streamContents: [ :s | 
 		s << self baseUrl;
 			<< 'opengenericchest'
 		]
-]
-
-{ #category : #api }
-CodeNameEntertainmentQueries >> redeemAllCodesFrom: aString [
-	| extractedCode |
-	extractedCode := IdleChampionUtils extractCodesFrom: aString.
-	^ extractedCode lines collect: [ :aCode |
-		self redeemCode: aCode
-		] into: Bag new
-]
-
-{ #category : #api }
-CodeNameEntertainmentQueries >> redeemCode: aCode [
-	| result |
-	result := self redeemCodeServerCall: aCode.
-	^ self redeemCodeResultString: result
-]
-
-{ #category : #'query-result' }
-CodeNameEntertainmentQueries >> redeemCodeResultString: result [
-	(result at: #okay) ifTrue: [
-		^ (result at: #loot_details) 
-			collect: [ :aResult |
-				String streamContents: [ :s | 
-					s << ((aResult at: #after) - (aResult at: #before)) printString.
-					s space.
-					s << (aResult at: #loot_item)
-				]]].
-	^ (result at: #failure_reason)
 ]
 
 { #category : #query }
