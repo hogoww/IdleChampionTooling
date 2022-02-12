@@ -122,21 +122,37 @@ IdleChampionUser >> name: anObject [
 ]
 
 { #category : #'api-chests' }
-IdleChampionUser >> openAllChests: aChestID [
-	| availableChests |
-	availableChests := self howManyChestsOf: aChestID.
-	(0 to: availableChests % 50) collect: [ :i|
-		self opendChestsFromJson: (self cneQueries openChest: aChestID times: 50)
-		] into: OrderedCollection new
-]
-
-{ #category : #api }
-IdleChampionUser >> openAllSilverChests [
-	^ self openAllChests: SilverID.
+IdleChampionUser >> openAllGoldChests [
+	^ self openChests: GoldID times: (self howManyChestsOf: GoldID)
 ]
 
 { #category : #'api-chests' }
-IdleChampionUser >> opendChestsFromJson: aJsonOpenedChest [
+IdleChampionUser >> openAllSilverChests [
+	^ self openChests: SilverID times: (self howManyChestsOf: SilverID)
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
+	(self howManyChestsOf: aChestID) > aNumberOfChests 
+		ifTrue: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
+		
+	^ (0 to: aNumberOfChests % 50) collect: [ :i|
+		self openedChestsFromJson: (self cneQueries openChest: aChestID times: 50)
+		] into: OrderedCollection new
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> openGoldChests: aNumberOfChests [
+	^ self openChests: GoldID times: aNumberOfChests
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> openSilverChests: aNumberOfChests [
+	^ self openChests: SilverID times: aNumberOfChests
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> openedChestsFromJson: aJsonOpenedChest [
 	| chest |
 	chest := OpenedChest new.
 	self halt.
