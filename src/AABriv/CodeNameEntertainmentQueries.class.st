@@ -2,9 +2,7 @@ Class {
 	#name : #CodeNameEntertainmentQueries,
 	#superclass : #IdleChampionQueries,
 	#instVars : [
-		'userHash',
-		'user',
-		'userObject'
+		'icUser'
 	],
 	#pools : [
 		'IdleChampionChestIDs'
@@ -19,16 +17,8 @@ CodeNameEntertainmentQueries class >> baseUrl [
 
 { #category : #initialization }
 CodeNameEntertainmentQueries class >> forICPUser: anICPUser [ 
-	^ self forUser: anICPUser userId
-		andHash: anICPUser userHash
-]
-
-{ #category : #url }
-CodeNameEntertainmentQueries class >> forUser: aUser andHash: aHash [
 	^ self basicNew
-		user: aUser;
-		userHash: aHash;
-		initialize;
+		icUser: anICPUser;
 		yourself
 ]
 
@@ -68,18 +58,21 @@ CodeNameEntertainmentQueries >> getUserDetailsJson [
 	^ self jsonFrom: response
 ]
 
-{ #category : #initialization }
-CodeNameEntertainmentQueries >> initialize [
-	userObject := IdleChampionUser new
-		initializeFrom: self getUserDetailsJson;
-		userId: user;
-		userHash: userHash;
-		yourself.
+{ #category : #accessing }
+CodeNameEntertainmentQueries >> icUser [
+
+	^ icUser
+]
+
+{ #category : #accessing }
+CodeNameEntertainmentQueries >> icUser: anObject [
+
+	icUser := anObject
 ]
 
 { #category : #'query-parts' }
 CodeNameEntertainmentQueries >> instanceIdPart [
-	^ ZnMimePart fieldName: 'instance_id' value: userObject instanceID
+	^ ZnMimePart fieldName: 'instance_id' value: icUser instanceID
 ]
 
 { #category : #'rest-support' }
@@ -101,7 +94,7 @@ CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
 		addPart: (ZnMimePart fieldName: 'gold_per_second' value: '0');
 		addPart: (ZnMimePart fieldName: 'checksum' value: '4c5f019b6fc6eefa4d47d21cfaf1bc68').
 		
-	query addUserPartsFrom: userObject.
+	query addUserPartsFrom: icUser.
 	response := query
 		addPart: (self chestPart: aChestType);
 		addPart: (ZnMimePart fieldName: '	"game_instance_id' value: '1');
@@ -125,7 +118,7 @@ CodeNameEntertainmentQueries >> redeemCodeServerCall: aCode [
 	query := self newQuery
 		url: self redeemUrl asUrl.
 	query addDummyDataParts.
-	query addUserPartsFrom: userObject.
+	query addUserPartsFrom: icUser.
 	response := query
 		addPart: 	(ZnMimePart fieldName: 'code' value: aCode);
 		post;
@@ -138,18 +131,6 @@ CodeNameEntertainmentQueries >> redeemUrl [
 	^ self baseUrl , 'redeemcoupon'
 ]
 
-{ #category : #accessing }
-CodeNameEntertainmentQueries >> user [
-
-	^ user
-]
-
-{ #category : #accessing }
-CodeNameEntertainmentQueries >> user: anObject [
-
-	user := anObject
-]
-
 { #category : #url }
 CodeNameEntertainmentQueries >> userDetailsUrl [
 	^ String streamContents: [ :s | 
@@ -158,24 +139,12 @@ CodeNameEntertainmentQueries >> userDetailsUrl [
 		]
 ]
 
-{ #category : #accessing }
-CodeNameEntertainmentQueries >> userHash [
-	"Rename to avoid clashing with #hash system method"
-	^ userHash
-]
-
-{ #category : #accessing }
-CodeNameEntertainmentQueries >> userHash: anObject [
-
-	userHash := anObject
-]
-
 { #category : #'query-parts' }
 CodeNameEntertainmentQueries >> userHashPart [
-	^ ZnMimePart fieldName: 'hash' value: userHash
+	^ ZnMimePart fieldName: 'hash' value: icUser userHash
 ]
 
 { #category : #'query-parts' }
 CodeNameEntertainmentQueries >> userPart [
-	^ ZnMimePart fieldName: 'user_id' value: user
+	^ ZnMimePart fieldName: 'user_id' value: icUser userId
 ]

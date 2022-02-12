@@ -25,13 +25,16 @@ IdleChampionUserState >> chests: anObject [
 
 { #category : #accessing }
 IdleChampionUserState >> howManyChestsOf: aChestID [
-	^ chests howManyChestsOf: aChestID
+	^ chests at: aChestID
 ]
 
 { #category : #initializion }
-IdleChampionUserState >> initializeFrom: userDetailsJson [
-	chests := userDetailsJson at: #chests.
-	inventory := (userDetailsJson at: #buffs)
+IdleChampionUserState >> initializeFrom: anUserJson [
+	| details |
+	json := anUserJson.
+	details := anUserJson at: #details.
+	chests := details at: #chests.
+	inventory := (details at: #buffs)
 		collect: [ :d | 
 			(IdleChampionConsumableIDs nameForID: (d at: #buff_id)) 
 				-> (d at: #inventory_amount) 

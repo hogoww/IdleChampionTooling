@@ -75,16 +75,24 @@ IdleChampionUser >> initialize [
 
 { #category : #initialization }
 IdleChampionUser >> initializeCneQueries [
-	^  cneQueries ifNil: [ cneQueries := CodeNameEntertainmentQueries forICPUser: self ]
+	^  cneQueries ifNil: [ 
+		cneQueries := CodeNameEntertainmentQueries forICPUser: self.
+		self initializeFrom: cneQueries getUserDetailsJson
+		]
 ]
 
 { #category : #initialization }
 IdleChampionUser >> initializeFrom: anUserJson [
 	| details |
-	json := anUserJson.
 	details := anUserJson at: #details.
 	instanceID := details at: #instance_id.
-	inventoryStates add: (IdleChampionUserState new initializeFrom: details).
+	inventoryStates add: (IdleChampionUserState new initializeFrom: anUserJson).
+]
+
+{ #category : #initialization }
+IdleChampionUser >> initializeYourself [
+	"force creation of cneQueries and first user datas"
+	self cneQueries.
 ]
 
 { #category : #accessing }
@@ -133,11 +141,13 @@ IdleChampionUser >> openAllSilverChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
+	| currentNumberOfChests |
 	(self howManyChestsOf: aChestID) > aNumberOfChests 
-		ifTrue: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
-		
-	^ (0 to: aNumberOfChests % 50) collect: [ :i|
-		self openedChestsFromJson: (self cneQueries openChest: aChestID times: 50)
+		ifFalse: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
+	currentNumberOfChests := aNumberOfChests.
+	^ (0 to: currentNumberOfChests % 50) collect: [ :i |
+		self openedChestsFromJson: (self cneQueries openChest: aChestID times: currentNumberOfChests).
+		currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
 		] into: OrderedCollection new
 ]
 
