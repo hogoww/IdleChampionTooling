@@ -107,7 +107,7 @@ IdleChampionConsumableIDs class >> initialize [
 
 { #category : #initialization }
 IdleChampionConsumableIDs class >> nameForID: anID [
-	self classPool associationsDo: [ :assoc | assoc value printString = anID ifTrue: [ ^ assoc key ] ].
+	self classPool associationsDo: [ :assoc | assoc value = anID ifTrue: [ ^ assoc key ] ].
 	^ anID
 ]
 

@@ -27,8 +27,10 @@ CodeNameEntertainmentQueries class >> handleErrorIfAnyFrom: aJson [
 	(aJson at: #success) 
 		ifFalse: [ self error: 
 			(String streamContents: [ :s | 
-				 s << (aJson at: #error_code) printString;
-					<< ' ';
+				 s 
+					<< '(';
+					<< (aJson at: #error_code) printString;
+					<< ') ';
 					<< (aJson at: #failure_reason)
 		 	])
 		]
@@ -41,7 +43,7 @@ CodeNameEntertainmentQueries >> baseUrl [
 
 { #category : #'query-parts' }
 CodeNameEntertainmentQueries >> chestPart: aChestType [
-	^ ZnMimePart fieldName: 'chest_type_id' value: aChestType printString
+	^ ZnMimePart fieldName: 'chest_type_id' value: aChestType
 ]
 
 { #category : #query }
@@ -97,7 +99,7 @@ CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
 	query addUserPartsFrom: icUser.
 	response := query
 		addPart: (self chestPart: aChestType);
-		addPart: (ZnMimePart fieldName: '	"game_instance_id' value: '1');
+		addPart: (ZnMimePart fieldName: 'game_instance_id' value: '1');
 		addPart: (ZnMimePart fieldName: 'count' value: aNumberOfChests printString);
 		post; 
 		response.

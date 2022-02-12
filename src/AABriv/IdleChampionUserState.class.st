@@ -23,6 +23,11 @@ IdleChampionUserState >> chests: anObject [
 	chests := anObject
 ]
 
+{ #category : #comparing }
+IdleChampionUserState >> differenceWith: anIdleChampionUserState [ 
+	self shouldBeImplemented.
+]
+
 { #category : #accessing }
 IdleChampionUserState >> howManyChestsOf: aChestID [
 	^ chests at: aChestID

@@ -77,16 +77,8 @@ IdleChampionUser >> initialize [
 IdleChampionUser >> initializeCneQueries [
 	^  cneQueries ifNil: [ 
 		cneQueries := CodeNameEntertainmentQueries forICPUser: self.
-		self initializeFrom: cneQueries getUserDetailsJson
+		self update
 		]
-]
-
-{ #category : #initialization }
-IdleChampionUser >> initializeFrom: anUserJson [
-	| details |
-	details := anUserJson at: #details.
-	instanceID := details at: #instance_id.
-	inventoryStates add: (IdleChampionUserState new initializeFrom: anUserJson).
 ]
 
 { #category : #initialization }
@@ -145,9 +137,10 @@ IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
 	(self howManyChestsOf: aChestID) > aNumberOfChests 
 		ifFalse: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
 	currentNumberOfChests := aNumberOfChests.
-	^ (0 to: currentNumberOfChests % 50) collect: [ :i |
-		self openedChestsFromJson: (self cneQueries openChest: aChestID times: currentNumberOfChests).
+	^ (1 to: currentNumberOfChests // 50 + 1) collect: [ :i | | res |
+		res := self openedChestsFromJson: (self cneQueries openChest: aChestID times: (50 min: currentNumberOfChests) ).	
 		currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
+		res
 		] into: OrderedCollection new
 ]
 
@@ -162,10 +155,12 @@ IdleChampionUser >> openSilverChests: aNumberOfChests [
 ]
 
 { #category : #'api-chests' }
-IdleChampionUser >> openedChestsFromJson: aJsonOpenedChest [
+IdleChampionUser >> openedChestsFromJson: aChestJson [
 	| chest |
-	chest := OpenedChest new.
-	self halt.
+	chest := ChestOpenningResult new.
+	chest chestType: (IdleChampionChestIDs nameForID: ((aChestJson at: #actions) first at: #chest_type_id)).
+	chest chestContentsFromJson: (aChestJson at: #loot_details).
+	^ chest
 ]
 
 { #category : #api }
@@ -195,6 +190,14 @@ IdleChampionUser >> redeemCodeResultString: result [
 					s << (aResult at: #loot_item)
 				]]].
 	^ (result at: #failure_reason)
+]
+
+{ #category : #api }
+IdleChampionUser >> update [
+	| userJson |
+	userJson := cneQueries getUserDetailsJson. 
+	instanceID := (userJson at: #details) at: #instance_id.
+	inventoryStates add: (IdleChampionUserState new initializeFrom: userJson).
 ]
 
 { #category : #initialization }
