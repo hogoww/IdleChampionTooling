@@ -48,16 +48,25 @@ IdleChampionUser class >> userNamed: aName [
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
-	| currentNumberOfChests |
-	self gems // (IdleChampionChestIDs priceForChest: aChestID) >= aNumberOfChests 
-		ifFalse: [ self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' ' , (IdleChampionChestIDs nameForID: aChestID) ].
 
-	currentNumberOfChests := aNumberOfChests.
-	^ (1 to: currentNumberOfChests // 100 + 1) collect: [ :i | | res |
-		res := self cneQueries buyChests: aChestID times: (50 min: currentNumberOfChests).
-		currentNumberOfChests := currentNumberOfChests - (100 min: currentNumberOfChests).
-		res
-		] into: OrderedCollection new
+	| currentNumberOfChests |
+	self gems // (IdleChampionChestIDs priceForChest: aChestID) >= aNumberOfChests ifFalse: [ 
+		self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' '
+			, (IdleChampionChestIDs nameForID: aChestID) ].
+
+	UIManager default
+		displayProgress: 'Buying ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aChestID
+		from: 1
+		to: aNumberOfChests
+		during: [ :bar | 
+			currentNumberOfChests := aNumberOfChests.
+			^ (1 to: currentNumberOfChests // 100 + 1)
+				  collect: [ :i | | res |
+					  bar value: currentNumberOfChests.
+					  res := self cneQueries buyChests: aChestID times: (100 min: currentNumberOfChests).
+					  currentNumberOfChests := currentNumberOfChests - (100 min: currentNumberOfChests).
+					  res ]
+				  into: OrderedCollection new ]
 ]
 
 { #category : #'api-chests' }
@@ -162,15 +171,22 @@ IdleChampionUser >> openAllSilverChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
+
 	| currentNumberOfChests |
-	(self chestsOf: aChestID) >= aNumberOfChests 
-		ifFalse: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
-	currentNumberOfChests := aNumberOfChests.
-	^ (1 to: currentNumberOfChests // 50 + 1) collect: [ :i | | res |
-		res := self openedChestsFromJson: (self cneQueries openChest: aChestID times: (50 min: currentNumberOfChests) ).	
-		currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
-		res
-		] into: OrderedCollection new
+	(self chestsOf: aChestID) >= aNumberOfChests ifFalse: [ 
+		self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) , ' Chests available' ].
+	UIManager default
+		displayProgress: 'Opening ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aChestID
+		from: 1
+		to: aNumberOfChests
+		during: [ :bar | 
+			currentNumberOfChests := aNumberOfChests.
+			(1 to: currentNumberOfChests // 50 + 1)
+				collect: [ :i | | res |
+					bar value: currentNumberOfChests.
+					res := self openedChestsFromJson: (self cneQueries openChest: aChestID times: (50 min: currentNumberOfChests)).
+					currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
+					res ] into: OrderedCollection new ]
 ]
 
 { #category : #'api-chests' }
