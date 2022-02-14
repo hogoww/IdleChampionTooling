@@ -87,10 +87,12 @@ Adventure >> fillAreasFrom: allAreasJSON [
 					bossHealth: (anAreaJSON at: #boss_health ifAbsent:[nil]);
 					yourself].
 		area
+			json: anAreaJSON;
 			questId: (anAreaJSON at: #quest_id);
 			id: (anAreaJSON at: #id);
 			backgroundId: (anAreaJSON at: #background_id);
-			areaId: (anAreaJSON at: #area_id);			
+			areaId: (anAreaJSON at: #area_id);
+			properties: (anAreaJSON at: #properties ifAbsent: #());
 			yourself
 		]
 ]
@@ -126,7 +128,10 @@ Adventure >> name: anObject [
 
 { #category : #printing }
 Adventure >> printOn: aStream [
-	aStream << 'Adventure: ' << name 
+	aStream << '('
+		<< campaign name;
+		<< ')Adventure: ';
+		<< name 
 ]
 
 { #category : #enumerating }

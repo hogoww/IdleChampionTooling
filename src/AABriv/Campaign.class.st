@@ -43,6 +43,7 @@ Campaign >> fillAdventures [
 	
 	adventures := ((adventureJSON at: #adventures) collect: [ :anAdventureJSON |
 		Adventure new
+			json: anAdventureJSON;
 			campaign: self;
 			name: (anAdventureJSON at: #name);
 			id: (anAdventureJSON at: #id);

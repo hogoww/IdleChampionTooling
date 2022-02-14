@@ -49,7 +49,7 @@ IdleChampionUser class >> userNamed: aName [
 { #category : #'api-chests' }
 IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 	| currentNumberOfChests |
-	self gems // (IdleChampionChestIDs priceForChest: aChestID) > aNumberOfChests 
+	self gems // (IdleChampionChestIDs priceForChest: aChestID) >= aNumberOfChests 
 		ifFalse: [ self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' ' , (IdleChampionChestIDs nameForID: aChestID) ].
 
 	currentNumberOfChests := aNumberOfChests.
@@ -163,7 +163,7 @@ IdleChampionUser >> openAllSilverChests [
 { #category : #'api-chests' }
 IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
 	| currentNumberOfChests |
-	(self chestsOf: aChestID) > aNumberOfChests 
+	(self chestsOf: aChestID) >= aNumberOfChests 
 		ifFalse: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
 	currentNumberOfChests := aNumberOfChests.
 	^ (1 to: currentNumberOfChests // 50 + 1) collect: [ :i | | res |

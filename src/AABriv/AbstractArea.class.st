@@ -9,7 +9,8 @@ Class {
 		'backgroundId',
 		'areaId',
 		'quest',
-		'background'
+		'background',
+		'properties'
 	],
 	#category : #'AABriv-model'
 }
@@ -152,6 +153,18 @@ AbstractArea >> printOn: aStream [
 	
 	self hasArmorBased ifTrue: [ aStream << ' ARMOR ' ].
 	self hasHitBased ifTrue: [ aStream << ' HITBASED ' ]. 
+]
+
+{ #category : #accessing }
+AbstractArea >> properties [
+
+	^ properties
+]
+
+{ #category : #accessing }
+AbstractArea >> properties: anObject [
+
+	properties := anObject
 ]
 
 { #category : #accessing }
