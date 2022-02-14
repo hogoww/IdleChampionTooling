@@ -3,7 +3,8 @@ Class {
 	#superclass : #IdleChampionObject,
 	#instVars : [
 		'chests',
-		'inventory'
+		'inventory',
+		'timeStamp'
 	],
 	#pools : [
 		'IdleChampionChestIDs'
@@ -23,20 +24,54 @@ IdleChampionUserState >> chests: anObject [
 	chests := anObject
 ]
 
+{ #category : #api }
+IdleChampionUserState >> chestsOf: aChestID [
+	^ chests at: aChestID
+]
+
+{ #category : #comparing }
+IdleChampionUserState >> compareTo: anIdleChampionUserState [ 
+	| gems gemsPerHours hoursElapsed silverChests silverChestsPerHours goldChests goldChestsPerHours |
+	hoursElapsed := (self timeElapsedWith: anIdleChampionUserState) asHours.
+	gems := self totalGems - anIdleChampionUserState totalGems.
+	gemsPerHours := gems / hoursElapsed.
+
+	silverChests := (self chestsOf: SilverID) - (anIdleChampionUserState chestsOf: SilverID).
+	silverChestsPerHours := silverChests / hoursElapsed.
+	goldChests := (self chestsOf: GoldID) - (anIdleChampionUserState chestsOf: GoldID).
+	goldChestsPerHours := goldChests / hoursElapsed.
+	^ { 'Hours elapsed: ' -> hoursElapsed.
+		'Gems gained' -> gems.
+		'Gems per hours' -> gemsPerHours.
+		
+		'Silver chests gained' -> silverChests.
+		'Silver chests per hours' -> silverChestsPerHours.
+
+		'Gold chests gained' -> goldChests.
+		'Gold chests per hours' -> goldChests.	
+		} asDictionary
+]
+
 { #category : #comparing }
 IdleChampionUserState >> differenceWith: anIdleChampionUserState [ 
 	self shouldBeImplemented.
 ]
 
 { #category : #api }
-IdleChampionUserState >> howManyChestsOf: aChestID [
-	^ chests at: aChestID
+IdleChampionUserState >> gems [
+	^ (json at: #details) at: #red_rubies
+]
+
+{ #category : #accessing }
+IdleChampionUserState >> gemsSpent [
+	^ (json at: #details) at: #red_rubies_spent
 ]
 
 { #category : #initializion }
 IdleChampionUserState >> initializeFrom: anUserJson [
 	| details |
 	json := anUserJson.
+	timeStamp := DateAndTime now.
 	details := anUserJson at: #details.
 	chests := details at: #chests.
 	inventory := (details at: #buffs)
@@ -58,7 +93,24 @@ IdleChampionUserState >> inventory: anObject [
 	inventory := anObject
 ]
 
-{ #category : #api }
-IdleChampionUserState >> numberOfGems [
-	^ (json at: #details) at: #red_rubies
+{ #category : #testing }
+IdleChampionUserState >> timeElapsedWith: anIdleChampionUserState [ 
+	^ timeStamp - anIdleChampionUserState timeStamp
+]
+
+{ #category : #accessing }
+IdleChampionUserState >> timeStamp [
+
+	^ timeStamp
+]
+
+{ #category : #accessing }
+IdleChampionUserState >> timeStamp: anObject [
+
+	timeStamp := anObject
+]
+
+{ #category : #accessing }
+IdleChampionUserState >> totalGems [
+	^ self gemsSpent + self gems
 ]

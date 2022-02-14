@@ -31,17 +31,17 @@ IdleChampionUser class >> new [
 	^ newUser
 ]
 
-{ #category : #registerUsers }
+{ #category : #accessing }
 IdleChampionUser class >> registeredUsers [
 	^ RegisteredUser
 ]
 
-{ #category : #registerUsers }
+{ #category : #initializing }
 IdleChampionUser class >> resetRegisteredUsers [
 	RegisteredUser := OrderedCollection new
 ]
 
-{ #category : #registerUsers }
+{ #category : #accessing }
 IdleChampionUser class >> userNamed: aName [
 	^ RegisteredUser detect: [ :anICPUser | anICPUser name = aName ]
 ]
@@ -49,7 +49,7 @@ IdleChampionUser class >> userNamed: aName [
 { #category : #'api-chests' }
 IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 	| currentNumberOfChests |
-	self numberOfGems // (IdleChampionChestIDs priceForChest: aChestID) > aNumberOfChests 
+	self gems // (IdleChampionChestIDs priceForChest: aChestID) > aNumberOfChests 
 		ifFalse: [ self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' ' , (IdleChampionChestIDs nameForID: aChestID) ].
 
 	currentNumberOfChests := aNumberOfChests.
@@ -62,18 +62,23 @@ IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyMaximumGold [
-	^ self buyChests: GoldID times: self numberOfGems // (IdleChampionChestIDs priceForChest: GoldID)
+	^ self buyChests: GoldID times: self gems // (IdleChampionChestIDs priceForChest: GoldID)
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyMaximumSilver [
-	^ self buyChests: SilverID times: self numberOfGems // (IdleChampionChestIDs priceForChest: SilverID)
+	^ self buyChests: SilverID times: self gems // (IdleChampionChestIDs priceForChest: SilverID)
 ]
 
 { #category : #initialization }
 IdleChampionUser >> checkCneQueriesState [
 	self initializeCneQueries.
 	self updateCneQueriesIfTooOld.
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> chestsOf: aChestID [
+	^ self currentInventoryState chestsOf: aChestID
 ]
 
 { #category : #accessing }
@@ -87,9 +92,9 @@ IdleChampionUser >> currentInventoryState [
 	^ inventoryStates last
 ]
 
-{ #category : #'api-chests' }
-IdleChampionUser >> howManyChestsOf: aChestID [
-	^ self currentInventoryState howManyChestsOf: aChestID
+{ #category : #accessing }
+IdleChampionUser >> gems [
+	^ self currentInventoryState gems
 ]
 
 { #category : #initialization }
@@ -145,25 +150,20 @@ IdleChampionUser >> name: anObject [
 	name := anObject
 ]
 
-{ #category : #accessing }
-IdleChampionUser >> numberOfGems [
-	^ self currentInventoryState numberOfGems
-]
-
 { #category : #'api-chests' }
 IdleChampionUser >> openAllGoldChests [
-	^ self openChests: GoldID times: (self howManyChestsOf: GoldID)
+	^ self openChests: GoldID times: (self chestsOf: GoldID)
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> openAllSilverChests [
-	^ self openChests: SilverID times: (self howManyChestsOf: SilverID)
+	^ self openChests: SilverID times: (self chestsOf: SilverID)
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
 	| currentNumberOfChests |
-	(self howManyChestsOf: aChestID) > aNumberOfChests 
+	(self chestsOf: aChestID) > aNumberOfChests 
 		ifFalse: [ self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) ,' Chests available' ].
 	currentNumberOfChests := aNumberOfChests.
 	^ (1 to: currentNumberOfChests // 50 + 1) collect: [ :i | | res |
@@ -227,6 +227,14 @@ IdleChampionUser >> update [
 	userJson := cneQueries getUserDetailsJson. 
 	instanceID := (userJson at: #details) at: #instance_id.
 	inventoryStates add: (IdleChampionUserState new initializeFrom: userJson).
+]
+
+{ #category : #api }
+IdleChampionUser >> updateAndCompare [
+	| previousState |
+	previousState := self currentInventoryState.
+	self update.
+	self currentInventoryState compareTo: previousState
 ]
 
 { #category : #initialization }

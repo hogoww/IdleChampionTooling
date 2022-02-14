@@ -8,8 +8,34 @@ Class {
 	#pools : [
 		'IdleChampionChestIDs'
 	],
+	#classInstVars : [
+		'Log'
+	],
 	#category : #'AABriv-webQuery'
 }
+
+{ #category : #initializing }
+ChestOpenningResult class >> initialize [
+	self resetLog
+]
+
+{ #category : #accessing }
+ChestOpenningResult class >> log [
+	^ Log
+]
+
+{ #category : #'instance creation' }
+ChestOpenningResult class >> new [
+	| newUser |
+	newUser := super new.
+	Log add: newUser.
+	^ newUser
+]
+
+{ #category : #'instance creation' }
+ChestOpenningResult class >> resetLog [
+	^ Log := OrderedCollection new
+]
 
 { #category : #accessing }
 ChestOpenningResult >> chestContents [
