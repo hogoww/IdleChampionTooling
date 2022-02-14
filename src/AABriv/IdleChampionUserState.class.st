@@ -28,7 +28,7 @@ IdleChampionUserState >> differenceWith: anIdleChampionUserState [
 	self shouldBeImplemented.
 ]
 
-{ #category : #accessing }
+{ #category : #api }
 IdleChampionUserState >> howManyChestsOf: aChestID [
 	^ chests at: aChestID
 ]
@@ -56,4 +56,9 @@ IdleChampionUserState >> inventory [
 IdleChampionUserState >> inventory: anObject [
 
 	inventory := anObject
+]
+
+{ #category : #api }
+IdleChampionUserState >> numberOfGems [
+	^ (json at: #details) at: #red_rubies
 ]

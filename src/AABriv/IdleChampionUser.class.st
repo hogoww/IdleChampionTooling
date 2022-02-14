@@ -46,6 +46,25 @@ IdleChampionUser class >> userNamed: aName [
 	^ RegisteredUser detect: [ :anICPUser | anICPUser name = aName ]
 ]
 
+{ #category : #'api-chests' }
+IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
+	| currentNumberOfChests |
+	self numberOfGems // (IdleChampionChestIDs priceForChest: aChestID) > aNumberOfChests 
+		ifFalse: [ self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' ' , (IdleChampionChestIDs nameForID: aChestID) ].
+
+	currentNumberOfChests := aNumberOfChests.
+	^ (1 to: currentNumberOfChests // 100 + 1) collect: [ :i | | res |
+		res := self cneQueries buyChests: aChestID times: (50 min: currentNumberOfChests).
+		currentNumberOfChests := currentNumberOfChests - (100 min: currentNumberOfChests).
+		res
+		] into: OrderedCollection new
+]
+
+{ #category : #'api-chests' }
+IdleChampionUser >> buyMaximumSilver [
+	^ self buyChests: SilverID times: self numberOfGems // 50
+]
+
 { #category : #initialization }
 IdleChampionUser >> checkCneQueriesState [
 	self initializeCneQueries.
@@ -121,6 +140,11 @@ IdleChampionUser >> name: anObject [
 	name := anObject
 ]
 
+{ #category : #accessing }
+IdleChampionUser >> numberOfGems [
+	^ self currentInventoryState numberOfGems
+]
+
 { #category : #'api-chests' }
 IdleChampionUser >> openAllGoldChests [
 	^ self openChests: GoldID times: (self howManyChestsOf: GoldID)
@@ -154,7 +178,7 @@ IdleChampionUser >> openSilverChests: aNumberOfChests [
 	^ self openChests: SilverID times: aNumberOfChests
 ]
 
-{ #category : #'api-chests' }
+{ #category : #'result-interpration' }
 IdleChampionUser >> openedChestsFromJson: aChestJson [
 	| chest |
 	chest := ChestOpenningResult new.

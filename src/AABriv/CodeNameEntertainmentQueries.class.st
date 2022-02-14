@@ -41,6 +41,28 @@ CodeNameEntertainmentQueries >> baseUrl [
 	^ self class baseUrl
 ]
 
+{ #category : #query }
+CodeNameEntertainmentQueries >> buyChests: aChestType times: aNumberOfChests [
+	| response |
+	response := 	self newQuery
+		url: self buyChestsURL asUrl;
+		addDummyDataParts;
+		addUserPartsFrom: icUser;
+		addPart: (self chestPart: aChestType);
+		addPart: (ZnMimePart fieldName: 'count' value: aNumberOfChests printString);
+		post; 
+		response.
+	^ self jsonFrom: response
+]
+
+{ #category : #url }
+CodeNameEntertainmentQueries >> buyChestsURL [
+	^ String streamContents: [ :s | 
+		s << self baseUrl;
+			<< 'buysoftcurrencychest'
+		]
+]
+
 { #category : #'query-parts' }
 CodeNameEntertainmentQueries >> chestPart: aChestType [
 	^ ZnMimePart fieldName: 'chest_type_id' value: aChestType
@@ -90,14 +112,12 @@ CodeNameEntertainmentQueries >> newQuery [
 
 { #category : #query }
 CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
-	| response query |
-	query := self newQuery
+	| response |
+	response := 	self newQuery
 		url: self openGenericChestsURL asUrl;
 		addPart: (ZnMimePart fieldName: 'gold_per_second' value: '0');
-		addPart: (ZnMimePart fieldName: 'checksum' value: '4c5f019b6fc6eefa4d47d21cfaf1bc68').
-		
-	query addUserPartsFrom: icUser.
-	response := query
+		addPart: (ZnMimePart fieldName: 'checksum' value: '4c5f019b6fc6eefa4d47d21cfaf1bc68');
+		addUserPartsFrom: icUser;
 		addPart: (self chestPart: aChestType);
 		addPart: (ZnMimePart fieldName: 'game_instance_id' value: '1');
 		addPart: (ZnMimePart fieldName: 'count' value: aNumberOfChests printString);
