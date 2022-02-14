@@ -61,8 +61,13 @@ IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 ]
 
 { #category : #'api-chests' }
+IdleChampionUser >> buyMaximumGold [
+	^ self buyChests: GoldID times: self numberOfGems // (IdleChampionChestIDs priceForChest: GoldID)
+]
+
+{ #category : #'api-chests' }
 IdleChampionUser >> buyMaximumSilver [
-	^ self buyChests: SilverID times: self numberOfGems // 50
+	^ self buyChests: SilverID times: self numberOfGems // (IdleChampionChestIDs priceForChest: SilverID)
 ]
 
 { #category : #initialization }
