@@ -25,6 +25,11 @@ IdleChampionDataBase class >> reset [
 	CachedDatabase := nil
 ]
 
+{ #category : #api }
+IdleChampionDataBase >> adventuresForChampion: aString [ 
+	^ self allAdventures select: [ :anAdventure | (anAdventure name findString: aString) > 0 ] 
+]
+
 { #category : #query }
 IdleChampionDataBase >> allAdventures [
 	^ campaigns flatCollect: [ :c | c adventures ]
