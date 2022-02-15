@@ -46,6 +46,11 @@ IdleChampionUser class >> userNamed: aName [
 	^ RegisteredUser detect: [ :anICPUser | anICPUser name = aName ]
 ]
 
+{ #category : #accessing }
+IdleChampionUser >> activeGameInstanceId [
+	^ (json at: #details)at: #active_game_instance_id
+]
+
 { #category : #'api-chests' }
 IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 
@@ -55,14 +60,15 @@ IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 			, (IdleChampionChestIDs nameForID: aChestID) ].
 
 	UIManager default
-		displayProgress: 'Buying ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aChestID
-		from: 1
-		to: aNumberOfChests
+		displayProgress: 'Buying ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aNumberOfChests printString
+		from: aNumberOfChests
+		to: 0
 		during: [ :bar | 
 			currentNumberOfChests := aNumberOfChests.
 			^ (1 to: currentNumberOfChests // 100 + 1)
 				  collect: [ :i | | res |
 					  bar value: currentNumberOfChests.
+					  bar title: 'Buying ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , currentNumberOfChests printString , '/' ,aNumberOfChests printString.
 					  res := self cneQueries buyChests: aChestID times: (100 min: currentNumberOfChests).
 					  currentNumberOfChests := currentNumberOfChests - (100 min: currentNumberOfChests).
 					  res ]
@@ -176,15 +182,16 @@ IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
 	(self chestsOf: aChestID) >= aNumberOfChests ifFalse: [ 
 		self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) , ' Chests available' ].
 	UIManager default
-		displayProgress: 'Opening ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aChestID
-		from: 1
-		to: aNumberOfChests
+		displayProgress: 'Opening ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aNumberOfChests printString
+		from: aNumberOfChests
+		to: 0
 		during: [ :bar | 
 			currentNumberOfChests := aNumberOfChests.
 			(1 to: currentNumberOfChests // 50 + 1)
 				collect: [ :i | | res |
-					bar value: currentNumberOfChests.
-					res := self openedChestsFromJson: (self cneQueries openChest: aChestID times: (50 min: currentNumberOfChests)).
+					  bar value: currentNumberOfChests.
+					  bar title: 'Openning ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , currentNumberOfChests printString , '/' , aNumberOfChests printString.
+					res := self openedChestsFromJson: (self cneQueries openChests: aChestID times: (50 min: currentNumberOfChests)).
 					currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
 					res ] into: OrderedCollection new ]
 ]
@@ -239,10 +246,9 @@ IdleChampionUser >> redeemCodeResultString: result [
 
 { #category : #api }
 IdleChampionUser >> update [
-	| userJson |
-	userJson := cneQueries getUserDetailsJson. 
-	instanceID := (userJson at: #details) at: #instance_id.
-	inventoryStates add: (IdleChampionUserState new initializeFrom: userJson).
+	json := cneQueries getUserDetailsJson. 
+	instanceID := (json at: #details) at: #instance_id.
+	inventoryStates add: (IdleChampionUserState new initializeFrom: json).
 ]
 
 { #category : #api }

@@ -111,7 +111,7 @@ CodeNameEntertainmentQueries >> newQuery [
 ]
 
 { #category : #query }
-CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
+CodeNameEntertainmentQueries >> openChests: aChestType times: aNumberOfChests [
 	| response |
 	response := 	self newQuery
 		url: self openGenericChestsURL asUrl;
@@ -119,7 +119,7 @@ CodeNameEntertainmentQueries >> openChest: aChestType times: aNumberOfChests [
 		addPart: (ZnMimePart fieldName: 'checksum' value: '4c5f019b6fc6eefa4d47d21cfaf1bc68');
 		addUserPartsFrom: icUser;
 		addPart: (self chestPart: aChestType);
-		addPart: (ZnMimePart fieldName: 'game_instance_id' value: '1');
+		addPart: (ZnMimePart fieldName: 'game_instance_id' value: icUser activeGameInstanceId);
 		addPart: (ZnMimePart fieldName: 'count' value: aNumberOfChests printString);
 		post; 
 		response.

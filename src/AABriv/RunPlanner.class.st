@@ -6,7 +6,7 @@ Class {
 		'objective',
 		'areas',
 		'brivJumps',
-		'jumpStartingAt'
+		'jumpStart'
 	],
 	#category : #'AABriv-model'
 }
@@ -56,19 +56,14 @@ RunPlanner >> brivJumps: anObject [
 ]
 
 { #category : #query }
-RunPlanner >> calculateAreas [
-	
-	^ ((0 to: objective - 1 by: brivJumps + 1) 
-		collect: [ :i | i + 1  -> (adventure areaAt: (i rem: 50) + 1) ])
-		asOrderedCollection
-]
-
-{ #category : #query }
 RunPlanner >> calculateAreasFor: anAdventure [
-	
-	^ ((0 to: objective - 1 by: brivJumps + 1) 
-		collect: [ :i | i + 1  -> (anAdventure areaAt: (i rem: 50) + 1) ])
-		asOrderedCollection
+	| collection |
+	collection := OrderedCollection new.
+	"(0 to: jumpStart) collect: [ :i |  ] into: collection."
+	((jumpStart to: objective - 1 by: brivJumps + 1) 
+		collect: [ :i | i + 1  -> (anAdventure areaAt: (i rem: 50) + 1) ]
+		into: collection).
+	^ collection
 ]
 
 { #category : #comparing }
@@ -85,16 +80,24 @@ RunPlanner >> howManyTransitionsToArea: anInteger [
 	^ (1 to: anInteger by: brivJumps + 1) size
 ]
 
-{ #category : #accessing }
-RunPlanner >> jumpStartingAt [
-
-	^ jumpStartingAt
+{ #category : #query }
+RunPlanner >> initialize [
+	"basic default values"
+	jumpStart := 0.
+	brivJumps := 0.
+	objective := 50.
 ]
 
 { #category : #accessing }
-RunPlanner >> jumpStartingAt: anObject [
+RunPlanner >> jumpStart [
 
-	jumpStartingAt := anObject
+	^ jumpStart
+]
+
+{ #category : #accessing }
+RunPlanner >> jumpStart: anAreaNumber [
+
+	jumpStart := anAreaNumber
 ]
 
 { #category : #accessing }
