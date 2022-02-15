@@ -97,6 +97,12 @@ Adventure >> fillAreasFrom: allAreasJSON [
 		]
 ]
 
+{ #category : #testing }
+Adventure >> highestAreaWithBush [
+	self areas reverse do: [ :a | a hasBush ifTrue: [ ^ a areaNumber ] ].
+	^ 0
+]
+
 { #category : #accessing }
 Adventure >> id [
 
