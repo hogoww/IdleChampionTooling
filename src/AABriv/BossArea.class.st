@@ -11,7 +11,7 @@ Class {
 
 { #category : #accessing }
 BossArea >> allMonsters [ 
-	^ waves flatCollect: [ :aWave | aWave  ]
+	^ super allMonsters , waves flatCollect: [ :aWave | aWave  ]
 ]
 
 { #category : #accessing }

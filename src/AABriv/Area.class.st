@@ -9,7 +9,7 @@ Class {
 
 { #category : #accessing }
 Area >> allMonsters [
-	^ monsters
+	^ super allMonsters , monsters
 ]
 
 { #category : #accessing }

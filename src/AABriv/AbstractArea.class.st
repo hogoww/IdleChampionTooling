@@ -23,7 +23,7 @@ AbstractArea class >> withId: anAreaID [
 
 { #category : #accessing }
 AbstractArea >> allMonsters [
-	^ self subclassResponsibility
+	^ specials
 ]
 
 { #category : #accessing }
@@ -77,11 +77,6 @@ AbstractArea >> cinematicsId: anObject [
 { #category : #testing }
 AbstractArea >> containsRangeMonsters [
 	^ self allMonsters anySatisfy: [ :m | m isRanged ]
-]
-
-{ #category : #initialization }
-AbstractArea >> extractSpecials [
-	self haltIf: (properties isNotNil and: [ properties isNotEmpty ])
 ]
 
 { #category : #initializing }
