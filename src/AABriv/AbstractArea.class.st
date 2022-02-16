@@ -10,7 +10,8 @@ Class {
 		'areaId',
 		'quest',
 		'background',
-		'properties'
+		'properties',
+		'specials'
 	],
 	#category : #'AABriv-model'
 }
@@ -78,6 +79,22 @@ AbstractArea >> containsRangeMonsters [
 	^ self allMonsters anySatisfy: [ :m | m isRanged ]
 ]
 
+{ #category : #initialization }
+AbstractArea >> extractSpecials [
+	self haltIf: (properties isNotNil and: [ properties isNotEmpty ])
+]
+
+{ #category : #initializing }
+AbstractArea >> extractSpecialsWith: aDataBase [
+	(properties isNotNil and: [ properties isNotEmpty ]) ifFalse: [ ^ self ].
+	specials := (properties at: #static_monsters ifAbsent:[ 
+		"to look for more"
+		"self haltIf: ( properties size = 1 and: [ properties includesKey: #weather ]) not."
+		
+		 #() ])
+		collect: [ :aStaticMonster | aDataBase monsterWithId: (aStaticMonster at: #monster_id) ].
+]
+
 { #category : #testing }
 AbstractArea >> hasArmorBased [
 	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasArmor ]
@@ -96,16 +113,6 @@ AbstractArea >> hasHitBased [
 	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasHitBasedLife ]
 ]
 
-{ #category : #initialization }
-AbstractArea >> hasOnlyType: aType [
-	self subclassResponsibility
-]
-
-{ #category : #initialization }
-AbstractArea >> hasType: aType [
-	^ self shouldBeImplemented
-]
-
 { #category : #accessing }
 AbstractArea >> id [
 
@@ -116,6 +123,11 @@ AbstractArea >> id [
 AbstractArea >> id: anObject [
 
 	id := anObject
+]
+
+{ #category : #initialization }
+AbstractArea >> initialize [
+	specials := OrderedCollection new. 
 ]
 
 { #category : #testing }
@@ -203,4 +215,17 @@ AbstractArea >> questId: anObject [
 AbstractArea >> resolveLinksWith: aDatabase [
 	quest := aDatabase questWithId: questId.
 	background := aDatabase backgroundWithId: backgroundId.
+	self extractSpecialsWith: aDatabase
+]
+
+{ #category : #accessing }
+AbstractArea >> specials [
+
+	^ specials
+]
+
+{ #category : #accessing }
+AbstractArea >> specials: anObject [
+
+	specials := anObject
 ]
