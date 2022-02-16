@@ -132,22 +132,24 @@ RunPlanner >> recap: aBuilder [
 
 { #category : #query }
 RunPlanner >> recapFor: anAdventure [
-	| currentAreas slowDown hitBasedAreas armoredBasedAreas rangedMonsters non25Areas |
-	currentAreas := self calculateAreasFor: anAdventure.
-	rangedMonsters := currentAreas select: [ :a | a value containsRangeMonsters ].
-	slowDown := currentAreas select: [ :a | a value isSlowDown ].
-	hitBasedAreas := currentAreas select: [ :a | a value hasHitBased ].
-	armoredBasedAreas := currentAreas select: [ :a | a value hasArmorBased ].
-	non25Areas := currentAreas select: [ :a | a value quest isSlow ] "thenCollect: [ :a | a key ]".
-	
+	| areasEncountered slowDown hitBasedAreas armoredBasedAreas rangedMonsters non25Areas quickTransitions |
+	areasEncountered := self calculateAreasFor: anAdventure.
+	rangedMonsters := areasEncountered select: [ :a | a value containsRangeMonsters ].
+	slowDown := areasEncountered select: [ :a | a value isSlowDown ].
+	hitBasedAreas := areasEncountered select: [ :a | a value hasHitBased ].
+	armoredBasedAreas := areasEncountered select: [ :a | a value hasArmorBased ].
+	non25Areas := areasEncountered select: [ :a | a value quest isSlow ] "thenCollect: [ :a | a key ]".
+	quickTransitions := adventure quickTransitionsFor: brivJumps.
 	^ { 
 		'Adventure' -> anAdventure.
-		'Percentage of quick transitions' -> ((adventure quickTransitionsFor: brivJumps) key printString , '%').
-		'Number of areas with ranged enemies' -> (rangedMonsters size printString ,  '/' , objective printString).
-		'Number of areas exhibiting some kind of slowdown' -> (slowDown size printString ,  '/' , objective printString).
-		'Number of areas containing hit based entity' -> (hitBasedAreas size printString ,  '/' , objective printString).
-		'Number of areas containing armor based entity' -> (armoredBasedAreas size printString ,  '/' , objective printString).
-		'Number of areas requiring more than one kill (with maxed hew)' -> (non25Areas size printString ,  '/' , objective printString).
+		'Percentage of quick transitions' -> (quickTransitions key printString , '%').
+		'Number of areas with ranged enemies' -> (rangedMonsters size printString ,  '/' , areasEncountered size printString).
+		'Number of areas exhibiting some kind of slowdown' -> (slowDown size printString ,  '/' , areasEncountered size printString).
+		'Number of areas containing hit based entity' -> (hitBasedAreas size printString ,  '/' , areasEncountered size printString).
+		'Number of areas containing armor based entity' -> (armoredBasedAreas size printString ,  '/' , areasEncountered size printString).
+		'Number of areas requiring more than one kill (with maxed hew)' -> (non25Areas size printString ,  '/' , areasEncountered size printString).
+		'All areas encountered' -> areasEncountered.
+		'All quick transitions (QTs)' -> quickTransitions value.
 		'Areas with ranged enemies' -> rangedMonsters.
 		'Areas slowing run down' -> slowDown.
 		'Areas containing hit based entity' -> hitBasedAreas.
