@@ -116,7 +116,7 @@ Monster >> id: anObject [
 
 { #category : #testing }
 Monster >> isRanged [
-	^ self tags includes: #range
+	^ self tags includes: #ranged
 ]
 
 { #category : #accessing }
