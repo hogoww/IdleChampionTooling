@@ -7,7 +7,8 @@ Class {
 		'quests',
 		'backgrounds',
 		'stories',
-		'campaigns'
+		'campaigns',
+		'distractions'
 	],
 	#classInstVars : [
 		'CachedDatabase'
@@ -153,6 +154,23 @@ IdleChampionDataBase >> fillCommonInformations [
 	self fillMonsters.
 	self fillQuests.
 	self fillBackgrounds.
+	self fillDistractions
+]
+
+{ #category : #initialization }
+IdleChampionDataBase >> fillDistractions [
+	| distractionsJSON |
+	distractionsJSON := KlehoQueries getDistractions.
+	distractions := ((distractionsJSON at: #data) at: #distractions) collect: [ :aDistractionJSON | 
+		Distraction new
+			json: aDistractionJSON;
+			type: (aDistractionJSON at: #type);
+			rewards: (aDistractionJSON at: #rewards);
+			name: (aDistractionJSON at: #name);
+			graphicID: (aDistractionJSON at: #graphic_id);
+			id: (aDistractionJSON at: #id);
+			properties: (aDistractionJSON at: #properties);
+			yourself ]
 ]
 
 { #category : #initialization }

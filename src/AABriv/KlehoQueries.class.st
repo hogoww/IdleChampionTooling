@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #url }
-KlehoQueries class >> adventuresURL [
+KlehoQueries class >> adventuresUrl [
 	^ self baseUrl , 'list-adventures'
 ]
 
@@ -30,9 +30,14 @@ KlehoQueries class >> baseUrl [
 ]
 
 { #category : #url }
-KlehoQueries class >> campaignsURL [
+KlehoQueries class >> campaignsUrl [
 	^ self baseUrl , 'list-campaigns'
 
+]
+
+{ #category : #url }
+KlehoQueries class >> distractionsUrl [
+	^ self baseUrl , 'list-distractions'
 ]
 
 { #category : #query }
@@ -40,7 +45,7 @@ KlehoQueries class >> getAdventuresFor: aCampaignID [
 	| response |
 	(Duration seconds: 1) wait.
 	response := self newQuery
-			url: (self adventuresURL) asUrl;
+			url: (self adventuresUrl) asUrl;
 			addPart: (ZnMimePart fieldName: 'campaign_id' value: aCampaignID printString);
 			addPart: self maxLimit;
 			addPart: (ZnMimePart fieldName: 'scope' value: 'variants,areas,monsters,quests,stories,bgs') ;
@@ -53,7 +58,7 @@ KlehoQueries class >> getAdventuresFor: aCampaignID [
 KlehoQueries class >> getAreasFor: anAdventureID [
 	| response |
 	response := self newQuery
-		url: self adventuresURL asUrl;
+		url: self adventuresUrl asUrl;
 		addPart: self maxLimit;
 		post;
 		response.
@@ -75,7 +80,18 @@ KlehoQueries class >> getBackgrounds [
 KlehoQueries class >> getCampaigns [
 	| response |
 	response := self newQuery
-		url: self campaignsURL asUrl;
+		url: self campaignsUrl asUrl;
+		addPart: self maxLimit;
+		post;
+		response.
+	^ self jsonFrom: response
+]
+
+{ #category : #query }
+KlehoQueries class >> getDistractions [
+	| response |
+	response := self newQuery
+		url: self distractionsUrl asUrl;
 		addPart: self maxLimit;
 		post;
 		response.
@@ -99,7 +115,7 @@ KlehoQueries class >> getMonsters [
 KlehoQueries class >> getMonstersPage: aPage [
 	| response |
 	response := self newQuery
-		url: self monstersURL asUrl;
+		url: self monstersUrl asUrl;
 		addPart: self maxLimit;
 		addPart: (self page: aPage);
 		post;
@@ -124,7 +140,7 @@ KlehoQueries class >> getQuests [
 KlehoQueries class >> getQuestsPage: aPage [
 	| response |
 	response := self newQuery
-		url: self questsURL asUrl;
+		url: self questsUrl asUrl;
 		addPart: self maxLimit;
 		addPart: (self page: aPage);
 		post;
@@ -145,7 +161,7 @@ KlehoQueries class >> minLimit [
 ]
 
 { #category : #url }
-KlehoQueries class >> monstersURL [
+KlehoQueries class >> monstersUrl [
 	^ self baseUrl , 'list-monsters'
 ]
 
@@ -155,6 +171,6 @@ KlehoQueries class >> page: aPageNumber [
 ]
 
 { #category : #url }
-KlehoQueries class >> questsURL [
+KlehoQueries class >> questsUrl [
 	^ self baseUrl , 'list-quests'
 ]
