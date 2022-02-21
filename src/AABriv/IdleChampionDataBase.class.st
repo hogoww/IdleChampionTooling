@@ -90,6 +90,11 @@ IdleChampionDataBase >> campaigns [
 	^ campaigns
 ]
 
+{ #category : #'accessing-id' }
+IdleChampionDataBase >> distractionForId: anID [
+	^ distractions detect: [ :d | d id = anID ]
+]
+
 { #category : #initialization }
 IdleChampionDataBase >> fillAttacksFrom: attackJSONS [
 	attacks ifNil: [ attacks := Dictionary new ].
@@ -119,10 +124,11 @@ IdleChampionDataBase >> fillBackgrounds [
 	| backgroundsJSON |
 	backgroundsJSON := KlehoQueries getBackgrounds.
 	backgrounds := ((backgroundsJSON at: #data) at: #bgs) collect: [ :aBackgroundJSON | 
+		(aBackgroundJSON at: #distractions) ifNil: [self halt].
 		Background new
 			json: aBackgroundJSON;
 			midGraphicId: (aBackgroundJSON at: #mid_graphic_id);
-			distractions: (aBackgroundJSON at: #distractions);
+			distractionsIds: (aBackgroundJSON at: #distractions);
 			farGraphicID: (aBackgroundJSON at: #far_graphic_id);
 			foreGraphicId: (aBackgroundJSON at: #fore_graphic_id);
 			nearGraphicId: (aBackgroundJSON at: #near_graphic_id);
@@ -224,6 +230,19 @@ IdleChampionDataBase >> findAdventureNamed: aName [
 	^ nil
 ]
 
+{ #category : #query }
+IdleChampionDataBase >> highestBushForEachAdventure [
+	^ (self allAdventures 
+		collect: [ :adventure | adventure -> adventure highestAreaWithBush ] 
+		thenSelect: [ :association | association value > 0 ])
+		sort: [ :v1 :v2 | v1 value > v2 value ].
+]
+
+{ #category : #query }
+IdleChampionDataBase >> highestBushForEachAdventurePerCampaigns [
+	^ self highestBushForEachAdventure groupedBy: [ :association | association key campaign ] .
+]
+
 { #category : #initialization }
 IdleChampionDataBase >> initialize [
 	self fillCommonInformations.
@@ -259,9 +278,9 @@ IdleChampionDataBase >> quests [
 IdleChampionDataBase >> resolveLinks [
 	attacks do: [ :a | a resolveLinksWith: self ].
 	monsters do: [ :m | m resolveLinksWith: self ].
-	quests  do: [ :q | q resolveLinksWith: self ].
-	backgrounds  do: [ :b | b resolveLinksWith: self ].
-	"stories  do: [ :s | s resolveLinksWith: self ]."
+	quests do: [ :q | q resolveLinksWith: self ].
+	backgrounds do: [ :b | b resolveLinksWith: self ].
+	"stories do: [ :s | s resolveLinksWith: self ]."
 	campaigns do: [ :c | c resolveLinksWith: self ].
 ]
 

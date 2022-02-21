@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'midGraphicId',
 		'distractions',
+		'distractionsIds',
 		'farGraphicID',
 		'foreGraphicId',
 		'nearGraphicId',
@@ -39,6 +40,18 @@ Background >> distractionsCnt: anObject [
 ]
 
 { #category : #accessing }
+Background >> distractionsIds [
+
+	^ distractionsIds
+]
+
+{ #category : #accessing }
+Background >> distractionsIds: anObject [
+
+	distractionsIds := anObject
+]
+
+{ #category : #accessing }
 Background >> farGraphicID [
 
 	^ farGraphicID
@@ -60,6 +73,11 @@ Background >> foreGraphicId [
 Background >> foreGraphicId: anObject [
 
 	foreGraphicId := anObject
+]
+
+{ #category : #testing }
+Background >> hasBush [
+	^ distractions anySatisfy: [ :aDistraction | aDistraction isBush ]
 ]
 
 { #category : #accessing }
@@ -122,7 +140,10 @@ Background >> properties: anObject [
 	properties := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #initializing }
 Background >> resolveLinksWith: aDatabase [
-	"Should probably resolve Distractions, however they are not available currently"
+	distractions := distractionsIds 
+		ifNil: [ OrderedCollection new ] 
+		ifNotNil: [ :did | did collect: [ :aDistractionID | 
+				aDatabase distractionForId: (aDistractionID at: #distraction_id) ] ].
 ]

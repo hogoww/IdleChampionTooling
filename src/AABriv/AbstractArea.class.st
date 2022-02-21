@@ -100,7 +100,7 @@ AbstractArea >> hasBush [
 	"missing data from kleho currently. See the following adventure for an example"
 	"adventure := (db findAdventureNamed: 'The Witchlight Carnival').
 adventure areas at: 35."
-	^ self error
+	^ background hasBush
 ]
 
 { #category : #testing }

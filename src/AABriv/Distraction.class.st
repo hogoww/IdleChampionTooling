@@ -36,6 +36,13 @@ Distraction >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #testing }
+Distraction >> isBush [
+	^ properties at: #chance_of_spawning 
+		ifPresent: [ :v | self haltIf: [ v = 0 "I want to see it" ]. ^ true ]
+		ifAbsent: [ ^ false ]
+]
+
 { #category : #accessing }
 Distraction >> name [
 
