@@ -31,7 +31,7 @@ IdleChampionChestIDs class >> nameForID: anID [
 IdleChampionChestIDs class >> priceForChest: anID [
 	"Does not take into account the kind of currency currently"
 	anID = SilverID ifTrue: [ ^ 50 ].
-	anID = GoldID ifTrue: [ ^ 100 ].
+	anID = GoldID ifTrue: [ ^ 500 ].
 	self flag: #todo.
 	^ self error
 	
