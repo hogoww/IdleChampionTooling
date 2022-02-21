@@ -125,6 +125,14 @@ IdleChampionUser >> initializeCneQueries [
 		]
 ]
 
+{ #category : #accessing }
+IdleChampionUser >> initializeIfPossible [
+	"Allow for more flexibility while creating a user"
+	userId ifNil: [ ^ self ].
+	userHash ifNil: [ ^ self ].
+	self initializeYourself
+]
+
 { #category : #initialization }
 IdleChampionUser >> initializeYourself [
 	"force creation of cneQueries and first user datas"
@@ -161,8 +169,8 @@ IdleChampionUser >> name [
 
 { #category : #accessing }
 IdleChampionUser >> name: anObject [
-
-	name := anObject
+	name := anObject.
+	self initializeIfPossible.
 ]
 
 { #category : #'api-chests' }
@@ -273,7 +281,8 @@ IdleChampionUser >> userHash [
 { #category : #accessing }
 IdleChampionUser >> userHash: anObject [
 
-	userHash := anObject
+	userHash := anObject.
+	self initializeIfPossible.
 ]
 
 { #category : #accessing }
@@ -285,5 +294,6 @@ IdleChampionUser >> userId [
 { #category : #accessing }
 IdleChampionUser >> userId: anObject [
 
-	userId := anObject
+	userId := anObject.
+	self initializeIfPossible.
 ]
