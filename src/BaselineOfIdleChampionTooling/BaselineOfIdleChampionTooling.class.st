@@ -16,12 +16,17 @@ BaselineOfIdleChampionTooling >> baseline: spec [
 
 { #category : #baselines }
 BaselineOfIdleChampionTooling >> initialPlayground [
-	^ '"create the object containing the DataBase and put it in the variable db"
-	| db |
-	db := IdleChampionDataBase cachedDatabase. "execute with cmd + d"
-	db. "cmd + i to look what''s inside the object"
-	"example of a query"
-	db allAdventuresQuickTransitionSizeFor: 4. "cmd + i to see what adventure have quick transitions and how many !"
+	^ '
+"I often update this code.
+To keep up, you can execute the following line with cmd + d"
+(IceRepository registry detect: [:repository | repository name = ''IdleChampionTooling'']) pull.
+	
+"create the object containing the DataBase and put it in the variable db"
+| db |
+db := IdleChampionDataBase cachedDatabase. "execute with cmd + d"
+db. "cmd + i to look what''s inside the object"
+"example of a query"
+db allAdventuresQuickTransitionSizeFor: 4. "cmd + i to see what adventure have quick transitions and how many !"
 
 "Example of planned run for tall tale 4 jumps, select all of the lines and use cmd + d"
 adventure := (db findAdventureNamed: ''Tall Tales'').
