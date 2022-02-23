@@ -27,6 +27,22 @@ BossArea >> bossHealth: anObject [
 ]
 
 { #category : #accessing }
+BossArea >> bosses [
+	self shouldBeImplemented.
+]
+
+{ #category : #testing }
+BossArea >> isBossArea [
+	^ true
+]
+
+{ #category : #testing }
+BossArea >> isFitForKrullBush [
+	self hasBush ifFalse: [ ^ false ].
+	^ self allMonsters noneSatisfy: [ :aMonster | aMonster isBoss and: [ aMonster isRanged ] ]
+]
+
+{ #category : #accessing }
 BossArea >> resolveLinksWith: aDatabase [
 
 	super resolveLinksWith: aDatabase.

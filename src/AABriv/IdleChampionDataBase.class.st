@@ -124,7 +124,6 @@ IdleChampionDataBase >> fillBackgrounds [
 	| backgroundsJSON |
 	backgroundsJSON := KlehoQueries getBackgrounds.
 	backgrounds := ((backgroundsJSON at: #data) at: #bgs) collect: [ :aBackgroundJSON | 
-		(aBackgroundJSON at: #distractions) ifNil: [self halt].
 		Background new
 			json: aBackgroundJSON;
 			midGraphicId: (aBackgroundJSON at: #mid_graphic_id);
@@ -233,7 +232,7 @@ IdleChampionDataBase >> findAdventureNamed: aName [
 { #category : #query }
 IdleChampionDataBase >> highestBushForEachAdventure [
 	^ (self allAdventures 
-		collect: [ :adventure | adventure -> adventure highestAreaWithBush ] 
+		collect: [ :adventure | adventure -> adventure highestKrullBush ] 
 		thenSelect: [ :association | association value > 0 ])
 		sort: [ :v1 :v2 | v1 value > v2 value ].
 ]
@@ -241,6 +240,19 @@ IdleChampionDataBase >> highestBushForEachAdventure [
 { #category : #query }
 IdleChampionDataBase >> highestBushForEachAdventurePerCampaigns [
 	^ self highestBushForEachAdventure groupedBy: [ :association | association key campaign ] .
+]
+
+{ #category : #query }
+IdleChampionDataBase >> highestKrullBushForEachAdventure [
+	^ (self allAdventures 
+		collect: [ :adventure | adventure -> adventure highestKrullBush ] 
+		thenSelect: [ :association | association value isNotNil ])
+		sort: [ :v1 :v2 | v1 value areaId > v2 value areaId ].
+]
+
+{ #category : #query }
+IdleChampionDataBase >> highestKrullBushForEachAdventurePerCampaigns [
+	^ self highestKrullBushForEachAdventure groupedBy: [ :association | association key campaign ] .
 ]
 
 { #category : #initialization }

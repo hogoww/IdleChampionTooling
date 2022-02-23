@@ -126,6 +126,17 @@ AbstractArea >> initialize [
 ]
 
 { #category : #testing }
+AbstractArea >> isBossArea [
+	^ false
+]
+
+{ #category : #testing }
+AbstractArea >> isFitForKrullBush [
+	"We consider currently only boss level are fit"
+	^ false
+]
+
+{ #category : #testing }
 AbstractArea >> isFixedArea [
 	^ background isFixedArea
 ]
