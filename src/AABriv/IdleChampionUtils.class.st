@@ -21,3 +21,8 @@ IdleChampionUtils class >> redeemCodesForAllUsers: codes [
 	^ IdleChampionUser registeredUsers collect: [ :anUser | 
 		anUser -> (anUser redeemAllCodesFrom: codes) ]
 ]
+
+{ #category : #hogoww }
+IdleChampionUtils class >> updateAllUsers [
+	^ IdleChampionUser registeredUsers do: [ :ru | ru update ].
+]
