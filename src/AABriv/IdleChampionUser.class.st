@@ -191,15 +191,15 @@ IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
 		self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) , ' Chests available' ].
 	UIManager default
 		displayProgress: 'Opening ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aNumberOfChests printString
-		from: aNumberOfChests
-		to: 0
+		from: 0
+		to: aNumberOfChests
 		during: [ :bar | 
 			currentNumberOfChests := aNumberOfChests.
 			(1 to: currentNumberOfChests // 50 + 1)
 				collect: [ :i | | res |
 					  bar value: currentNumberOfChests.
 					  bar title: 'Openning ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , currentNumberOfChests printString , '/' , aNumberOfChests printString.
-					res := self openedChestsFromJson: (self cneQueries openChests: aChestID times: (50 min: currentNumberOfChests)).
+					res := self openedChests: (50 min: currentNumberOfChests) FromJson: (self cneQueries openChests: aChestID times: (50 min: currentNumberOfChests)).
 					currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
 					res ] into: OrderedCollection new ]
 ]
@@ -215,9 +215,11 @@ IdleChampionUser >> openSilverChests: aNumberOfChests [
 ]
 
 { #category : #'result-interpration' }
-IdleChampionUser >> openedChestsFromJson: aChestJson [
+IdleChampionUser >> openedChests: aNumberOfChests FromJson: aChestJson [
 	| chest |
 	chest := ChestOpenningResult new.
+	chest json: aChestJson.
+	chest numberOfChests: aNumberOfChests.
 	chest chestType: (IdleChampionChestIDs nameForID: ((aChestJson at: #actions) first at: #chest_type_id)).
 	chest chestContentsFromJson: (aChestJson at: #loot_details).
 	^ chest

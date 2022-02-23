@@ -3,7 +3,8 @@ Class {
 	#superclass : #IdleChampionObject,
 	#instVars : [
 		'chestType',
-		'chestContents'
+		'chestContents',
+		'numberOfChests'
 	],
 	#pools : [
 		'IdleChampionChestIDs'
@@ -13,6 +14,11 @@ Class {
 	],
 	#category : #'AABriv-webQuery'
 }
+
+{ #category : #chestType }
+ChestOpenningResult class >> goldChestType [
+	^ GoldID
+]
 
 { #category : #initializing }
 ChestOpenningResult class >> initialize [
@@ -82,4 +88,16 @@ ChestOpenningResult >> chestType [
 ChestOpenningResult >> chestType: anObject [
 
 	chestType := anObject
+]
+
+{ #category : #accessing }
+ChestOpenningResult >> numberOfChests [
+
+	^ numberOfChests
+]
+
+{ #category : #accessing }
+ChestOpenningResult >> numberOfChests: anObject [
+
+	numberOfChests := anObject
 ]
