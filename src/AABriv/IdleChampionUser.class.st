@@ -264,7 +264,7 @@ IdleChampionUser >> updateAndCompare [
 	| previousState |
 	previousState := self currentInventoryState.
 	self update.
-	self currentInventoryState compareTo: previousState
+	^ self currentInventoryState compareTo: previousState
 ]
 
 { #category : #initialization }
