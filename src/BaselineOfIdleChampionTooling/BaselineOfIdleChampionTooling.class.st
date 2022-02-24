@@ -22,7 +22,6 @@ To keep up, you can execute the following line with cmd + d"
 (IceRepository registry detect: [:repository | repository name = ''IdleChampionTooling'']) pull.
 	
 "create the object containing the DataBase and put it in the variable db"
-| db |
 db := IdleChampionDataBase cachedDatabase. "execute with cmd + d"
 db. "cmd + i to look what''s inside the object"
 "example of a query"
