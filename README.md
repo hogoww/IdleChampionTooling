@@ -46,11 +46,12 @@ Metacello new
 
 StPlayground openContents: BaselineOfIdleChampionTooling new initialPlayground
 ```
-
-6 - Create image  
-7 - Select the created image  
-8 - Launch  
-9 - Wait for the image to be ready, and follow the comments in the window that'll appear :) 
+6 - Save the script
+7 - Attach the script to the image to be created
+8 - Create image  
+9 - Select the created image  
+10 - Launch  
+11 - Wait for the image to be ready, and follow the comments in the window that'll appear :) 
 
 
 
