@@ -113,6 +113,7 @@ IdleChampionConsumableIDs class >> nameForID: anID [
 
 { #category : #initialization }
 IdleChampionConsumableIDs class >> unknownIds [
+	self error.
 	"only for documentation purposes"
 	'Unrecognized IDs for now:
 	23

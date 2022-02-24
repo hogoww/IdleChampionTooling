@@ -10,7 +10,8 @@ Class {
 		'cneQueries'
 	],
 	#pools : [
-		'IdleChampionChestIDs'
+		'IdleChampionChestIDs',
+		'IdleChampionConsumableIDs'
 	],
 	#classInstVars : [
 		'RegisteredUser'
@@ -272,6 +273,11 @@ IdleChampionUser >> updateAndCompare [
 { #category : #initialization }
 IdleChampionUser >> updateCneQueriesIfTooOld [
 	"don't know what 'too old' might be yet"
+]
+
+{ #category : #query }
+IdleChampionUser >> useBountyContract: aNumberOfBuff [
+	self cneQueries useBuff: SmallBountyID printString times: aNumberOfBuff
 ]
 
 { #category : #accessing }

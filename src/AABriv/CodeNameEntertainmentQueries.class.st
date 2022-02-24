@@ -41,11 +41,16 @@ CodeNameEntertainmentQueries >> baseUrl [
 	^ self class baseUrl
 ]
 
+{ #category : #'query-parts' }
+CodeNameEntertainmentQueries >> buffPart: aBuffType [
+	^ ZnMimePart fieldName: 'buff_id' value: aBuffType
+]
+
 { #category : #query }
 CodeNameEntertainmentQueries >> buyChests: aChestType times: aNumberOfChests [
 	| response |
 	response := 	self newQuery
-		url: self buyChestsURL asUrl;
+		url: self buyChestsURL;
 		addDummyDataParts;
 		addUserPartsFrom: icUser;
 		addPart: (self chestPart: aChestType);
@@ -57,10 +62,7 @@ CodeNameEntertainmentQueries >> buyChests: aChestType times: aNumberOfChests [
 
 { #category : #url }
 CodeNameEntertainmentQueries >> buyChestsURL [
-	^ String streamContents: [ :s | 
-		s << self baseUrl;
-			<< 'buysoftcurrencychest'
-		]
+	^ (self baseUrl , 'buysoftcurrencychest') asUrl
 ]
 
 { #category : #'query-parts' }
@@ -72,7 +74,7 @@ CodeNameEntertainmentQueries >> chestPart: aChestType [
 CodeNameEntertainmentQueries >> getUserDetailsJson [
 	| response |
 	response := self newQuery
-		url: self userDetailsUrl asUrl;
+		url: self userDetailsUrl;
 		addPart: 	(ZnMimePart fieldName: 'include_free_play_objectives' value: 'true');
 		addPart: 	(ZnMimePart fieldName: 'instance_key' value: '1');
 		addPart: 	self userPart;
@@ -114,7 +116,7 @@ CodeNameEntertainmentQueries >> newQuery [
 CodeNameEntertainmentQueries >> openChests: aChestType times: aNumberOfChests [
 	| response |
 	response := 	self newQuery
-		url: self openGenericChestsURL asUrl;
+		url: self openGenericChestsURL;
 		addPart: (ZnMimePart fieldName: 'gold_per_second' value: '0');
 		addPart: (ZnMimePart fieldName: 'checksum' value: '4c5f019b6fc6eefa4d47d21cfaf1bc68');
 		addUserPartsFrom: icUser;
@@ -128,17 +130,14 @@ CodeNameEntertainmentQueries >> openChests: aChestType times: aNumberOfChests [
 
 { #category : #url }
 CodeNameEntertainmentQueries >> openGenericChestsURL [
-	^ String streamContents: [ :s | 
-		s << self baseUrl;
-			<< 'opengenericchest'
-		]
+	^ (self baseUrl ,'opengenericchest') asUrl
 ]
 
 { #category : #query }
 CodeNameEntertainmentQueries >> redeemCodeServerCall: aCode [
 	| response query |
 	query := self newQuery
-		url: self redeemUrl asUrl.
+		url: self redeemUrl.
 	query addDummyDataParts.
 	query addUserPartsFrom: icUser.
 	response := query
@@ -150,15 +149,35 @@ CodeNameEntertainmentQueries >> redeemCodeServerCall: aCode [
 
 { #category : #url }
 CodeNameEntertainmentQueries >> redeemUrl [
-	^ self baseUrl , 'redeemcoupon'
+	^ (self baseUrl , 'redeemcoupon') asUrl
+]
+
+{ #category : #query }
+CodeNameEntertainmentQueries >> useBuff: aBuffType times: aNumberOfBuff [
+	| response |
+
+" ""&buff_id="" buffid ""&hero_id="" heroid ""&num_uses=""
+rawresults := ServerCall(""useserverbuff"",  count)"
+	
+	response := 	self newQuery
+		url: self useBuffUrl;
+"		addDummyDataParts;"
+		addUserPartsFrom: icUser;
+		addPart: (self buffPart: aBuffType);
+		addPart: (ZnMimePart fieldName: 'num_uses' value: aNumberOfBuff printString);
+		post; 
+		response.
+	^ self jsonFrom: response
+]
+
+{ #category : #url }
+CodeNameEntertainmentQueries >> useBuffUrl [
+	^ (self baseUrl , 'useserverbuff') asUrl
 ]
 
 { #category : #url }
 CodeNameEntertainmentQueries >> userDetailsUrl [
-	^ String streamContents: [ :s | 
-		s << self baseUrl;
-			<< 'getuserdetails'
-		]
+	^ (self baseUrl , 'getuserdetails') asUrl
 ]
 
 { #category : #'query-parts' }
