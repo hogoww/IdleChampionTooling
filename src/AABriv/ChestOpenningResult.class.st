@@ -63,8 +63,10 @@ ChestOpenningResult >> chestContentsFromJson: lootDetails [
 				aLootDetail at: #add_gold_amount 
 					ifPresent: [ 'gold' ]
 					ifAbsent: [
-						(IdleChampionConsumableIDs nameForID: (aLootDetail at: #add_inventory_buff_id)).]
-				 ]
+						aLootDetail at: #add_inventory_buff_id
+							ifPresent: [ :inventoryBuff | IdleChampionConsumableIDs nameForID: inventoryBuff ]
+							ifAbsent: [ 'feat' -> (aLootDetail at: #unlock_hero_feat) ]]]
+				 
 			ifFalse: [		
 				(aLootDetail at: #loot_action) = 'disenchant' 
 					ifTrue:[ 
