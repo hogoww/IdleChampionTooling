@@ -125,6 +125,12 @@ Monster >> isRanged [
 ]
 
 { #category : #accessing }
+Monster >> monsterType [
+	"Hardcoded list of non types info in tags. Probably not the best, but good enough"
+	^ tags reject: [ :aTag | #(melee ranged boss flying hits_based armor_based) includes: aTag ]
+]
+
+{ #category : #accessing }
 Monster >> name [
 
 	^ name

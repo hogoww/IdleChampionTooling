@@ -22,6 +22,11 @@ AbstractArea class >> withId: anAreaID [
 ]
 
 { #category : #accessing }
+AbstractArea >> allMonsterTypes [
+	^ (Bag withAll: (self allMonsters flatCollect:[ :aMonster | aMonster monsterType ])) valuesAndCounts keys
+]
+
+{ #category : #accessing }
 AbstractArea >> allMonsters [
 	^ specials
 ]
@@ -179,6 +184,10 @@ AbstractArea >> printOn: aStream [
 	
 	self hasArmorBased ifTrue: [ aStream << ' ARMOR ' ].
 	self hasHitBased ifTrue: [ aStream << ' HITBASED ' ]. 
+	
+	self allMonsterTypes do: [ :aType | 
+		aStream space << aType ]
+		separatedBy: [ aStream << ' &' ]
 ]
 
 { #category : #accessing }
