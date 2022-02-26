@@ -66,6 +66,22 @@ RunPlanner >> calculateAreasFor: anAdventure [
 	^ collection
 ]
 
+{ #category : #'private - computation' }
+RunPlanner >> calculatePossibleStackingAreaFrom: areasEncountered [
+	"TODO, work in progress"
+	
+
+	"initialization for a string that is not in the list of possible values of types."
+	| longestMonsterTypeEncountered |
+	longestMonsterTypeEncountered := Dictionary new.
+	areasEncountered reverse do:[ :anArea|
+		anArea value allMonsterTypes 
+			do:[ :aType | 
+				longestMonsterTypeEncountered at: aType ifAbsentPut: [ aType -> (OrderedCollection with: anArea value) ] ]
+		].
+	self halt.
+]
+
 { #category : #query }
 RunPlanner >> calculateQuickTransitionsFor: areasEncountered [
 	| res |
@@ -124,7 +140,7 @@ RunPlanner >> objective: anInteger [
 ]
 
 { #category : #query }
-RunPlanner >> recap: aBuilder [
+RunPlanner >> recapDisplay: aBuilder [
 	<inspectorPresentationOrder: 0 title: 'Recap'> 
 	| dictionaryToDisplay |
 	dictionaryToDisplay := self recapFor: adventure.
@@ -144,7 +160,7 @@ RunPlanner >> recap: aBuilder [
 
 { #category : #query }
 RunPlanner >> recapFor: anAdventure [
-	| areasEncountered slowDown hitBasedAreas armoredBasedAreas rangedMonsters non25Areas quickTransitions |
+	| areasEncountered slowDown hitBasedAreas armoredBasedAreas rangedMonsters non25Areas quickTransitions possibleStackingAreas |
 	areasEncountered := self calculateAreasFor: anAdventure.
 	quickTransitions := self calculateQuickTransitionsFor: areasEncountered.
 	
@@ -153,7 +169,7 @@ RunPlanner >> recapFor: anAdventure [
 	hitBasedAreas := areasEncountered select: [ :a | a value hasHitBased ].
 	armoredBasedAreas := areasEncountered select: [ :a | a value hasArmorBased ].
 	non25Areas := areasEncountered select: [ :a | a value quest isSlow ] "thenCollect: [ :a | a key ]".
-	
+	"possibleStackingAreas := self calculatePossibleStackingAreaFrom: areasEncountered."
 	^ { 
 		'Adventure' -> anAdventure.
 		'Number of quick transitions' -> (quickTransitions size printString ,  '/' , areasEncountered size printString).
@@ -169,6 +185,7 @@ RunPlanner >> recapFor: anAdventure [
 		'Areas containing hit based entity' -> hitBasedAreas.
 		'Areas containing armored entity' -> armoredBasedAreas.
 		'Areas requiring more than one kill (with maxed hew)' -> non25Areas.
+"		'Possible stacking areas' -> possibleStackingAreas."
 	} asOrderedDictionary. 
 ]
 
