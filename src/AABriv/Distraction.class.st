@@ -9,7 +9,7 @@ Class {
 		'id',
 		'properties'
 	],
-	#category : #'AABriv-database'
+	#category : #'AABriv-model'
 }
 
 { #category : #accessing }
