@@ -138,6 +138,15 @@ Attack >> numTargets: anObject [
 	numTargets := anObject
 ]
 
+{ #category : #printing }
+Attack >> printOn: aStream [
+	aStream << 'Attack '
+		<< damageTypes
+		<< ' ('.
+	cooldown printOn: aStream.
+	aStream << 's)'
+]
+
 { #category : #accessing }
 Attack >> resolveLinksWith: aDatabase [
 	"nothing to do for weapons AFAIK"
