@@ -49,19 +49,19 @@ IdleChampionUser class >> userNamed: aName [
 
 { #category : #accessing }
 IdleChampionUser >> activeGameInstanceId [
-	^ (json at: #details)at: #active_game_instance_id
+	^ (json at: #details)at: #active_game_instance_id 
+	
 ]
 
 { #category : #'api-chests' }
-IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
+IdleChampionUser >> buyChests: aChest times: aNumberOfChests [
 
 	| currentNumberOfChests |
-	self gems // (IdleChampionChestIDs priceForChest: aChestID) >= aNumberOfChests ifFalse: [ 
-		self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' '
-			, (IdleChampionChestIDs nameForID: aChestID) ].
+	self gems // aChest price >= aNumberOfChests ifFalse: [ 
+		self error: 'Not enough currency to buy ' , aNumberOfChests printString , ' ' , aChest name ].
 
 	UIManager default
-		displayProgress: 'Buying ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aNumberOfChests printString
+		displayProgress: 'Buying ' , aChest name , ' ' , aNumberOfChests printString
 		from: aNumberOfChests
 		to: 0
 		during: [ :bar | 
@@ -69,8 +69,8 @@ IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 			^ (1 to: currentNumberOfChests // 100 + 1)
 				  collect: [ :i | | res |
 					  bar value: currentNumberOfChests.
-					  bar title: 'Buying ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , currentNumberOfChests printString , '/' ,aNumberOfChests printString.
-					  res := self cneQueries buyChests: aChestID times: (100 min: currentNumberOfChests).
+					  bar title: 'Buying ' , aChest name , ' ' , currentNumberOfChests printString , '/' ,aNumberOfChests printString.
+					  res := self cneQueries buyChests: aChest id times: (100 min: currentNumberOfChests).
 					  currentNumberOfChests := currentNumberOfChests - (100 min: currentNumberOfChests).
 					  res ]
 				  into: OrderedCollection new ]
@@ -78,12 +78,12 @@ IdleChampionUser >> buyChests: aChestID times: aNumberOfChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyMaximumGold [
-	^ self buyChests: GoldID times: self gems // (IdleChampionChestIDs priceForChest: GoldID)
+	^ self buyChests: GoldChest times: self gems // GoldChest price
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyMaximumSilver [
-	^ self buyChests: SilverID times: self gems // (IdleChampionChestIDs priceForChest: SilverID)
+	^ self buyChests: SilverChest times: self gems // SilverChest price
 ]
 
 { #category : #initialization }
@@ -185,13 +185,13 @@ IdleChampionUser >> openAllSilverChests [
 ]
 
 { #category : #'api-chests' }
-IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
+IdleChampionUser >> openChests: aChest times: aNumberOfChests [
 
 	| currentNumberOfChests |
-	(self chestsOf: aChestID) >= aNumberOfChests ifFalse: [ 
-		self error: 'Not enough ' , (IdleChampionChestIDs nameForID: aChestID) , ' Chests available' ].
+	(self chestsOf: aChest id) >= aNumberOfChests ifFalse: [ 
+		self error: 'Not enough ' , aChest name , ' available' ].
 	UIManager default
-		displayProgress: 'Opening ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , aNumberOfChests printString
+		displayProgress: 'Opening ' , aChest name , ' ' , aNumberOfChests printString
 		from: 0
 		to: aNumberOfChests
 		during: [ :bar | 
@@ -199,8 +199,8 @@ IdleChampionUser >> openChests: aChestID times: aNumberOfChests [
 			(1 to: currentNumberOfChests // 50 + 1)
 				collect: [ :i | | res |
 					  bar value: currentNumberOfChests.
-					  bar title: 'Openning ' , (IdleChampionChestIDs nameForID: aChestID) , ' ' , currentNumberOfChests printString , '/' , aNumberOfChests printString.
-					res := self openedChests: (50 min: currentNumberOfChests) FromJson: (self cneQueries openChests: aChestID times: (50 min: currentNumberOfChests)).
+					  bar title: 'Openning ' , aChest name , ' ' , currentNumberOfChests printString , '/' , aNumberOfChests printString.
+					res := self openedChests: (50 min: currentNumberOfChests) FromJson: (self cneQueries openChests: aChest id times: (50 min: currentNumberOfChests)).
 					currentNumberOfChests := currentNumberOfChests - (50 min: currentNumberOfChests).
 					res ] into: OrderedCollection new ]
 ]
@@ -212,7 +212,7 @@ IdleChampionUser >> openGoldChests: aNumberOfChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> openSilverChests: aNumberOfChests [
-	^ self openChests: SilverID times: aNumberOfChests
+	^ self openChests: SilverChest times: aNumberOfChests
 ]
 
 { #category : #'result-interpration' }
@@ -221,7 +221,7 @@ IdleChampionUser >> openedChests: aNumberOfChests FromJson: aChestJson [
 	chest := ChestOpenningResult new.
 	chest json: aChestJson.
 	chest numberOfChests: aNumberOfChests.
-	chest chestType: (IdleChampionChestIDs nameForID: ((aChestJson at: #actions) first at: #chest_type_id)).
+	chest chestType: (IdleChampionChestIDs chestForID: ((aChestJson at: #actions) first at: #chest_type_id)).
 	chest chestContentsFromJson: (aChestJson at: #loot_details).
 	^ chest
 ]

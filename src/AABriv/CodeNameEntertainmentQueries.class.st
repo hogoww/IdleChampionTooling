@@ -67,7 +67,7 @@ CodeNameEntertainmentQueries >> buyChestsURL [
 
 { #category : #'query-parts' }
 CodeNameEntertainmentQueries >> chestPart: aChestType [
-	^ ZnMimePart fieldName: 'chest_type_id' value: aChestType
+	^ ZnMimePart fieldName: 'chest_type_id' value: aChestType printString
 ]
 
 { #category : #query }

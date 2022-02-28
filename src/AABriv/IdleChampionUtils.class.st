@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #code }
+IdleChampionUtils class >> database [
+	^ IdleChampionDataBase cachedDatabase
+]
+
+{ #category : #code }
 IdleChampionUtils class >> extractCodesFrom: aString [
 	| res |
 	res := aString lines

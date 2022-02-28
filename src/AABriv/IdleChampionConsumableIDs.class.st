@@ -44,6 +44,12 @@ Class {
 }
 
 { #category : #initialization }
+IdleChampionConsumableIDs class >> chestForID: anID [
+	self classPool associationsDo: [ :assoc | assoc value = anID ifTrue: [ ^ assoc key ] ].
+	^ anID
+]
+
+{ #category : #initialization }
 IdleChampionConsumableIDs class >> initialize [
 	"""Potions"""
 	"Damage (Giant's Strenght)"
@@ -103,12 +109,6 @@ IdleChampionConsumableIDs class >> initialize [
 	ScrollMajorGoldID := 1736.
 	ScrollAssaultDamageID := 1737.
 	
-]
-
-{ #category : #initialization }
-IdleChampionConsumableIDs class >> nameForID: anID [
-	self classPool associationsDo: [ :assoc | assoc value = anID ifTrue: [ ^ assoc key ] ].
-	^ anID
 ]
 
 { #category : #initialization }

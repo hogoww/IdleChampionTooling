@@ -9,7 +9,7 @@ Class {
 		'stories',
 		'campaigns',
 		'distractions',
-		'chestsTypes'
+		'chestTypes'
 	],
 	#classInstVars : [
 		'CachedDatabase'
@@ -91,8 +91,18 @@ IdleChampionDataBase >> campaigns [
 	^ campaigns
 ]
 
+{ #category : #accessing }
+IdleChampionDataBase >> chestTypes [
+	^ chestTypes
+]
+
 { #category : #'accessing-id' }
-IdleChampionDataBase >> distractionForId: anID [
+IdleChampionDataBase >> chestWithId:	anID [
+	^ chestTypes detect: [ :aChest | aChest id = anID ]
+]
+
+{ #category : #'accessing-id' }
+IdleChampionDataBase >> distractionWithId: anID [
 	^ distractions detect: [ :d | d id = anID ]
 ]
 
@@ -159,7 +169,7 @@ IdleChampionDataBase >> fillCampaigns [
 IdleChampionDataBase >> fillChests [
 	| chestsJSON |
 	chestsJSON := self getChestJSON.
-	chestsTypes := chestsJSON collect: [ :aChestJSON | 
+	chestTypes := chestsJSON collect: [ :aChestJSON | 
 		IdleChampionChest new
 			json: aChestJSON;
 			name: (aChestJSON at: #name);

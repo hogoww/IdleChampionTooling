@@ -145,5 +145,5 @@ Background >> resolveLinksWith: aDatabase [
 	distractions := distractionsIds 
 		ifNil: [ OrderedCollection new ] 
 		ifNotNil: [ :did | did collect: [ :aDistractionID | 
-				aDatabase distractionForId: (aDistractionID at: #distraction_id) ] ].
+				aDatabase distractionWithId: (aDistractionID at: #distraction_id) ] ].
 ]

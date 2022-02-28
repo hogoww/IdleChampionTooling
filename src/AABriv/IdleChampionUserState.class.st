@@ -26,7 +26,7 @@ IdleChampionUserState >> chests: anObject [
 
 { #category : #api }
 IdleChampionUserState >> chestsOf: aChestID [
-	^ chests at: aChestID
+	^ chests at: aChestID printString
 ]
 
 { #category : #comparing }
@@ -76,7 +76,7 @@ IdleChampionUserState >> initializeFrom: anUserJson [
 	chests := details at: #chests.
 	inventory := (details at: #buffs)
 		collect: [ :d | 
-			(IdleChampionConsumableIDs nameForID: (d at: #buff_id)) 
+			(IdleChampionConsumableIDs chestForID: (d at: #buff_id)) 
 				-> (d at: #inventory_amount) 
 			] into: Dictionary new.
 ]

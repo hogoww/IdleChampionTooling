@@ -15,11 +15,6 @@ Class {
 	#category : #'AABriv-webQuery'
 }
 
-{ #category : #chestType }
-ChestOpenningResult class >> goldChestType [
-	^ GoldID
-]
-
 { #category : #initializing }
 ChestOpenningResult class >> initialize [
 	self resetLog
@@ -64,7 +59,7 @@ ChestOpenningResult >> chestContentsFromJson: lootDetails [
 					ifPresent: [ 'gold' ]
 					ifAbsent: [
 						aLootDetail at: #add_inventory_buff_id
-							ifPresent: [ :inventoryBuff | IdleChampionConsumableIDs nameForID: inventoryBuff ]
+							ifPresent: [ :inventoryBuff | IdleChampionConsumableIDs chestForID: inventoryBuff ]
 							ifAbsent: [ 'feat' -> (aLootDetail at: #unlock_hero_feat) ]]]
 				 
 			ifFalse: [		

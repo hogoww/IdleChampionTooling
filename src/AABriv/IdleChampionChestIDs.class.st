@@ -1,295 +1,424 @@
+"
+I provide a number of helpfull constants allowing quick access to chests for a number of operations.
+I only keep letters, and the constant is in CamelCase.
+Example: 
+	Gold Chest becomes: GoldChest
+I am initialized dynamically from the database.
+
+Currently, there are 2 duplicate entries that I do not support.
+(GoldShadowChests and GoldFriendChests IIRC).
+The second one is ignored.
+
+Moreover some names might not be well supported such as GoldMôrgænChest.
+I'd wish to remove non ascii character, as the support for them is usually not the best in any programming language.
+"
 Class {
 	#name : #IdleChampionChestIDs,
 	#superclass : #SharedPool,
 	#classVars : [
-		'AilaGoldID',
-		'AilaSilverID',
-		'AlyndraGoldID',
-		'AlyndraSilverID',
-		'ArtemisGoldID',
-		'ArtemisSilverID',
-		'AvrenGoldID',
-		'AvrenSilverID',
-		'BaelothGoldID',
-		'BaelothSilverID',
-		'BarrowinGoldID',
-		'BarrowinSilverID',
-		'BeadleAndGrimmGoldID',
-		'BeadleAndGrimmSilverID',
-		'BinwinGoldID',
-		'BinwinSilverID',
-		'BirdsongGoldID',
-		'BirdsongSilverID',
-		'BlackViperGoldID',
-		'BlackViperSilverID',
-		'BrigGoldID',
-		'BrigSilverID',
-		'BrivGoldID',
-		'BrivSilverID',
-		'CattiBrieGoldID',
-		'CattiBrieSilverID',
-		'CorazonGoldID',
-		'CorazonSilverID',
-		'DeekinGoldID',
-		'DeekinSilverID',
-		'DesmondGoldID',
-		'DesmondSilverID',
-		'DhadiusGoldID',
-		'DhadiusSilverID',
-		'DhaniGoldID',
-		'DhaniSilverID',
-		'DonaarGoldID',
-		'DonaarSilverID',
-		'ElectrumID',
-		'EllywickGoldID',
-		'EllywickSilverID',
-		'EvelynGoldID',
-		'EvelynSilverID',
-		'EzmereldaGoldID',
-		'EzmereldaSilverID',
-		'FaridehGoldID',
-		'FaridehSilverID',
-		'FreelyGoldID',
-		'FreelySilverID',
-		'GoldElvenChestID',
-		'GoldGoldPieceID',
-		'GoldID',
-		'GrommaGoldID',
-		'GrommaSilverID',
-		'HavilarGoldID',
-		'HavilarSilverID',
-		'HewMaanGoldID',
-		'HewMaanSilverID',
-		'HewMannGoldID',
-		'HewMannSilverID',
-		'IshiGoldID',
-		'IshiSilverID',
-		'JaheiraGoldID',
-		'JaheiraSilverID',
-		'JimGoldID',
-		'JimSilverID',
-		'KorthGoldID',
-		'KorthSilverID',
-		'KrondGoldID',
-		'KrondSilverID',
-		'KrullGoldID',
-		'KrullSilverID',
-		'KrydleGoldID',
-		'KrydleSilverID',
-		'KthrissGoldID',
-		'KthrissSilverID',
-		'LazaapzGoldID',
-		'LazaapzSilverID',
-		'LuciusGoldID',
-		'LuciusSilverID',
-		'MehenGoldID',
-		'MehenSilverID',
-		'MelfGoldID',
-		'MelfSilverID',
-		'MorgaenGoldID',
-		'MorgaenSilverID',
-		'NerysGoldID',
-		'NerysSilverID',
-		'NovaGoldID',
-		'NovaSilverID',
-		'NrakkGoldID',
-		'NrakkSilverID',
-		'OminGoldID',
-		'OminSilverID',
-		'OrishaGoldID',
-		'OrishaSilverID',
-		'OrkiraGoldID',
-		'OrkiraSilverID',
-		'PaultinGoldID',
-		'PaultinSilverID',
-		'PenelopeGoldID',
-		'PenelopeSilverID',
-		'PrudenceGoldID',
-		'PrudenceSilverID',
-		'PwentGoldID',
-		'PwentSilverID',
-		'QillekGoldID',
-		'QillekSilverID',
-		'RegisGoldID',
-		'RegisSilverID',
-		'RosieGoldID',
-		'RosieSilverID',
-		'RustGoldID',
-		'RustSilverID',
-		'SeliseGoldID',
-		'SeliseSilverID',
-		'SentryGoldID',
-		'SentrySilverID',
-		'SgtKnoxGoldID',
-		'SgtKnoxSilverID',
-		'ShakaGoldID',
-		'ShakaSilverID',
-		'ShandieGoldID',
-		'ShandieSilverID',
-		'SilverID',
-		'SisaspiaGoldID',
-		'SisaspiaSilverID',
-		'SpurtGoldID',
-		'SpurtSilverID',
-		'StokiGoldID',
-		'StokiSilverID',
-		'StrixGoldID',
-		'StrixSilverID',
-		'TalinGoldID',
-		'TalinSilverID',
-		'TorogarGoldID',
-		'TorogarSilverID',
-		'TurielGoldID',
-		'TurielSilverID',
-		'ViGoldID',
-		'ViSilverID',
-		'ViconiaGoldID',
-		'ViconiaSilverID',
-		'VlahnyaGoldID',
-		'VlahnyaSilverID',
-		'WalnutGoldID',
-		'WalnutSilverID',
-		'WardenGoldID',
-		'WardenSilverID',
-		'WiddleGoldID',
-		'WiddleSilverID',
-		'WulfgarGoldID',
-		'WulfgarSilverID',
-		'XanderGoldID',
-		'XanderSilverID',
-		'YorvenGoldID',
-		'YorvenSilverID',
-		'ZorbuGoldID',
-		'ZorbuSilverID'
+		'ElectrumChest',
+		'GloryofBahamutChest',
+		'GoldAddVentureChest',
+		'GoldAdventurersChest',
+		'GoldAgileChest',
+		'GoldAilaChest',
+		'GoldAlliedChest',
+		'GoldAlyndraChest',
+		'GoldAmazeingChest',
+		'GoldAncientChest',
+		'GoldArkhansArmyChest',
+		'GoldArmoredChest',
+		'GoldArrowFilledChest',
+		'GoldArtemisChest',
+		'GoldAvrenChest',
+		'GoldBaelothChest',
+		'GoldBandChest',
+		'GoldBarredChest',
+		'GoldBarrowinChest',
+		'GoldBattlegroupChest',
+		'GoldBeadleGrimmChest',
+		'GoldBigTopChest',
+		'GoldBinwinChest',
+		'GoldBirdLovingChest',
+		'GoldBirdsongChest',
+		'GoldBlackViperChest',
+		'GoldBlastedChest',
+		'GoldBlazedChest',
+		'GoldBoldChest',
+		'GoldBookEndChest',
+		'GoldBovineChest',
+		'GoldBraggyChest',
+		'GoldBranchedChest',
+		'GoldBrigChest',
+		'GoldBrimstoneChest',
+		'GoldBrivChest',
+		'GoldBrokenChest',
+		'GoldCandyCaneChest',
+		'GoldCaptainBooChest',
+		'GoldCarrotChest',
+		'GoldCattibrieChest',
+		'GoldChaosChest',
+		'GoldChaoticChest',
+		'GoldCharredChest',
+		'GoldChest',
+		'GoldChultanChest',
+		'GoldClonedChest',
+		'GoldCloudyChest',
+		'GoldCoastChest',
+		'GoldCoinFilledChest',
+		'GoldColdChest',
+		'GoldCommentatorChest',
+		'GoldCompanionsChest',
+		'GoldContractChest',
+		'GoldCorazónChest',
+		'GoldCourageousChest',
+		'GoldCrewChest',
+		'GoldCruelChest',
+		'GoldDarkDaysChest',
+		'GoldDashingChest',
+		'GoldDeekinChest',
+		'GoldDescentChest',
+		'GoldDesmondChest',
+		'GoldDhadiusChest',
+		'GoldDhaniChest',
+		'GoldDiceChest',
+		'GoldDistressedChest',
+		'GoldDocumentedChest',
+		'GoldDonaarChest',
+		'GoldDragonscaleChest',
+		'GoldDungeonDirectorChest',
+		'GoldDustyChest',
+		'GoldEggChest',
+		'GoldEllywickChest',
+		'GoldElvenChest',
+		'GoldEvelynChest',
+		'GoldEvilChest',
+		'GoldExoticChest',
+		'GoldExperimentalChest',
+		'GoldExtraGoldenChest',
+		'GoldEzmereldaChest',
+		'GoldFaridehChest',
+		'GoldFeatheredChest',
+		'GoldFeatheredHatChest',
+		'GoldFeyChest',
+		'GoldFeywildChest',
+		'GoldFitChest',
+		'GoldFlamingChest',
+		'GoldFootprintChest',
+		'GoldForceGreyChest',
+		'GoldFreelyChest',
+		'GoldFreezingChest',
+		'GoldFreshlyPaintedChest',
+		'GoldFriendChest',
+		'GoldFrillyChest',
+		'GoldGateChest',
+		'GoldGazrickChest',
+		'GoldGentlemenChest',
+		'GoldGiantsBaneChest',
+		'GoldGingerbreadChest',
+		'GoldGlowingChest',
+		'GoldGoldPieceChest',
+		'GoldGoldPouchChest',
+		'GoldGoodChest',
+		'GoldGooglyEyedChest',
+		'GoldGrambarsBladesChest',
+		'GoldGrommaChest',
+		'GoldGrubbyChest',
+		'GoldGustChest',
+		'GoldHavilarChest',
+		'GoldHeistChest',
+		'GoldHeroesofAeroisChest',
+		'GoldHeroicChest',
+		'GoldHewMaanChest',
+		'GoldHexedChest',
+		'GoldHistoricalChest',
+		'GoldHolidayChest',
+		'GoldHoneycombChest',
+		'GoldHookedChest',
+		'GoldHuggedChest',
+		'GoldHuntedChest',
+		'GoldHunterChest',
+		'GoldIceDaggerChest',
+		'GoldIchorCoveredChest',
+		'GoldIllusionChest',
+		'GoldInventiveChest',
+		'GoldIshiChest',
+		'GoldJaheiraChest',
+		'GoldJimChest',
+		'GoldJungleChest',
+		'GoldKissedChest',
+		'GoldKoboldChest',
+		'GoldKorthChest',
+		'GoldKrondChest',
+		'GoldKrullChest',
+		'GoldKrydleChest',
+		'GoldKthrissChest',
+		'GoldLawfulChest',
+		'GoldLazaapzChest',
+		'GoldLegendsChest',
+		'GoldLowlandsChest',
+		'GoldLuciusChest',
+		'GoldLuckyChest',
+		'GoldMagicChest',
+		'GoldMagicalChest',
+		'GoldManyHornedChest',
+		'GoldMayDayChest',
+		'GoldMazeChest',
+		'GoldMeasuredChest',
+		'GoldMehenChest',
+		'GoldMelfChest',
+		'GoldMinionChest',
+		'GoldMirtPatronChest',
+		'GoldMisfitChest',
+		'GoldMithralHallChest',
+		'GoldMithralHallChestDONOTUSE',
+		'GoldMoonChest',
+		'GoldMurderbotChest',
+		'GoldMôrgænChest',
+		'GoldNerysChest',
+		'GoldNethereseChest',
+		'GoldNeutralChest',
+		'GoldNonMimicChest',
+		'GoldNovaChest',
+		'GoldNrakkChest',
+		'GoldOKChest',
+		'GoldOminChest',
+		'GoldOneHewMaanBandChest',
+		'GoldOratorChest',
+		'GoldOrishaChest',
+		'GoldOrkiraChest',
+		'GoldOverstuffedChest',
+		'GoldOwlbearChest',
+		'GoldPackagedChest',
+		'GoldPaintedChest',
+		'GoldPaultinChest',
+		'GoldPebbledChest',
+		'GoldPenelopeChest',
+		'GoldPerformanceChest',
+		'GoldPetrifiedChest',
+		'GoldPirateChest',
+		'GoldPolymorphedChest',
+		'GoldPoweredChest',
+		'GoldPristineChest',
+		'GoldProtectedChest',
+		'GoldPrudenceChest',
+		'GoldPummeledChest',
+		'GoldPumpkinChest',
+		'GoldPuzzleCubeChest',
+		'GoldPwentChest',
+		'GoldQillekChest',
+		'GoldQuestFilledChest',
+		'GoldRadiantChest',
+		'GoldRageFilledChest',
+		'GoldRainbowedChest',
+		'GoldRampageChest',
+		'GoldRangedChest',
+		'GoldRavenQueensChest',
+		'GoldRebalancedChest',
+		'GoldRegisChest',
+		'GoldReturningHeroChest',
+		'GoldRimeChest',
+		'GoldRockStarChest',
+		'GoldRosieChest',
+		'GoldRubyChest',
+		'GoldRunicChest',
+		'GoldRustChest',
+		'GoldScourgeChest',
+		'GoldScrappyChest',
+		'GoldScreenedChest',
+		'GoldScrollFilledChest',
+		'GoldSecretChest',
+		'GoldSeliseChest',
+		'GoldSentryChest',
+		'GoldSergeantKnoxChest',
+		'GoldShadowChest',
+		'GoldShadowEberronChest',
+		'GoldShakaChest',
+		'GoldShandieChest',
+		'GoldShardChest',
+		'GoldSheafChest',
+		'GoldShelledChest',
+		'GoldShenaniganChest',
+		'GoldShieldedChest',
+		'GoldShiftedChest',
+		'GoldSilvershieldChest',
+		'GoldSirenChest',
+		'GoldSisaspiaChest',
+		'GoldSkulkingChest',
+		'GoldSmoresChest',
+		'GoldSnakeskinChest',
+		'GoldSnowyChest',
+		'GoldSolwynnChest',
+		'GoldSpeedyChest',
+		'GoldSpellCoveredChest',
+		'GoldSpiderClimbChest',
+		'GoldSpikyChest',
+		'GoldSpinnakerChest',
+		'GoldSpiritualChest',
+		'GoldSplatteredChest',
+		'GoldSpotlightChest',
+		'GoldSpringChest',
+		'GoldSprungChest',
+		'GoldSpurtChest',
+		'GoldStainedChest',
+		'GoldStarburstChest',
+		'GoldStockUpChest',
+		'GoldStokiChest',
+		'GoldStoryChest',
+		'GoldStorytellerChest',
+		'GoldStrahdPatronChest',
+		'GoldStrikingChest',
+		'GoldStrixChest',
+		'GoldStuffedChest',
+		'GoldSunChest',
+		'GoldSunkenChest',
+		'GoldSupplyChest',
+		'GoldTacticalChest',
+		'GoldTalinChest',
+		'GoldTarrasqueChest',
+		'GoldTartanChest',
+		'GoldTatyanaChest',
+		'GoldTidalChest',
+		'GoldTogetherChest',
+		'GoldTorogarChest',
+		'GoldToughChest',
+		'GoldTrappedChest',
+		'GoldTurielChest',
+		'GoldTwinChest',
+		'GoldTwothbrushChest',
+		'GoldUndermountainChest',
+		'GoldVajraPatronChest',
+		'GoldVersatileChest',
+		'GoldViChest',
+		'GoldViconiaChest',
+		'GoldVlahnyaChest',
+		'GoldWalnutChest',
+		'GoldWarbandChest',
+		'GoldWardenChest',
+		'GoldWarriorChest',
+		'GoldWatchfulChest',
+		'GoldWaysideChest',
+		'GoldWeaponsChest',
+		'GoldWeaveBoundChest',
+		'GoldWeightedChest',
+		'GoldWelcomeChest',
+		'GoldWelcomingChest',
+		'GoldWellAlignedChest',
+		'GoldWheeledChest',
+		'GoldWhiskerChest',
+		'GoldWiddleChest',
+		'GoldWildChest',
+		'GoldWingedChest',
+		'GoldWittledChest',
+		'GoldWulfgarChest',
+		'GoldXanderChest',
+		'GoldYEChest',
+		'GoldYorvenChest',
+		'GoldZarielPatronChest',
+		'GoldZombiefiedChest',
+		'GoldZorbuChest',
+		'ModronComponentChest',
+		'SilverAilaChest',
+		'SilverAlyndraChest',
+		'SilverArtemisChest',
+		'SilverAvrenChest',
+		'SilverBaelothChest',
+		'SilverBarrowinChest',
+		'SilverBeadleGrimmChest',
+		'SilverBinwinChest',
+		'SilverBirdsongChest',
+		'SilverBlackViperChest',
+		'SilverBrigChest',
+		'SilverBrivChest',
+		'SilverCattibrieChest',
+		'SilverChest',
+		'SilverCorazónChest',
+		'SilverDeekinChest',
+		'SilverDesmondChest',
+		'SilverDhadiusChest',
+		'SilverDhaniChest',
+		'SilverDonaarChest',
+		'SilverEllywickChest',
+		'SilverEvelynChest',
+		'SilverEzmereldaChest',
+		'SilverFaridehChest',
+		'SilverFreelyChest',
+		'SilverGazrickChest',
+		'SilverGrommaChest',
+		'SilverHavilarChest',
+		'SilverHewMaanChest',
+		'SilverIshiChest',
+		'SilverJaheiraChest',
+		'SilverJimChest',
+		'SilverKorthChest',
+		'SilverKrondChest',
+		'SilverKrullChest',
+		'SilverKrydleChest',
+		'SilverKthrissChest',
+		'SilverLazaapzChest',
+		'SilverLuciusChest',
+		'SilverMehenChest',
+		'SilverMelfChest',
+		'SilverMôrgænChest',
+		'SilverNerysChest',
+		'SilverNovaChest',
+		'SilverNrakkChest',
+		'SilverOminChest',
+		'SilverOrishaChest',
+		'SilverOrkiraChest',
+		'SilverPaultinChest',
+		'SilverPenelopeChest',
+		'SilverPrudenceChest',
+		'SilverPwentChest',
+		'SilverQillekChest',
+		'SilverRegisChest',
+		'SilverRosieChest',
+		'SilverRustChest',
+		'SilverSeliseChest',
+		'SilverSentryChest',
+		'SilverSergeantKnoxChest',
+		'SilverShakaChest',
+		'SilverShandieChest',
+		'SilverSisaspiaChest',
+		'SilverSpurtChest',
+		'SilverStokiChest',
+		'SilverStrixChest',
+		'SilverTalinChest',
+		'SilverTatyanaChest',
+		'SilverTorogarChest',
+		'SilverTurielChest',
+		'SilverViChest',
+		'SilverViconiaChest',
+		'SilverVlahnyaChest',
+		'SilverWalnutChest',
+		'SilverWardenChest',
+		'SilverWiddleChest',
+		'SilverWulfgarChest',
+		'SilverXanderChest',
+		'SilverYEChest',
+		'SilverYorvenChest',
+		'SilverZorbuChest'
 	],
 	#category : #'AABriv-constants'
 }
 
-{ #category : #generation }
-IdleChampionChestIDs class >> generateChampionChestsIds [
-	<script>
-	"Allow to complete the existing shared variables for champion chests that were not set.
-	Their IDs still have to be set by hand however"
-	| championChestIDs classVariableNames championChestIDsToAdd |
-	championChestIDs := String streamContents: [ :s |
-		IdleChampionUtils heroesListCleanedUp lines do: [ :aHero |
-			s << aHero << 'SilverID' << Character cr.
-			s << aHero << 'GoldID' << Character cr ]].
-	classVariableNames := self classVariables collect:[ :aClassVariable | aClassVariable name ].
-	championChestIDsToAdd := championChestIDs lines reject: [ :aChampChestID | classVariableNames includes: aChampChestID ].
-	championChestIDsToAdd do: [ :aChampChestID | self addClassVarNamed: aChampChestID ].
-	
-]
-
-{ #category : #'class initialization' }
-IdleChampionChestIDs class >> initialize [
-	"Common chests"
-	SilverID := '1'.
-	GoldID := '2'. 
-	ElectrumID := '282'.
-
-	"Champion chests" 
-	ArtemisSilverID := '166'.
-	ArtemisGoldID := '167'.
-	HewMannSilverID := '256'.
-	HewMannGoldID := '257'.
-	OrishaSilverID := '258'.
-	OrishaGoldID := '259'.
-	
-	"Weekend chests"
-	GoldElvenChestID := '392'."392 & 393 might be inverted"
-	GoldGoldPieceID := '393'.
-]
-
-{ #category : #'class initialization' }
-IdleChampionChestIDs class >> initializeChampionChests [
-	
-	TurielSilverID := '107'.
-	TurielGoldID := '108'.
-	PwentSilverID := '158'.
-	PwentGoldID := '159'.
-	AvrenSilverID := '160'.
-	AvrenGoldID := '161'.
-	SentrySilverID := '162'.
-	SentryGoldID := '163'.
-	KrullSilverID := '164'.
-	KrullGoldID := '165'.
-	ArtemisSilverID := '166'.
-	ArtemisGoldID := '167'.
-	MorgaenSilverID := '168'.
-	MorgaenGoldID := '169'.
-	HavilarSilverID := '170'.
-	HavilarGoldID := '171'.
-	SisaspiaSilverID := '172'.
-	SisaspiaGoldID := '173'.
-	BrivSilverID := '174'.
-	BrivGoldID := '175'.
-	MelfSilverID := '176'.
-	MelfGoldID := '177'.
-	KrydleSilverID := '178'.
-	KrydleGoldID := '179'.
-	JaheiraSilverID := '180'.
-	JaheiraGoldID := '181'. 
-	NovaSilverID := '182'.
-	NovaGoldID := '183'.
-	FreelySilverID := '184'.
-	FreelyGoldID := '185'.
-	BeadleAndGrimmSilverID := '186'.
-	BeadleAndGrimmGoldID := '187'.
-	OminSilverID := '188'.
-	OminGoldID := '189'.
-	LazaapzSilverID := '190'.
-	LazaapzGoldID := '191'.
-	
-	TorogarSilverID := '244'.
-	TorogarGoldID := '245'.
-	EzmereldaSilverID := '246'.
-	EzmereldaGoldID := '247'.
-	PenelopeSilverID := '248'.
-	PenelopeGoldID := '249'.
-	LuciusSilverID := '250'.
-	LuciusGoldID := '251'.
-	BaelothSilverID := '252'.
-	BaelothGoldID := '253'.
-	TalinSilverID := '254'.
-	TalinGoldID := '255'.
-	HewMannSilverID := '256'.
-	HewMannGoldID := '257'.
-	OrishaSilverID := '258'.
-	OrishaGoldID := '259'.
-	AlyndraSilverID := '260'.
-	AlyndraGoldID := '261'.
-	OrkiraSilverID := '262'.
-	OrkiraGoldID := '263'.
-	ShakaSilverID := '264'.
-	ShakaGoldID := '265'.
-	MehenSilverID := '266'.
-	MehenGoldID := '267'.
-	SeliseSilverID := '268'.
-	SeliseGoldID := '269'.
-	SgtKnoxSilverID := '270'.
-	SgtKnoxGoldID := '271'.
-	EllywickSilverID := '272'.
-	EllywickGoldID := '273'.
-	PrudenceSilverID := '274'.
-	PrudenceGoldID := '275'.
-	CorazonSilverID := '276'.
-	CorazonGoldID := '277'.
-	
-]
-
 { #category : #initialization }
-IdleChampionChestIDs class >> nameForID: anID [
-	self classPool associationsDo: [ :assoc | assoc value = anID ifTrue: [ ^ assoc key ] ].
+IdleChampionChestIDs class >> chestForID: anID [
+	self classPool associationsDo: [ :assoc | assoc value id printString = anID ifTrue: [ ^ assoc value ] ].
 	^ anID
 ]
 
-{ #category : #initialization }
-IdleChampionChestIDs class >> priceForChest: anID [
-	"Does not take into account the kind of currency currently"
-	anID = SilverID ifTrue: [ ^ 50 ].
-	anID = GoldID ifTrue: [ ^ 500 ].
-	self flag: #todo.
-	^ self error
-	
+{ #category : #generation }
+IdleChampionChestIDs class >> initialize [
+	self classVariables do:[ :aClassVariable | self removeClassVariable: aClassVariable ].
+	IdleChampionUtils database chestTypes do: [ :aChestType | | newClassVariable |
+		newClassVariable := aChestType name onlyLetters asSymbol => ClassVariable.
+		newClassVariable value: aChestType.
+		
+		self flag: #dirtyHack.
+		"There are two duplicated entries of weekend chests so far, we ignore the second one"
+		"This is a dirty hack, but weekend chests are less important anyway"
+		self classVariableNamed: newClassVariable name
+			ifAbsent: [ 	self addClassVariable: newClassVariable ]
+		].
 ]

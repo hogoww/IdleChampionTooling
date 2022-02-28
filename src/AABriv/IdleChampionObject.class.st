@@ -4,6 +4,10 @@ Class {
 	#instVars : [
 		'json'
 	],
+	#pools : [
+		'IdleChampionChestIDs',
+		'IdleChampionConsumableIDs'
+	],
 	#category : #'AABriv-model'
 }
 
