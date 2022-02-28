@@ -1,0 +1,1 @@
+chestTypes.json has been provided by the ic.byteglow.com, thanks @Uffdah !
