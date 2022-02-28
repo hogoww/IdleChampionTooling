@@ -36,9 +36,9 @@ IdleChampionUserState >> compareTo: anIdleChampionUserState [
 	gems := self totalGems - anIdleChampionUserState totalGems.
 	gemsPerHours := gems / hoursElapsed.
 
-	silverChests := (self chestsOf: SilverID) - (anIdleChampionUserState chestsOf: SilverID).
+	silverChests := (self chestsOf: SilverChest) - (anIdleChampionUserState chestsOf: SilverChest).
 	silverChestsPerHours := silverChests / hoursElapsed.
-	goldChests := (self chestsOf: GoldID) - (anIdleChampionUserState chestsOf: GoldID).
+	goldChests := (self chestsOf: GoldChest) - (anIdleChampionUserState chestsOf: GoldChest).
 	goldChestsPerHours := goldChests / hoursElapsed.
 	^ { 'Hours elapsed: ' -> hoursElapsed.
 		'Gems gained' -> gems.

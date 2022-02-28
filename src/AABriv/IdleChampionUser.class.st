@@ -176,12 +176,12 @@ IdleChampionUser >> name: anObject [
 
 { #category : #'api-chests' }
 IdleChampionUser >> openAllGoldChests [
-	^ self openChests: GoldID times: (self chestsOf: GoldID)
+	^ self openChests: GoldChest times: (self chestsOf: GoldChest)
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> openAllSilverChests [
-	^ self openChests: SilverID times: (self chestsOf: SilverID)
+	^ self openChests: SilverChest times: (self chestsOf: SilverChest)
 ]
 
 { #category : #'api-chests' }
@@ -207,7 +207,7 @@ IdleChampionUser >> openChests: aChest times: aNumberOfChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> openGoldChests: aNumberOfChests [
-	^ self openChests: GoldID times: aNumberOfChests
+	^ self openChests: GoldChest times: aNumberOfChests
 ]
 
 { #category : #'api-chests' }
