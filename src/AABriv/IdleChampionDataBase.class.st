@@ -8,7 +8,8 @@ Class {
 		'backgrounds',
 		'stories',
 		'campaigns',
-		'distractions'
+		'distractions',
+		'chestsTypes'
 	],
 	#classInstVars : [
 		'CachedDatabase'
@@ -154,6 +155,20 @@ IdleChampionDataBase >> fillCampaigns [
 		].
 ]
 
+{ #category : #filling }
+IdleChampionDataBase >> fillChests [
+	| chestsJSON |
+	chestsJSON := self getChestJSON.
+	chestsTypes := chestsJSON collect: [ :aChestJSON | 
+		IdleChampionChest new
+			json: aChestJSON;
+			name: (aChestJSON at: #name);
+			namePlural: (aChestJSON at: #name_plural);
+			id: (aChestJSON at: #id);
+			details: (aChestJSON at: #details);
+			yourself ]
+]
+
 { #category : #initialization }
 IdleChampionDataBase >> fillCommonInformations [
 	self fillMonsters.
@@ -227,6 +242,14 @@ IdleChampionDataBase >> findAdventureNamed: aName [
 		adv := c findAdventureNamed: aName.
 		adv ifNotNil: [ ^ adv ] ].
 	^ nil
+]
+
+{ #category : #'fill-ressources' }
+IdleChampionDataBase >> getChestJSON [
+	 ^ ((IceRepository registeredRepositoryIncludingPackage: self class package) repositoryDirectory asFileReference /  'ressources' /'chestTypes.json' )
+			ifExists: [ :f | STON fromString: f readStream contents ]
+			ifAbsent: [ Warning signal: 'ChestTypes files should exists. Please file a bug report ' ]
+	
 ]
 
 { #category : #query }
