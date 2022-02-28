@@ -96,7 +96,7 @@ IdleChampionDataBase >> distractionForId: anID [
 	^ distractions detect: [ :d | d id = anID ]
 ]
 
-{ #category : #initialization }
+{ #category : #filling }
 IdleChampionDataBase >> fillAttacksFrom: attackJSONS [
 	attacks ifNil: [ attacks := Dictionary new ].
 	
@@ -120,7 +120,7 @@ IdleChampionDataBase >> fillAttacksFrom: attackJSONS [
 		]
 ]
 
-{ #category : #initialization }
+{ #category : #filling }
 IdleChampionDataBase >> fillBackgrounds [
 	| backgroundsJSON |
 	backgroundsJSON := KlehoQueries getBackgrounds.
@@ -138,7 +138,7 @@ IdleChampionDataBase >> fillBackgrounds [
 			yourself ]
 ]
 
-{ #category : #initialization }
+{ #category : #filling }
 IdleChampionDataBase >> fillCampaigns [
 	| campaignsJSON |
 	campaignsJSON := (KlehoQueries getCampaigns at: #data) at: #campaigns.
@@ -177,7 +177,7 @@ IdleChampionDataBase >> fillCommonInformations [
 	self fillDistractions
 ]
 
-{ #category : #initialization }
+{ #category : #filling }
 IdleChampionDataBase >> fillDistractions [
 	| distractionsJSON |
 	distractionsJSON := KlehoQueries getDistractions.
@@ -193,7 +193,7 @@ IdleChampionDataBase >> fillDistractions [
 			yourself ]
 ]
 
-{ #category : #initialization }
+{ #category : #filling }
 IdleChampionDataBase >> fillMonsters [
 	| monstersJSON |
 	monstersJSON := KlehoQueries getMonsters.
@@ -217,7 +217,7 @@ IdleChampionDataBase >> fillMonsters [
 		]
 ]
 
-{ #category : #initialization }
+{ #category : #filling }
 IdleChampionDataBase >> fillQuests [
 	| questsJSONs |
 	questsJSONs := KlehoQueries getQuests.
