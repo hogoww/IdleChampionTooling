@@ -174,7 +174,8 @@ IdleChampionDataBase >> fillCommonInformations [
 	self fillMonsters.
 	self fillQuests.
 	self fillBackgrounds.
-	self fillDistractions
+	self fillDistractions.
+	self fillChests
 ]
 
 { #category : #filling }
