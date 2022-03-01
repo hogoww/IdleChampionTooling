@@ -26,7 +26,7 @@ IdleChampionUserState >> chests: anObject [
 
 { #category : #api }
 IdleChampionUserState >> chestsOf: aChestID [
-	^ chests at: aChestID printString
+	^ chests at: aChestID id printString
 ]
 
 { #category : #comparing }
