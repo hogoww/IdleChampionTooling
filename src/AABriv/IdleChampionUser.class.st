@@ -188,7 +188,7 @@ IdleChampionUser >> openAllSilverChests [
 IdleChampionUser >> openChests: aChest times: aNumberOfChests [
 
 	| currentNumberOfChests |
-	(self chestsOf: aChest id) >= aNumberOfChests ifFalse: [ 
+	(self chestsOf: aChest) >= aNumberOfChests ifFalse: [ 
 		self error: 'Not enough ' , aChest name , ' available' ].
 	UIManager default
 		displayProgress: 'Opening ' , aChest name , ' ' , aNumberOfChests printString

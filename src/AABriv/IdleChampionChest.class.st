@@ -57,3 +57,8 @@ IdleChampionChest >> namePlural: anObject [
 
 	namePlural := anObject
 ]
+
+{ #category : #accessing }
+IdleChampionChest >> price [
+	^ (self details at: #cost) at: #soft_currency
+]
