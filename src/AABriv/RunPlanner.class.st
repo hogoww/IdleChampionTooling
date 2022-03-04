@@ -56,6 +56,18 @@ RunPlanner >> brivJumps: anObject [
 ]
 
 { #category : #query }
+RunPlanner >> calculateAreas [
+	| collection |
+	
+	collection := OrderedCollection new.
+	"(0 to: jumpStart) collect: [ :i |  ] into: collection."
+	((jumpStart to: objective - 1 by: brivJumps + 1) 
+		collect: [ :i | i + 1  -> (adventure areaAt: (i rem: adventure areas size) + 1) ]
+		into: collection).
+	areas := collection
+]
+
+{ #category : #query }
 RunPlanner >> calculateAreasFor: anAdventure [
 	| collection |
 	collection := OrderedCollection new.
@@ -101,6 +113,16 @@ RunPlanner >> compareWith: anAdventure [
 	adventure1 := self recapFor: adventure.
 	adventure2 := self recapFor: anAdventure.
 
+]
+
+{ #category : #testing }
+RunPlanner >> hasArmorBased [
+	^ areas anySatisfy: [ :anArea | anArea value hasArmorBased ]
+]
+
+{ #category : #testing }
+RunPlanner >> hasHitBased [
+	^ areas anySatisfy: [ :anArea | anArea value hasHitBased ]
 ]
 
 { #category : #query }

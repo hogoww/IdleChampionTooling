@@ -296,6 +296,19 @@ IdleChampionDataBase >> initialize [
 	self resolveLinks
 ]
 
+{ #category : #query }
+IdleChampionDataBase >> lookForBrivStackingAdventureFor: aNumberOfJumps [
+	^ self allAdventures reject:[ :anAdventure | 
+		| rp |
+		rp := RunPlanner new
+			adventure: anAdventure;
+			brivJumps: 6;
+			objective: 770;
+			calculateAreas.
+		rp hasArmorBased or: [ rp hasHitBased ]	
+		]
+]
+
 { #category : #'accessing-id' }
 IdleChampionDataBase >> monsterWithId: anID [
 

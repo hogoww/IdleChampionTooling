@@ -97,7 +97,7 @@ AbstractArea >> extractSpecialsWith: aDataBase [
 
 { #category : #testing }
 AbstractArea >> hasArmorBased [
-	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasArmor ]
+	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasArmorBased ]
 ]
 
 { #category : #testing }
