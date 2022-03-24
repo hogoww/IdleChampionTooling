@@ -17,6 +17,31 @@ Class {
 }
 
 { #category : #'instance creation' }
+AbstractArea class >> newFrom: anAreaJSON [
+	| area |
+	area := anAreaJSON
+		        at: #monsters
+		        ifPresent: [ :aValue | 
+			        Area new
+				        monsterIds: aValue;
+				        yourself ]
+		        ifAbsent: [ 
+			        BossArea new
+				        wavesIds: (anAreaJSON at: #waves);
+				        bossHealth:
+					        (anAreaJSON at: #boss_health ifAbsent: [ nil ]);
+				        yourself ].
+	^ area
+		  json: anAreaJSON;
+		  questId: (anAreaJSON at: #quest_id);
+		  id: (anAreaJSON at: #id);
+		  backgroundId: (anAreaJSON at: #background_id);
+		  areaId: (anAreaJSON at: #area_id);
+		  properties: (anAreaJSON at: #properties ifAbsent: #(  ));
+		  yourself
+]
+
+{ #category : #'instance creation' }
 AbstractArea class >> withId: anAreaID [
 	 ^self new areaId: anAreaID; yourself
 ]

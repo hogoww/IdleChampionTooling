@@ -15,6 +15,22 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+Background class >> newFrom: aBackgroundJSON [
+
+	^ self new
+		  json: aBackgroundJSON;
+		  midGraphicId: (aBackgroundJSON at: #mid_graphic_id);
+		  distractionsIds: (aBackgroundJSON at: #distractions);
+		  farGraphicID: (aBackgroundJSON at: #far_graphic_id);
+		  foreGraphicId: (aBackgroundJSON at: #fore_graphic_id);
+		  nearGraphicId: (aBackgroundJSON at: #near_graphic_id);
+		  id: (aBackgroundJSON at: #id);
+		  distractionsCnt: (aBackgroundJSON at: #distractions_cnt);
+		  properties: (aBackgroundJSON at: #properties);
+		  yourself
+]
+
 { #category : #accessing }
 Background >> distractions [
 

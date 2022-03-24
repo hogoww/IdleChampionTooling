@@ -12,6 +12,34 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+Adventure class >> newFrom: anAdventureJSON [
+
+	^ self new
+		  json: anAdventureJSON;
+		  campaign: self;
+		  name: (anAdventureJSON at: #name);
+		  id: (anAdventureJSON at: #id);
+		  description: (anAdventureJSON at: #description);
+		  areaSetId: (anAdventureJSON at: #area_set_id);
+		  fillAreasFrom: (anAdventureJSON at: #area_sets);
+		  yourself
+]
+
+{ #category : #'instance creation' }
+Adventure class >> newFrom: anAdventureJSON andAreas: areaSets [
+
+	^ self new
+		  json: anAdventureJSON;
+		  campaign: self;
+		  name: (anAdventureJSON at: #name);
+		  id: (anAdventureJSON at: #id);
+		  description: (anAdventureJSON at: #description);
+		  areaSetId: (anAdventureJSON at: #area_set_id);
+		  fillAreasFrom: areaSets;
+		  yourself
+]
+
 { #category : #initialization }
 Adventure >> areaAt: anAreaIndex [
 	^ areas at: anAreaIndex
@@ -71,29 +99,12 @@ Adventure >> description: anObject [
 ]
 
 { #category : #initialization }
-Adventure >> fillAreasFrom: allAreasJSON [
+Adventure >> fillAreasFrom: allAreaJSONs [
 	"((adventureJSON at: #area_sets) at: (anAdventureJSON at: #area_set_id) printString) at: #areas"
 	| areasJSON |			
-	areasJSON := allAreasJSON at: areaSetId printString.
-	areas := (areasJSON at: #areas) collect: [ :anAreaJSON | | area |
-		area := anAreaJSON at: #monsters 
-			ifPresent: [ :aValue |
-				Area new 
-					monsterIds: aValue;
-					yourself ]
-			ifAbsent: [ 
-				BossArea new
-					wavesIds: (anAreaJSON at: #waves);
-					bossHealth: (anAreaJSON at: #boss_health ifAbsent:[nil]);
-					yourself].
-		area
-			json: anAreaJSON;
-			questId: (anAreaJSON at: #quest_id);
-			id: (anAreaJSON at: #id);
-			backgroundId: (anAreaJSON at: #background_id);
-			areaId: (anAreaJSON at: #area_id);
-			properties: (anAreaJSON at: #properties ifAbsent: #());
-			yourself
+	areasJSON := allAreaJSONs at: areaSetId printString.
+	areas := (areasJSON at: #areas) collect: [ :anAreaJSON |
+		AbstractArea newFrom: anAreaJSON
 		]
 ]
 

@@ -13,6 +13,21 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+Quest class >> newFrom: aQuestJSON [
+
+	^ self new
+		  json: aQuestJSON;
+		  description: (aQuestJSON at: #description);
+		  type: (aQuestJSON at: #type);
+		  properties: (aQuestJSON at: #properties);
+		  goalGraphicId: (aQuestJSON at: #goal_graphic_id);
+		  goalAmount: (aQuestJSON at: #goal_amount);
+		  goalDescription: (aQuestJSON at: #goal_description);
+		  id: (aQuestJSON at: #id);
+		  yourself
+]
+
 { #category : #accessing }
 Quest >> description [
 

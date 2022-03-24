@@ -10,6 +10,18 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+IdleChampionChest class >> newFrom: aChestJSON [
+
+	^ self new
+		  json: aChestJSON;
+		  name: (aChestJSON at: #name);
+		  namePlural: (aChestJSON at: #name_plural);
+		  id: (aChestJSON at: #id);
+		  details: (aChestJSON at: #details);
+		  yourself
+]
+
 { #category : #accessing }
 IdleChampionChest >> details [
 

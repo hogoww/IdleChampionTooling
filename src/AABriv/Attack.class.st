@@ -18,6 +18,24 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+Attack class >> newFrom: anAttackJSON [
+	^ self new
+		graphicId: (anAttackJSON at: #graphic_id);
+		description: (anAttackJSON at: #description);
+		name: (anAttackJSON at: #name);
+		aoeRadius: (anAttackJSON at: #aoe_radius); 
+		id: (anAttackJSON at: #id);
+		longDescription: (anAttackJSON at: #long_description); 
+		target: (anAttackJSON at: #target);
+		numTargets: (anAttackJSON at: #num_targets);
+		tags: (anAttackJSON at: #tags);
+		damageModifier: (anAttackJSON at: #damage_modifier);
+		cooldown: (anAttackJSON at: #cooldown); 
+		damageTypes: (anAttackJSON at: #damage_types);
+		yourself
+]
+
 { #category : #accessing }
 Attack >> aoeRadius [
 

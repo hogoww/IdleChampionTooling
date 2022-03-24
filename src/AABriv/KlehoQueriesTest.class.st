@@ -21,7 +21,7 @@ KlehoQueriesTest >> testGetBackgrounds [
 	| backgroundJsons |
 	backgroundJsons := KlehoQueries getBackgrounds.
 	self assert: backgroundJsons size equals: 6.
-	backgroundJsons do: [ :aQuery | self assert: (aQuery at: #error) equals: 0 ]
+	self assert: (backgroundJsons at: #error) equals: 0 
 ]
 
 { #category : #running }

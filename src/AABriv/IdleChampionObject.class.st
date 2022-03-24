@@ -11,6 +11,11 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+IdleChampionObject class >> newFrom: aJSON [
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 IdleChampionObject >> json [
 	^ json

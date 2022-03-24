@@ -12,6 +12,19 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+Distraction class >> newFrom: aDistractionJSON [
+	^ self new
+			json: aDistractionJSON;
+			type: (aDistractionJSON at: #type);
+			rewards: (aDistractionJSON at: #rewards);
+			name: (aDistractionJSON at: #name);
+			graphicID: (aDistractionJSON at: #graphic_id);
+			id: (aDistractionJSON at: #id);
+			properties: (aDistractionJSON at: #properties);
+			yourself
+]
+
 { #category : #accessing }
 Distraction >> graphicID [
 

@@ -12,6 +12,19 @@ Class {
 	#category : #'AABriv-model'
 }
 
+{ #category : #'instance creation' }
+Campaign class >> newFrom: aCampaignJSON [
+
+	^ self new
+		  json: aCampaignJSON;
+		  id: (aCampaignJSON at: #id);
+		  description: (aCampaignJSON at: #name);
+		  name: (aCampaignJSON at: #short_name);
+		  type: (aCampaignJSON at: #type);
+		  fillAdventures;
+		  yourself
+]
+
 { #category : #accessing }
 Campaign >> adventures [
 
@@ -38,19 +51,14 @@ Campaign >> description: anObject [
 
 { #category : #filling }
 Campaign >> fillAdventures [
-	| adventureJSON |
-	adventureJSON := ((KlehoQueries getAdventuresFor: id) at: #data).
-	
-	adventures := ((adventureJSON at: #adventures) collect: [ :anAdventureJSON |
-		Adventure new
-			json: anAdventureJSON;
+	| adventureJSONs |
+	adventureJSONs := ((KlehoQueries getAdventuresFor: id) at: #data).
+
+	adventures := ((adventureJSONs at: #adventures) collect: [ :anAdventureJSON | 
+		| adventure |
+		adventure := (Adventure newFrom: anAdventureJSON andAreas: (adventureJSONs at: #area_sets))
 			campaign: self;
-			name: (anAdventureJSON at: #name);
-			id: (anAdventureJSON at: #id);
-			description: (anAdventureJSON at: #description);
-			areaSetId: (anAdventureJSON at: #area_set_id);
-			fillAreasFrom: (adventureJSON at: #area_sets);
-			yourself
+			yourself.
 		]) values
 ]
 

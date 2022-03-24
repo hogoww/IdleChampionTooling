@@ -27,6 +27,24 @@ Monster class >> hitBasedType [
 	^ #hitBased
 ]
 
+{ #category : #'instance creation' }
+Monster class >> newFrom: aMonsterJSON [
+
+	^ self new
+		  json: aMonsterJSON;
+		  damageModifier: (aMonsterJSON at: #damage_modifier);
+		  graphicId: (aMonsterJSON at: #graphic_id);
+		  name: (aMonsterJSON at: #name);
+		  id: (aMonsterJSON at: #id);
+		  properties: (aMonsterJSON at: #properties);
+		  type: (aMonsterJSON at: #type);
+		  tags: (aMonsterJSON at: #tags);
+		  attackId: (aMonsterJSON at: #attack_id);
+		  healthModifier: (aMonsterJSON at: #health_modifier);
+		  scale: (aMonsterJSON at: #scale);
+		  yourself
+]
+
 { #category : #'as yet unclassified' }
 Monster class >> regularType [
 	^ #regular
