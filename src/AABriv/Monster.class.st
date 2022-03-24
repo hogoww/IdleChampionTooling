@@ -81,7 +81,7 @@ Monster >> graphicId: anObject [
 ]
 
 { #category : #testing }
-Monster >> hasArmor [
+Monster >> hasArmorBased [
 	^ self tags includes: #armor_based
 ]
 
