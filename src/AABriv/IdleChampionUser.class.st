@@ -239,7 +239,7 @@ IdleChampionUser >> redeemAllCodesFrom: aString [
 IdleChampionUser >> redeemCode: aCode [
 	| result |
 	result := self cneQueries redeemCodeServerCall: aCode.
-	^ self redeemCodeResultString: result
+	^ aCode -> (self redeemCodeResultString: result)
 ]
 
 { #category : #'result-interpration' }
