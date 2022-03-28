@@ -78,12 +78,18 @@ IdleChampionUser >> buyChests: aChest times: aNumberOfChests [
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyMaximumGold [
-	^ self buyChests: GoldChest times: self gems // GoldChest price
+	| chestNumbers |
+	chestNumbers := self gems // GoldChest price.
+	chestNumbers = 0 ifTrue: [ ^ self ].
+	^ self buyChests: GoldChest times: chestNumbers
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> buyMaximumSilver [
-	^ self buyChests: SilverChest times: self gems // SilverChest price
+	| chestNumbers |
+	chestNumbers := self gems // SilverChest price.
+	chestNumbers = 0 ifTrue: [ ^ self ].
+	^ self buyChests: SilverChest times: chestNumbers
 ]
 
 { #category : #initialization }
@@ -176,12 +182,18 @@ IdleChampionUser >> name: anObject [
 
 { #category : #'api-chests' }
 IdleChampionUser >> openAllGoldChests [
-	^ self openChests: GoldChest times: (self chestsOf: GoldChest)
+	| numberOfChests |
+	numberOfChests := (self chestsOf: GoldChest).
+	numberOfChests = 0 ifTrue: [ ^ self ].
+	^ self openChests: GoldChest times: numberOfChests
 ]
 
 { #category : #'api-chests' }
 IdleChampionUser >> openAllSilverChests [
-	^ self openChests: SilverChest times: (self chestsOf: SilverChest)
+	| numberOfChests |
+	numberOfChests := (self chestsOf: SilverChest).
+	numberOfChests = 0 ifTrue: [ ^ self ].
+	^ self openChests: SilverChest times: numberOfChests
 ]
 
 { #category : #'api-chests' }
