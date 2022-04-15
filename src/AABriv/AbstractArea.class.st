@@ -27,7 +27,7 @@ AbstractArea class >> newFrom: anAreaJSON [
 				        yourself ]
 		        ifAbsent: [ 
 			        BossArea new
-				        wavesIds: (anAreaJSON at: #waves);
+				        wavesIds: (anAreaJSON at: #waves ifAbsent: [ {(anAreaJSON at: #properties) at: #include_monster_defs } ] );
 				        bossHealth:
 					        (anAreaJSON at: #boss_health ifAbsent: [ nil ]);
 				        yourself ].
