@@ -243,7 +243,7 @@ IdleChampionDataBase >> lookForBrivStackingAdventureFor: aNumberOfJumps [
 			brivJumps: 6;
 			objective: 770;
 			calculateAreas.
-		rp hasArmorBased or: [ rp hasHitBased ]	
+		rp hasArmoredBasedBosses or: [ rp hasHitBasedBosses ]	
 		]
 ]
 

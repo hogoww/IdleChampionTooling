@@ -121,8 +121,18 @@ RunPlanner >> hasArmorBased [
 ]
 
 { #category : #testing }
+RunPlanner >> hasArmoredBasedBosses [
+	^ areas anySatisfy: [ :anArea | anArea key % 5 = 0 and: [ anArea value hasArmorBased ]]
+]
+
+{ #category : #testing }
 RunPlanner >> hasHitBased [
 	^ areas anySatisfy: [ :anArea | anArea value hasHitBased ]
+]
+
+{ #category : #testing }
+RunPlanner >> hasHitBasedBosses [
+	^ areas anySatisfy: [ :anArea | anArea key % 5 = 0 and: [ anArea value hasHitBased ]]
 ]
 
 { #category : #query }
