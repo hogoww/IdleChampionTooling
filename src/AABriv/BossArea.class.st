@@ -39,7 +39,9 @@ BossArea >> isBossArea [
 { #category : #testing }
 BossArea >> isFitForKrullBush [
 	self hasBush ifFalse: [ ^ false ].
-	^ self allMonsters noneSatisfy: [ :aMonster | aMonster isBoss and: [ aMonster isRanged ] ]
+	^ self allMonsters noneSatisfy: [ :aMonster | 
+		aMonster isRanged or: [ 
+			aMonster isBoss and: [ aMonster isRanged ] ] ]
 ]
 
 { #category : #accessing }
