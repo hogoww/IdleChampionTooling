@@ -150,6 +150,11 @@ Adventure >> printOn: aStream [
 		<< name 
 ]
 
+{ #category : #testing }
+Adventure >> quickTransitionForEveryJumps [
+	^ (1 to: 14) collect: [ :i | i -> (self quickTransitionsFor: i) ]
+]
+
 { #category : #enumerating }
 Adventure >> quickTransitionsFor: aNumberOfJumps [
 	| rp transitions percentageQuick |
