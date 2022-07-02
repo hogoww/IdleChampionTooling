@@ -45,10 +45,11 @@ KlehoQueries class >> getAdventuresFor: aCampaignID [
 	| response |
 	(Duration seconds: 1) wait.
 	response := self newQuery
+			
 			url: (self adventuresUrl) asUrl;
 			addPart: (ZnMimePart fieldName: 'campaign_id' value: aCampaignID printString);
 			addPart: self maxLimit;
-			addPart: (ZnMimePart fieldName: 'scope' value: 'variants,areas,monsters,quests,stories,bgs') ;
+			addPart: (ZnMimePart fieldName: 'scope' value: 'variants,areas,monsters,stories,bgs') ;
 			post;
 			response.
 	^ self jsonFrom: response
