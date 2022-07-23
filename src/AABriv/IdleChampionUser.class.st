@@ -260,16 +260,17 @@ IdleChampionUser >> redeemCodeResultString: result [
 		^ (result at: #loot_details) 
 			collect: [ :aResult |
 				String streamContents: [ :s | 
-					s << ((aResult at: #after) - (aResult at: #before)) printString.
+					[s << ((aResult at: #after) - (aResult at: #before)) printString.
 					s space.
-					s << (aResult at: #loot_item)
+					s << (aResult at: #loot_item)] on: KeyNotFound do: [ s << aResult printString ]
 				]]].
 	^ (result at: #failure_reason)
 ]
 
 { #category : #api }
 IdleChampionUser >> update [
-	json := cneQueries getUserDetailsJson. 
+	"if the json is wrong (happened about half the time) retry it until it's okay."
+	[ json := cneQueries getUserDetailsJson ] doWhileFalse: [ [ (json at: #details) at: #instance_id. true ] on: Error do: [ false ] ] .
 	instanceID := (json at: #details) at: #instance_id.
 	inventoryStates add: (IdleChampionUserState new initializeFrom: json).
 ]

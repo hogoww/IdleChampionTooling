@@ -66,6 +66,12 @@ Distraction >> name: anObject [
 	name := anObject
 ]
 
+{ #category : #printing }
+Distraction >> printOn: aStream [
+
+	aStream << self class name << '(' << name << ')'
+]
+
 { #category : #accessing }
 Distraction >> properties [
 

@@ -126,13 +126,13 @@ RunPlanner >> hasArmoredBasedBosses [
 ]
 
 { #category : #testing }
-RunPlanner >> hasHitBased [
-	^ areas anySatisfy: [ :anArea | anArea value hasHitBased ]
+RunPlanner >> hasHitBasedBosses [
+	^ areas anySatisfy: [ :anArea | anArea key % 5 = 0 and: [ anArea value hasHitBasedLife ]]
 ]
 
 { #category : #testing }
-RunPlanner >> hasHitBasedBosses [
-	^ areas anySatisfy: [ :anArea | anArea key % 5 = 0 and: [ anArea value hasHitBased ]]
+RunPlanner >> hasHitBasedLife [
+	^ areas anySatisfy: [ :anArea | anArea value hasHitBasedLife ]
 ]
 
 { #category : #query }
@@ -198,7 +198,7 @@ RunPlanner >> recapFor: anAdventure [
 	
 	rangedMonsters := areasEncountered select: [ :a | a value containsRangeMonsters ].
 	slowDown := areasEncountered select: [ :a | a value isSlowDown ].
-	hitBasedAreas := areasEncountered select: [ :a | a value hasHitBased ].
+	hitBasedAreas := areasEncountered select: [ :a | a value hasHitBasedLife ].
 	armoredBasedAreas := areasEncountered select: [ :a | a value hasArmorBased ].
 	non25Areas := areasEncountered select: [ :a | a value quest isSlow ] "thenCollect: [ :a | a key ]".
 	"possibleStackingAreas := self calculatePossibleStackingAreaFrom: areasEncountered."

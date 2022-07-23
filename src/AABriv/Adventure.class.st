@@ -109,6 +109,16 @@ Adventure >> fillAreasFrom: allAreaJSONs [
 ]
 
 { #category : #testing }
+Adventure >> hasArmorBased [
+	^ self areas anySatisfy: [ :a | a hasArmorBased ]
+]
+
+{ #category : #testing }
+Adventure >> hasHitBasedLife [
+	^ self areas anySatisfy: [ :a | a hasHitBasedLife ]
+]
+
+{ #category : #testing }
 Adventure >> highestKrullBush [
 	^ self areas reverse detect: [ :area | area isFitForKrullBush ] ifNone: nil
 ]
@@ -152,7 +162,7 @@ Adventure >> printOn: aStream [
 
 { #category : #testing }
 Adventure >> quickTransitionForEveryJumps [
-	^ (1 to: 14) collect: [ :i | i -> (self quickTransitionsFor: i) ]
+	^ (0 to: 14) collect: [ :i | i -> (self quickTransitionsFor: i) ]
 ]
 
 { #category : #enumerating }

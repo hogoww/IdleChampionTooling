@@ -134,7 +134,7 @@ adventure areas at: 35."
 ]
 
 { #category : #testing }
-AbstractArea >> hasHitBased [
+AbstractArea >> hasHitBasedLife [
 	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasHitBasedLife ]
 ]
 
@@ -185,7 +185,7 @@ AbstractArea >> isQuickTransitionTo: anotherArea [
 AbstractArea >> isSlowDown [
 	"A slow area is an area that has a higher time cost to clear"
 	self hasArmorBased ifTrue: [ ^ true ].
-	self hasHitBased ifTrue: [ ^ true ].
+	self hasHitBasedLife ifTrue: [ ^ true ].
 	self quest isSlow ifTrue: [ ^ true  ].
 	^ false
 ]
@@ -208,7 +208,7 @@ AbstractArea >> printOn: aStream [
 	areaId storeOn: aStream.
 	
 	self hasArmorBased ifTrue: [ aStream << ' ARMOR ' ].
-	self hasHitBased ifTrue: [ aStream << ' HITBASED ' ]. 
+	self hasHitBasedLife ifTrue: [ aStream << ' HITBASED ' ]. 
 	
 	self allMonsterTypes do: [ :aType | 
 		aStream space << aType ]

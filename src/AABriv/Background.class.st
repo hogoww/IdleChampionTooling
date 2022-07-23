@@ -133,6 +133,12 @@ Background >> midGraphicId: anObject [
 ]
 
 { #category : #accessing }
+Background >> monsters [
+
+	^ monsters
+]
+
+{ #category : #accessing }
 Background >> nearGraphicId [
 
 	^ nearGraphicId

@@ -22,7 +22,7 @@ AreaTest >> testAreaWithArmorHasArmored [
 { #category : #tests }
 AreaTest >> testAreaWithHitBasedHasHitBased [
 	area monsters: { Monster new tags: #(hits_based); yourself }.
-	self assert: area hasHitBased
+	self assert: area hasHitBasedLife
 ]
 
 { #category : #tests }
@@ -34,5 +34,5 @@ AreaTest >> testAreaWithoutArmorHasNoArmor [
 { #category : #tests }
 AreaTest >> testAreaWithoutHitBasedHasNotHitBased [
 	area monsters: { Monster new tags: #(); yourself }.
-	self deny: area hasHitBased
+	self deny: area hasHitBasedLife
 ]

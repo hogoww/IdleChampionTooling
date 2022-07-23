@@ -13,12 +13,6 @@ Area >> allMonsters [
 ]
 
 { #category : #accessing }
-Area >> monsters [
-
-	^ monsters
-]
-
-{ #category : #accessing }
 Area >> monsters: anObject [
 
 	monsters := anObject
