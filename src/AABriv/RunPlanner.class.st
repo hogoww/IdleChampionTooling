@@ -196,7 +196,7 @@ RunPlanner >> recapFor: anAdventure [
 	areasEncountered := self calculateAreasFor: anAdventure.
 	quickTransitions := self calculateQuickTransitionsFor: areasEncountered.
 	
-	rangedMonsters := areasEncountered select: [ :a | a value containsRangeMonsters ].
+	rangedMonsters := areasEncountered select: [ :a | a value hasRanged ].
 	slowDown := areasEncountered select: [ :a | a value isSlowDown ].
 	hitBasedAreas := areasEncountered select: [ :a | a value hasHitBasedLife ].
 	armoredBasedAreas := areasEncountered select: [ :a | a value hasArmorBased ].

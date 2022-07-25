@@ -104,11 +104,6 @@ AbstractArea >> cinematicsId: anObject [
 	cinematicsId := anObject
 ]
 
-{ #category : #testing }
-AbstractArea >> containsRangeMonsters [
-	^ self allMonsters anySatisfy: [ :m | m isRanged ]
-]
-
 { #category : #initializing }
 AbstractArea >> extractSpecialsWith: aDataBase [
 	(properties isNotNil and: [ properties isNotEmpty ]) ifFalse: [ ^ self ].
@@ -136,6 +131,11 @@ adventure areas at: 35."
 { #category : #testing }
 AbstractArea >> hasHitBasedLife [
 	^ self allMonsters anySatisfy: [ :aMonster | aMonster hasHitBasedLife ]
+]
+
+{ #category : #testing }
+AbstractArea >> hasRanged [
+	^ self allMonsters anySatisfy: [ :m | m isRanged ]
 ]
 
 { #category : #accessing }
