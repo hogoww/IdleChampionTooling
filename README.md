@@ -24,7 +24,7 @@ However, I still need such tool for myself, I do not enjoy opening thousands of 
   - Chests
   - Inventory state
 - Ability to redeem chests
-- Ability to open chests of line (Do not do this while Idle Champion is running)
+- Ability to open chests offline (Do not do this while Idle Champion is running)
 - Ability to analyse the opened chests results [Work in progress]
 
 ## How to Install
